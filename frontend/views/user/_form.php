@@ -46,11 +46,12 @@ use common\models\sacco\Branch;
                <td><?= $form->field($model, 'office_id')->textInput() ?></td>
         
                  <td>
-                <?php
+               <?php
+                $inst= Yii::$app->member->sacco_id;
                 echo $form->field($model, 'branch_id')->widget(Select2::classname(), [
                     'value' => '',
                     'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map(Branch::find()->all(), 'id', 'name'),
+                    'data' => ArrayHelper::map(Branch::find()->select(['id','name'])->where(['sacco_id' => $inst])->all(), 'id', 'name'),
                     'options' => [
                         'placeholder' => 'Select Branch',
                         'class' => 'form-control',

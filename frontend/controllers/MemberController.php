@@ -76,7 +76,7 @@ class MemberController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $api->makePost('new-member', ['member' => $model->attributes]);
             Yii::$app->session->setFlash('success', 'Member successfully Saved');
-            return $this->redirect(['index','id' => Yii::$app->member->sacco_id]);
+            return $this->redirect(['next-of-kin-list']);
         }
         else{
             $model->created_at = time();

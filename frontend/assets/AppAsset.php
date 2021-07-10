@@ -19,13 +19,14 @@ class AppAsset extends AssetBundle
         'lib/flag-icon-css/css/flag-icon.min.css',
         'lib/jqvmap/jqvmap.min.css',
         'css/azia.css',
-        "t1/custom-styles.css"
+        "css/custom-styles.css"
     ];
     public $js = [
         'lib/bootstrap/js/bootstrap.bundle.min.js',
         'lib/ionicons/ionicons.js',
         'js/azia.js',
-        'js/settings.js'
+        'js/modal-popup.js',
+        //'js/settings.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

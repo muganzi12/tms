@@ -76,8 +76,10 @@ use yii\jui\DatePicker;
 
         <tr>
             <td>
-                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+               
+                <?= Html::submitButton('Go to next step <i class="icon icon-arrow-right"></i>', ['class' => 'btn btn-primary']) ?> 
             </td>
+            </td
             <td colspan="2">
                 <?= $form->field($model, 'created_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'created_at')->hiddenInput()->label(false) ?>

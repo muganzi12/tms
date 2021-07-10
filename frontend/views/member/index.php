@@ -3,6 +3,7 @@
 use yii\data\ArrayDataProvider;
 use yii\helpers\Json;
 use yii\grid\GridView;
+use yii\bootstrap\Tabs;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\member\Member;
@@ -27,17 +28,11 @@ $searchModel = new Member();
 //Page descrition
 $this->params['page_description'] = 'Members';
 ?>
-<style>
-    .grid-view table thead {
-        background: #000428;
-        background: -webkit-linear-gradient(45deg, #000428, #004e92) !important;
-        background: linear-gradient(45deg, #000428, #004e92) !important;
-    }
-</style>
+
 <p>
      <?= Html::a('Create Member', ['new-member'], ['class' => 'btn btn-primary']) ?>
     <br/>
-  
+
 <div class="box">
     <?php Pjax::begin(); ?>
     <?php

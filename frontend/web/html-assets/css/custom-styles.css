@@ -1,0 +1,50 @@
+/**Aterisks for required fields in forms**/
+form div.required label.control-label:after {
+    content:" *";
+    color:red;
+    font-weight: bold;
+    font-size: 120%;
+}
+
+
+/** Navigation on detail pages**/
+    .right-nav-list{
+        padding-left:0px;
+        list-style: none;
+    }
+    .right-nav-list li{
+        border-bottom:1px solid #ddd;
+        padding-top:10px;
+        padding-bottom: 10px;
+    }
+
+/*MODALS - POP UPS*/
+div.modal-content {
+    border-radius: 0px;
+    min-width:500px;
+    padding:1px;
+}
+
+div.modal-header{
+    background: purple;
+    border: #fff 1px solid;
+    color:yellow;
+    text-align: left !important;
+}
+
+h3.modal-title{
+    color: white;
+    font-weight: 700; 
+    font-size:120%;
+}
+
+div.modal-footer {
+    background: #eee;
+    margin-top: 0px;padding:3px;
+}
+
+span.field_desc{
+    font-weight:normal;
+    font-size:85%;
+    font-style:italic;
+}
