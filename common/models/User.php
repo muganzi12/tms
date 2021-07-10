@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use common\models\sacco\Sacco;
 
 /**
  * User model
@@ -55,24 +56,26 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             ['username', 'trim'],
-            [['app_module', 'sacco_id','branch_id','office_id','password_status'], 'integer'],
+            [['app_module', 'sacco_id','branch_id','office_id','password_status','updated_at','updated_by'], 'integer'],
             [['profile_pic', 'signature'], 'string', 'max' => 255],
             ['institution_id', 'required', 'message' => 'Fill in your Bank'],
-            ['username', 'required'],
+            ['username', 'required','message'=>'Provide User Name'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'trim'],
             ['email', 'required', 'message' => 'Fill in your email'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['firstname', 'required'],
+            ['firstname', 'required','message' => 'Fill in your First Name'],
             ['account_type', 'required'],
-            ['lastname', 'required'],
-            ['othername', 'required'],
-            ['telephone', 'required'],
+            ['lastname', 'required','message' => 'Fill in your Last Name'],
+            ['othername','string','max' => 255],
+            ['telephone', 'required','message' => 'Fill in your Telephone Number'],
             ['created_by', 'required'],
+            ['branch_id', 'required','message' => 'Select Branch He/She Belongs to'],
             ['created_at', 'required'],
-            ['institution_id', 'required'],
+            ['sacco_id', 'required'],
+            ['app_module', 'required','message'=>'Select System Module'],
             [['auth_key'], 'string', 'max' => 32],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
             ['password_hash', 'required'],
@@ -82,9 +85,14 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function attributeLabels() {
         return [
-            'username' => 'Username',
+            'username' => 'User Name',
             'institution_id' => 'Bank/SACCO',
             'email' => 'Email',
+            'firstname'=>'First Name',
+            'lastname'=>'Last Name',
+            'othername'=>'Other Name',
+            'branch_id' => 'Branch',
+            'office_id' => 'Office',
             'is_receiving_officer'=>'Is She/He a Receiving Officer?',
             'status' => 'Status',
             'password_hash' => 'Password'
@@ -257,8 +265,8 @@ class User extends ActiveRecord implements IdentityInterface
         return self::findOne(Yii::$app->user->id);
     }
 
-    public function getInstitution() {
-        return $this->hasOne(Institution::class, ['id' => 'institution_id']);
+    public function getSacco() {
+        return $this->hasOne(Sacco::class, ['id' => 'sacco_id']);
     }
     
 

@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
+$this->params['page_description'] = "SACCO";
 ?>
 <div class="site-index">
 

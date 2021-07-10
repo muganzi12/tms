@@ -1,83 +1,86 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
+use yii\bootstrap\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
-use common\widgets\Alert;
+use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
+use yii\bootstrap\Modal;
 
 AppAsset::register($this);
+//$this->registerAssetBundle(yii\web\JqueryAsset::className(), \yii\web\View::POS_HEAD);
 ?>
-<?php $this->beginPage() ?>
 <!DOCTYPE html>
+<?php $this->beginPage() ?>
 <html lang="<?= Yii::$app->language ?>">
-<head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
-</head>
-<body>
-<?php $this->beginBody() ?>
+    <head>
+        <meta charset="<?= Yii::$app->charset ?>">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Kumusoft">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta name="author" content="Kumusoft Solutions">
+        <?php $this->registerCsrfMetaTags() ?>
+        <title><?= Html::encode($this->title) ?> | SACCO APP</title>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <?php $this->head() ?>
+        <style>
+            html{
+                font-size:18px;
+            }
+        </style>
+        <!--<script src="<?php //= Url::home();   ?>/public_html/html-assets/lib/jquery/jquery.min.js"></script>-->
+    </head>
+    <body class="az-body az-body-sidebar az-light">
+        <?php $this->beginBody() ?>
+        <div class="az-sidebar">
+            <div class="az-sidebar-body">
+                <?= $this->render('blocks/left-nav'); ?>
+            </div>
+        </div>
+        <div class="az-content az-content-dashboard-five">
+            <div class="az-header" >
+                <?= $this->render('blocks/top-nav'); ?>
+            </div>
+            <?php if(!ArrayHelper::isIn('hide_page_title', $this->params)){ ?>
+            <div class="az-content-header d-block d-md-flex">
+                <div>
+                    <h2 class="az-content-title tx-24 mg-b-5"><?= $this->title; ?></h2>
+                    <p class="mg-b-0"><?= $this->params['page_description'] ?></p>
+                </div>
+            </div>
+            <?php } ?>
+            <div class="az-content-body">
+                <?php
+                //check if there are nay flush messages
+                $msgs = Yii::$app->session->getAllFlashes();
+                if (count($msgs) > 0) {
+                    foreach ($msgs as $key => $message) {
+                        $class = 'alert alert-' . $key;
+                        echo Alert::widget([
+                            'options' => [
+                                'class' => $class,
+                                'role' => 'alert'
+                            ],
+                            'body' => $message,
+                            'closeButton' => ['class' => 'close', 'type' => 'button', 'data-dismiss' => 'alert']
+                        ]);
+                    }
+                }
+                ?> 
+                <?= $content; ?>
+            </div>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
-
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
-</div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
-
-<?php $this->endBody() ?>
-</body>
+            <div class="az-footer ht-40">
+                <div class="container-fluid pd-t-0-f ht-100p">
+                    <span>&copy; 2021 Kumusoft Solutions Ltd</span>
+                </div><!-- container -->
+            </div><!-- az-footer -->
+        </div>
+     
+        <?php $this->endBody() ?>
+    </body>
 </html>
 <?php $this->endPage() ?>

@@ -1,41 +1,45 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
+/* @var $model app\models\LoginForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+
+$this->title = 'Login to your account';
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+<section class="auth-section login-section text-center py-5">
+    <div class="container">
+        <div class="auth-wrapper mx-auto shadow p-5 rounded" style="background:#ffff">
+            <span class="icon-holder"><img src="https://media.kumusoft.com/logo.png" alt="" style='height:90px;'></span>
+            <div class="divider my-5">
+                <span class="or-text">KMS</span>
+            </div><!--//divider-->
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+            <div class="auth-form-container text-left mx-auto">
+                <?php
+                $form = ActiveForm::begin([
+                            'id' => 'login-form',
+                            'class' => 'auth-form login-form'
+                ]);
+                ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                <?=
+                $form->field($model, 'rememberMe')->checkbox([
+                        //'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
+                ])
+                ?>
+                <?= Html::submitButton('Login', ['class' => 'btn btn-dark btn-block', 'name' => 'login-button']) ?>
+                <?php ActiveForm::end(); ?>
+            </div><!--//auth-form-container-->
 
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                    <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
-                </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
-        </div>
-    </div>
-</div>
+        </div><!--//auth-wrapper-->
+    </div><!--//container-->
+</section><!--//auth-section-->
