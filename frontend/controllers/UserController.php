@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\User;
+use common\models\MasterData;
 use common\models\ApiRequestHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -75,8 +76,11 @@ class UserController extends Controller
             $model->account_type = "sacco";
             $model->created_by = Yii::$app->member->id;
             $model->password_hash=Yii::$app->getSecurity()->generatePasswordHash($pass);
+               //Dropdowns
+            $modules = MasterData::findAll(['reference_table' => 'office_held']);
             return $this->render('new-user', [
                         'model' => $model,
+                        'modules'=>$modules,
             ]);
         }
     }

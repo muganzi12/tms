@@ -28,30 +28,32 @@ use common\models\sacco\Branch;
         </tr>
 
         <tr>
-        <td>
-              <?= $form->field($model, 'othername')->textInput() ?>  
+            <td>
+                <?= $form->field($model, 'othername')->textInput() ?>  
             </td>
             <td>
                 <?= $form->field($model, 'telephone')->textInput() ?>  
             </td>
             <td><?= $form->field($model, 'email')->textInput() ?></td>
-           
-        
+
+
 
         </tr>
-        
+
         <tr>
-            
-                
-               <td><?= $form->field($model, 'office_id')->textInput() ?></td>
-        
-                 <td>
-               <?php
-                $inst= Yii::$app->member->sacco_id;
+
+
+            <td>
+                <?= $form->field($model, 'office_id')->dropDownList(ArrayHelper::map($modules, 'id', 'name'), ['prompt' => '---Office Held---']) ?>
+            </td>
+
+            <td>
+                <?php
+                $inst = Yii::$app->member->sacco_id;
                 echo $form->field($model, 'branch_id')->widget(Select2::classname(), [
                     'value' => '',
                     'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map(Branch::find()->select(['id','name'])->where(['sacco_id' => $inst])->all(), 'id', 'name'),
+                    'data' => ArrayHelper::map(Branch::find()->select(['id', 'name'])->where(['sacco_id' => $inst])->all(), 'id', 'name'),
                     'options' => [
                         'placeholder' => 'Select Branch',
                         'class' => 'form-control',
@@ -61,7 +63,7 @@ use common\models\sacco\Branch;
                 ]);
                 ?>
             </td>
-        
+
         </tr>
 
         <tr>

@@ -14,6 +14,7 @@ $this->params['page_description']= "Users";
 
     <?= $this->render('_form', [
         'model' => $model,
+        'modules'=>$modules,
     ]) ?>
 
 </div>
