@@ -58,7 +58,7 @@ class UserController extends Controller
       /**
      * Register a new System User
      */
-    public function actionNewUser() {
+    public function actionNewUser($stat=10,$pstat=0,$typ='sacco',$app=2) {
         $model = new User();
         $api = new ApiRequestHelper('sacco');
         if ($model->load(Yii::$app->request->post())) {
@@ -69,11 +69,11 @@ class UserController extends Controller
         else{
             $pass ="Robin@123";
             $model->created_at = time();
-            $model->status=10;
+            $model->status = $stat;
             $model->sacco_id = Yii::$app->member->sacco_id;
-            $model->app_module = 2;
-            $model->password_status = 0;
-            $model->account_type = "sacco";
+            $model->app_module = $app;
+            $model->password_status = $pstat;
+            $model->account_type = $typ;
             $model->created_by = Yii::$app->member->id;
             $model->password_hash=Yii::$app->getSecurity()->generatePasswordHash($pass);
                //Dropdowns for Office Held
@@ -89,7 +89,7 @@ class UserController extends Controller
     
     //Update User Details
     
-    public function actionUpdate($id) {
+    public function actionUpdate($id,$stat=10,$pass=0,$typ='sacco',$app=2) {
         $model = $this->findModel($id);
         $api = new ApiRequestHelper('sacco');
         if ($model->load(Yii::$app->request->post())) {
@@ -99,11 +99,11 @@ class UserController extends Controller
         } else {
             $pass ="Robin@123";
             $model->updated_at = time();
-            $model->status=10;
+            $model->status= $stat;
             $model->sacco_id = Yii::$app->member->sacco_id;
-            $model->app_module = 2;
-            $model->password_status = 0;
-            $model->account_type = "sacco";
+            $model->app_module = $app;
+            $model->password_status = $pass;
+            $model->account_type = $typ;
             $model->updated_by = Yii::$app->member->id;
             $model->password_hash=Yii::$app->getSecurity()->generatePasswordHash($pass);
             return $this->render('update', [

@@ -75,6 +75,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['branch_id', 'required','message' => 'Select Branch He/She Belongs to'],
             ['created_at', 'required'],
             ['sacco_id', 'required'],
+            ['office_id', 'required'],
             ['app_module', 'required','message'=>'Select System Module'],
             [['auth_key'], 'string', 'max' => 32],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
@@ -92,7 +93,7 @@ class User extends ActiveRecord implements IdentityInterface
             'lastname'=>'Last Name',
             'othername'=>'Other Name',
             'branch_id' => 'Branch',
-            'office_id' => 'Office',
+            'office_id' => 'Office Held',
             'is_receiving_officer'=>'Is She/He a Receiving Officer?',
             'status' => 'Status',
             'password_hash' => 'Password'
