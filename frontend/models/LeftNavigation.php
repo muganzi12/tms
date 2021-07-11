@@ -47,7 +47,7 @@ class LeftNavigation extends Nav {
                 'url' => '#',
                 'options' => ['class' => 'nav-label', 'style' => 'margin-top:5px;'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
              [
                 'label' => '<i class="typcn typcn-clipboard"></i>Loans',
@@ -55,7 +55,7 @@ class LeftNavigation extends Nav {
                 'options' => ['class' => 'nav-item'],
                 'linkOptions' => ['class' => 'nav-link'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
               [
                 'label' => '<i class="typcn typcn-clipboard"></i>Savings',
@@ -63,7 +63,7 @@ class LeftNavigation extends Nav {
                 'options' => ['class' => 'nav-item'],
                 'linkOptions' => ['class' => 'nav-link'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
                [
                 'label' => '<i class="typcn typcn-clipboard"></i>Shares',
@@ -71,7 +71,7 @@ class LeftNavigation extends Nav {
                 'options' => ['class' => 'nav-item'],
                 'linkOptions' => ['class' => 'nav-link'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
                [
                 'label' => '<i class="typcn typcn-clipboard"></i>Loan Calculator',
@@ -79,7 +79,7 @@ class LeftNavigation extends Nav {
                 'options' => ['class' => 'nav-item'],
                 'linkOptions' => ['class' => 'nav-link'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
             
             [
@@ -87,7 +87,7 @@ class LeftNavigation extends Nav {
                 'url' => '#',
                 'options' => ['class' => 'nav-label', 'style' => 'margin-top:5px;'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
               [
                 'label' => '<i class="typcn typcn-chart-bar"></i>All Reports',
@@ -95,7 +95,7 @@ class LeftNavigation extends Nav {
                 'options' => ['class' => 'nav-item'],
                 'linkOptions' => ['class' => 'nav-link'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
              [
                 'label' => '<i class="typcn typcn-chart-bar"></i>Loans Reports',
@@ -103,7 +103,7 @@ class LeftNavigation extends Nav {
                 'options' => ['class' => 'nav-item'],
                 'linkOptions' => ['class' => 'nav-link'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
               [
                 'label' => '<i class="typcn typcn-chart-bar"></i>Savings Reports',
@@ -111,7 +111,7 @@ class LeftNavigation extends Nav {
                 'options' => ['class' => 'nav-item'],
                 'linkOptions' => ['class' => 'nav-link'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
                [
                 'label' => '<i class="typcn typcn-chart-bar"></i>Group Reports',
@@ -119,7 +119,7 @@ class LeftNavigation extends Nav {
                 'options' => ['class' => 'nav-item'],
                 'linkOptions' => ['class' => 'nav-link'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
                [
                 'label' => '<i class="typcn typcn-chart-bar"></i>Data Export',
@@ -127,7 +127,7 @@ class LeftNavigation extends Nav {
                 'options' => ['class' => 'nav-item'],
                 'linkOptions' => ['class' => 'nav-link'],
                 'encode' => false,
-                'visible' => true
+                'visible' => false
             ],
             
             [

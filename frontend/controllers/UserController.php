@@ -76,11 +76,11 @@ class UserController extends Controller
             $model->account_type = "sacco";
             $model->created_by = Yii::$app->member->id;
             $model->password_hash=Yii::$app->getSecurity()->generatePasswordHash($pass);
-               //Dropdowns
-            $modules = MasterData::findAll(['reference_table' => 'office_held']);
+               //Dropdowns for Office Held
+            $modules = $api->makeGet('office-held');
             return $this->render('new-user', [
                         'model' => $model,
-                        'modules'=>$modules,
+                        'modules'=> json_decode($modules),
             ]);
         }
     }
