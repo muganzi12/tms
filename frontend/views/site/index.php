@@ -1,54 +1,111 @@
 <?php
 
-/* @var $this yii\web\View */
+use yii\helpers\Html;
+use miloschuman\highcharts\Highcharts;
 
-$this->title = 'My Yii Application';
-$this->params['page_description'] = "SACCO";
+$this->title = "Dashboard";
+$this->params['page_description'] = "Page Description here...";
 ?>
-<div class="site-index">
+<style>
+    .widget-style3{border:1px solid #999;}
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+</style>
+<div class="title pb-20 pt-20">
+    <h2 class="h3 mb-0">Dashboard</h2>
+</div>
+<div class="row pb-10">
+    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+        <div class="card-box height-100-p widget-style3">
+            <div class="d-flex flex-wrap">
+                <div class="widget-data">
+                    <div class="weight-700 font-24 text-secondary"><?= $pending_loans['pending_loans']; ?></div>
+                    <div class="font-14 text-secondary weight-500">Pending Loan Applications</div>
+                </div>
+                <div class="widget-icon">
+                    <div class="icon" data-color="white" ;"><i class="icon-copy fa fa-list" aria-hidden="true"></i></div>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+        <div class="card-box height-100-p widget-style3">
+            <div class="d-flex flex-wrap">
+                <div class="widget-data">
+                    <div class="weight-700 font-24 text-secondary"><?= $approved_loans['approved_loans']; ?></div>
+                    <div class="font-14 text-secondary weight-500">Approved Loan Applications</div>
+                </div>
+                <div class="widget-icon">
+                    <div class="icon" data-color="white";"><i class="icon-copy fa fa-check-circle" aria-hidden="true"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+        <div class="card-box height-100-p widget-style3">
+            <div class="d-flex flex-wrap">
+                <div class="widget-data">
+                    <div class="weight-700 font-24 text-dark"><?= $pending_clients['pending_clients']; ?></div>
+                    <div class="font-14 text-secondary weight-500">Pending Clients</div>
+                </div>
+                <div class="widget-icon">
+                    <div class="icon" data-color="#fc0";"><i class="ti-user" aria-hidden="true"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+        <div class="card-box height-100-p widget-style3">
+            <div class="d-flex flex-wrap">
+                <div class="widget-data">
+                    <div class="weight-700 font-24 text-dark"><?= $released_loans['released_loans']; ?></div>
+                    <div class="font-14 text-secondary weight-500">Approved Clients</div>
+                </div>
+                <div class="widget-icon">
+                    <div class="icon" data-color="#fc0" );"><i class="ti-user" aria-hidden="true"></i></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<div class="site-index">
+    <div class="row">
+        <div class="col-lg-12">
+            <?=
+            Highcharts::widget([
+                'options' => [
+                    'chart' => [
+                        'type' => 'column'
+                    ],
+                    'title' => ['text' => 'TOTAL NUMBER OF LOAN APPLICATIONS'],
+                    'subtitle' => [
+                        'text' => 'Generated By: LMS Online System'
+                    ],
+                    'xAxis' => [
+                        'categories' => array_column($report->requetsByInstitution(), 'name'),
+                        'crosshair' => true
+                    ],
+                    'yAxis' => [
+                        'title' => ['text' => 'Number of Loan Applications']
+                    ],
+                    'series' => [
+                        [
+                            'name' => 'Loan Applications',
+                            'color' => '#001E2D',
+                            'data' => array_map('intval', array_column($report->requetsByInstitution(), 'total_request'))
+                        ]
+                    ],
+                    'credits' => ['enabled' => false],
+                ]
+            ]);
+            ?>
+        </div>
+    </div>
+
+</div>
+<h6>RECENTLY LOAN APPLICATIONS</h6>
+<?=
+$this->render('dashboard/index', ['searchModel' => $searchModel,
+    'dataProvider' => $dataProvider]);
+?>

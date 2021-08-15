@@ -5,54 +5,65 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Institution;
 use yii\helpers\Url;
+
+$new_link = "user/new-admin";
+$update_link = "user/update";
 ?>
 
 <div class="user-form">
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(); ?>
     <table class="table">
         <tr>
 
             <td>
-                <?= $form->field($model, 'firstname')->textInput() ?>  
+<?= $form->field($model, 'firstname')->textInput() ?>  
             </td>
             <td><?= $form->field($model, 'lastname')->textInput() ?>
             </td>
             <td>
-                <?= $form->field($model, 'username')->textInput() ?>  
+<?= $form->field($model, 'username')->textInput() ?>  
             </td>
 
         </tr>
         <tr>
+            <td><?= $form->field($model, 'othername')->textInput() ?></td>
             <td><?= $form->field($model, 'email')->textInput() ?></td>
             <td><?= $form->field($model, 'telephone')->textInput() ?></td>
-         
-            <td><?= $form->field($model, 'app_module')->dropDownList(ArrayHelper::map($modules, 'id', 'name'), ['prompt' => 'Select System Module']) ?></td>
+
 
         </tr>
-
+        <tr>
+            <td>
+                <?=
+                $form->field($model, 'status')->radioList(
+                        [1 => 'Active', 2 => 'De-activated']
+                )
+                ?>
+            </td> 
+        </tr>
 
 
         <tr>
 
+            <td></td><td></td>
             <td>
-                 <?= $form->field($model, 'created_at')->hiddenInput()->label(false); ?>
+                <?= $form->field($model, 'created_at')->hiddenInput()->label(false); ?>
                 <?= $form->field($model, 'created_by')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'account_type')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'sacco_id')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'office_id')->hiddenInput()->label(false); ?>
+                <?= $form->field($model, 'client_id')->hiddenInput()->label(false); ?>
+                <?= $form->field($model, 'is_admin')->hiddenInput()->label(false); ?>
+                <?= $form->field($model, 'app_module')->hiddenInput()->label(false); ?>
                 <?= $form->field($model, 'password_hash')->hiddenInput()->label(false); ?>
                 <?= $form->field($model, 'password_status')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'branch_id')->hiddenInput()->label(false); ?>
                 <?= $form->field($model, 'updated_at')->hiddenInput()->label(false); ?>
                 <?= $form->field($model, 'auth_key')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'status')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'id')->hiddenInput()->label(false); ?> 
+<?= $form->field($model, 'id')->hiddenInput()->label(false); ?> 
+
             </td>
         </tr>
 
         <tr>
             <td>
-                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+<?= Html::submitButton(($model->id > 0) ? ('Update') : ('Save'), ['class' => ($model->id > 0) ? ('btn btn-success') : ('btn btn-primary'), 'style' => 'margin-top:30px;']) ?>
             </td>
             <td colspan="3"></td>
         </tr>
@@ -63,6 +74,6 @@ use yii\helpers\Url;
 
     </div>
 
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 
 </div>

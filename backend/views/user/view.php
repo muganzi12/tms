@@ -1,76 +1,59 @@
-
 <?php
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\helpers\Json;
+
 /* @var $this yii\web\View */
-/* @var $model common\models\BankClient */
-$data = Json::decode($model);
-$this->title = $data[0]['username'];
-$this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
+/* @var $model common\models\User */
+
+$this->title = $model->firstname.' '.$model->lastname;
+$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['page_description'] = '';
 \yii\web\YiiAsset::register($this);
-//$data = Json::decode($model);
-$this->params['page_description'] ='';
 ?>
+<div class="user-view">
 
+    <h1><?= Html::encode($this->title) ?></h1>
 
-    
-   <table class="table table-striped">
-    <tr>
-        <th>
-            User Name
-        </th>
-        <td>
-              <?= $data[0]['username']; ?>
-        </td>
-    </tr>
-    <tr>
-        <th>
-            First Name
-        </th>
-        <td>
-           <?= $data[0]['firstname']; ?>
-        </td>
-    </tr>
-    <tr>
-        <th>
-         Last Name
-        </th>
-        <td>
-             <?= $data[0]['lastname']; ?>
-        </td>
-    </tr>
+    <p>
+        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Are you sure you want to delete this item?',
+                'method' => 'post',
+            ],
+        ]) ?>
+    </p>
 
-    <tr>
-        <th>
-            Other Name
-        </th>
-        <td>
-             <?= $data[0]['othername']; ?>
-        </td>
-    </tr>
-        <tr>
-        <th>
-          Telephone
-        </th>
-        <td>
-            <?= $data[0]['telephone']; ?>
-        </td>
-    </tr>
-       <tr>
-        <th>
-          Email
-        </th>
-        <td>
-            <?= $data[0]['email']; ?>
-        </td>
-    </tr>
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'id',
+            'username',
+            'firstname',
+            'lastname',
+            'auth_key',
+            'password_hash',
+            'password_status',
+            'password_reset_token',
+            'email:email',
+            'status',
+            'client_id',
+            'branch_id',
+            'created_at',
+            'updated_at',
+            'verification_token',
+            'profile_pic',
+            'office_id',
+            'app_module',
+            'telephone',
+            'login_at',
+            'passwrd_reset_at',
+            'created_by',
+            'updated_by',
+        ],
+    ]) ?>
 
-    
-</table> 
-
-<pre>
-    <?= print_r($data);?>
-</pre>
+</div>

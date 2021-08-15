@@ -164,9 +164,10 @@ use yii\helpers\Url;
 </style>
 <div id="smartwizard" class="sw-main sw-theme-default">
     <ul class="nav nav-tabs nav-tabs-justified step-anchor">
-        <li class="nav-item <?= ($active == 'member') ? ('active') : (''); ?>"><a href="<?= Url::to(['member/new-member']); ?>" class="nav-link">Member Information</a></li>
-        <li class="nav-item <?= ($active == 'kin') ? ('active') : (''); ?>"><a href="<?= Url::to(['member/next-of-kin-list']); ?>" class="nav-link">Next of Kin Details</a></li>
-        <li class="nav-item"><a href="<?= Url::to(['member/details', 'id' => $model->id]); ?>" class="nav-link">Overview</a></li>
+        <li class="nav-item <?= ($active == 'profile') ? ('active') : (''); ?>"><a href="<?= Url::to(['loan-product/view','id' => $model->id]); ?>" class="nav-link"> Profile</a></li>
+        <li class="nav-item <?= ($active == 'doc') ? ('active') : (''); ?>"><a href="<?= Url::to(['loan-product/required-documents','id' => $model->id]); ?>" class="nav-link">Required Documents</a></li>
+      
+
     </ul>
 
 </div>

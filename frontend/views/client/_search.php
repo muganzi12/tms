@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\member\MemberSearch */
+/* @var $model common\models\client\MemberSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -17,13 +17,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'member_id_number') ?>
-
     <?= $form->field($model, 'firstname') ?>
 
     <?= $form->field($model, 'lastname') ?>
 
     <?= $form->field($model, 'othername') ?>
+
+    <?= $form->field($model, 'client_id') ?>
+
+    <?php // echo $form->field($model, 'identification_type') ?>
+
+    <?php // echo $form->field($model, 'identification_number') ?>
+
+    <?php // echo $form->field($model, 'telephone') ?>
+
+    <?php // echo $form->field($model, 'alt_telephone') ?>
 
     <?php // echo $form->field($model, 'gender') ?>
 
@@ -31,19 +39,17 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'date_of_birth') ?>
 
-    <?php // echo $form->field($model, 'email') ?>
-
-    <?php // echo $form->field($model, 'primary_telephone') ?>
-
-    <?php // echo $form->field($model, 'secondary_telephone') ?>
-
-    <?php // echo $form->field($model, 'sacco_id') ?>
-
     <?php // echo $form->field($model, 'address') ?>
 
-    <?php // echo $form->field($model, 'member_pic') ?>
+    <?php // echo $form->field($model, 'email') ?>
 
-    <?php // echo $form->field($model, 'status') ?>
+    <?php // echo $form->field($model, 'membership_type') ?>
+
+    <?php // echo $form->field($model, 'person_scenario') ?>
+
+    <?php // echo $form->field($model, 'relationship') ?>
+
+    <?php // echo $form->field($model, 'related_to') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

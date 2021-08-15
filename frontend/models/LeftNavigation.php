@@ -11,160 +11,96 @@ class LeftNavigation extends Nav {
     /**
      * Nav Items
      */
-        public static function getNavItems() {
+    public static function getNavItems() {
         return [
-
             [
-                'label' => 'Main Menu',
-                'url' => '#',
-                'options' => ['class' => 'nav-label', 'style' => 'margin-top:5px;'],
-                'encode' => false,
-                'visible' => true
+                'label' => '<span class="micon dw dw-home"></span><span class="mtext">Dashboard</span>',
+                'url' => ['site/index'],
+                'linkOptions' => ['class' => 'dropdown-toggle no-arrow'],
+                'encode' => false
             ],
-            
             [
-                'label' => '<i class="icon ion-ios-people"></i>Members',
-                'url' => ['member/index','id'=>Yii::$app->member->sacco_id],
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => true
+                'label' => '<span class="micon dw dw-list"></span><span class="mtext">Clients</span>',
+                'url' => ['client/index'],
+                'linkOptions' => ['class' => 'dropdown-toggle no-arrow'],
+                'encode' => false
             ],
-           
-         
             [
-                'label' => '<i class="icon ion-md-grid"></i> Groups',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
+                'label' => '<span class="micon dw dw-list"></span><span class="mtext">Loans</span>',
+                'items' => [
+                    [
+                        'label' => 'Loan Applications',
+                        'url' => ['loan/index'],
+                        'visible' => true
+                    ],
+                ],
                 'encode' => false,
-                'visible' => true
+                'dropDownOptions' => ['class' => ['widget' => 'submenu']]
             ],
-        
-
             [
-                'label' => 'Sacco Products',
-                'url' => '#',
-                'options' => ['class' => 'nav-label', 'style' => 'margin-top:5px;'],
+                'label' => '<span class="micon dw dw-list"></span><span class="mtext">Chart of Accounts</span>',
+                'items' => [
+                    [
+                        'label' => 'Accounts',
+                        'url' => ['account/index'],
+                        'visible' => true
+                    ],
+                    [
+                        'label' => 'Loan Products',
+                        'url' => ['loan-product/index']
+                    ],
+                ],
                 'encode' => false,
-                'visible' => false
+                'dropDownOptions' => ['class' => ['widget' => 'submenu']]
             ],
-             [
-                'label' => '<i class="typcn typcn-clipboard"></i>Loans',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => false
-            ],
-              [
-                'label' => '<i class="typcn typcn-clipboard"></i>Savings',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => false
-            ],
-               [
-                'label' => '<i class="typcn typcn-clipboard"></i>Shares',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => false
-            ],
-               [
-                'label' => '<i class="typcn typcn-clipboard"></i>Loan Calculator',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => false
-            ],
-            
             [
-                'label' => 'Reports & Statistics',
-                'url' => '#',
-                'options' => ['class' => 'nav-label', 'style' => 'margin-top:5px;'],
+                'label' => '<span class="micon dw dw-notebook"></span><span class="mtext">Reports</span>',
+                'items' => [
+                    [
+                        'label' => 'Pending Loans',
+                        'url' => ['loan/index'],
+                        'visible' => true
+                    ],
+                    [
+                        'label' => 'Approved Loans',
+                        'url' => ['loan/approved-loan-applications'],
+                        'visible' => true
+                    ],
+                    [
+                        'label' => 'Rejected Loans',
+                        'url' => ['loan/rejected-loan-applications'],
+                        'visible' => true
+                    ],
+                    [
+                        'label' => 'Disbursed Loans',
+                        'url' => ['loan/disbursed-loan-applications'],
+                        'visible' => true
+                    ],
+                ],
                 'encode' => false,
-                'visible' => false
+                'dropDownOptions' => ['class' => ['widget' => 'submenu']]
             ],
-              [
-                'label' => '<i class="typcn typcn-chart-bar"></i>All Reports',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => false
-            ],
-             [
-                'label' => '<i class="typcn typcn-chart-bar"></i>Loans Reports',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => false
-            ],
-              [
-                'label' => '<i class="typcn typcn-chart-bar"></i>Savings Reports',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => false
-            ],
-               [
-                'label' => '<i class="typcn typcn-chart-bar"></i>Group Reports',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => false
-            ],
-               [
-                'label' => '<i class="typcn typcn-chart-bar"></i>Data Export',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => false
-            ],
-            
             [
-                'label' => 'Configurations',
-                'url' => '#',
-                'options' => ['class' => 'nav-label', 'style' => 'margin-top:5px;'],
+                'label' => "<span class='micon dw dw-building'></span><span class='mtext'>Configurations</span>",
+                'items' => [
+                    [
+                        'label' => 'Branches',
+                        'url' => ['branch/index']
+                    ],
+                    [
+                        'label' => 'System Users',
+                        'url' => ['user/index'],
+                        'visible' => true
+                    ],
+                    [
+                        'label' => 'User Groups',
+                        'url' => ['user/user-groups'],
+                        'visible' => true
+                    ],
+                ],
                 'encode' => false,
-                'visible' => true
+                'dropDownOptions' => ['class' => ['widget' => 'submenu']]
             ],
-              [
-                'label' => '<i class="icon ion-ios-lock"></i> Access Management',
-                'url' => ['user/index','id'=>Yii::$app->member->sacco_id],
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => true
-            ],
-              [
-                'label' => '<i class="icon ion-ios-home"></i>Branches',
-                'url' => ['sacco/index','id'=>Yii::$app->member->sacco_id],
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => true
-            ],
-               [
-                'label' => '<i class="icon ion-ios-cart"></i>Products',
-                'url' => '#',
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => true
-            ],
-               
-               
-
-
         ];
     }
 

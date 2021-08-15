@@ -5,10 +5,10 @@ namespace frontend\assets;
 use yii\web\AssetBundle;
 
 /**
- * Main frontend application asset bundle.
+ * Main backend application asset bundle.
  */
-class AppAsset extends AssetBundle
-{
+class AppAsset extends AssetBundle {
+
     public $basePath = '@webroot';
     public $baseUrl = '@web/html-assets/';
     public $css = [
@@ -19,17 +19,18 @@ class AppAsset extends AssetBundle
         'lib/flag-icon-css/css/flag-icon.min.css',
         'lib/jqvmap/jqvmap.min.css',
         'css/azia.css',
-        "css/custom-styles.css"
+        'css/custom-style.css',
+        'css/custom.css'
     ];
     public $js = [
         'lib/bootstrap/js/bootstrap.bundle.min.js',
         'lib/ionicons/ionicons.js',
         'js/azia.js',
-        'js/modal-popup.js',
-        //'js/settings.js'
+        'js/settings.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
+
 }

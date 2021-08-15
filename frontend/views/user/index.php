@@ -1,91 +1,94 @@
-
 <?php
 
-use yii\data\ArrayDataProvider;
-use yii\helpers\Json;
-use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use common\models\User;
-use yii\bootstrap\Modal;
-use yii\widgets\Pjax;
+use yii\grid\GridView;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use common\models\client\Branch;
+use yii\helpers\url;
 
-$this->title = "List of System Users";
-
-
-$data = Json::decode($user);
-
-$dataProvider = new ArrayDataProvider([
-    'allModels' => $data,
-    'pagination' => [
-        'pageSize' => 10,
-    ],
-    'sort' => [
-        'attributes' => ['id'],
-    ],
-        ]);
-$searchModel = new User();
+$this->title = 'System Users';
+//Top Right button
+$this->params['topright_button'] = true;
+$this->params['topright_button_label'] = 'New System User';
+$this->params['topright_button_link'] = ['user/add-new-system-user'];
+$this->params['topright_button_class'] = 'btn-success pull-right';
+$inst = Yii::$app->member->client_id;
+$this->title = 'System Users';
+$this->params['breadcrumbs'][] = $this->title;
 //Page descrition
-$this->params['page_description'] = 'List of System Users';
+$this->params['page_description'] = '';
 ?>
-<p>
-     <?= Html::a('Create User', ['new-user'], ['class' => 'btn btn-primary']) ?>
-    <br/>
-<div class="box">
+<div class="user-index">
 
-    <?php Pjax::begin(); ?>
-    <?php
-    echo GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'tableOptions' => ['class' => 'table table-striped'],
-        'summary' => '',
+        //'filterModel' => $searchModel,
         'columns' => [
-            ['attribute' => 'username',
+            ['class' => 'yii\grid\SerialColumn'],
+            // 'id',
+            'username',
+            'firstname',
+            'lastname',
+            'othername',
+            'telephone',
+            'email',
+            //'auth_key',
+            //'password_hash',
+            //'password_status',
+            //'password_reset_token',
+            //'email:email',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
                 'value' => function($data) {
-                    return Html::a($data['username'], ['view', 'id' => $data['id']]);
+                    return '<a href="#" class="badge badge-block badge-' . $data->userStatus->css_class . '">' . $data->userStatus->name . '</a>';
                 },
-                'format' => 'raw'],
-            [
-                'attribute' => 'firstname',
-                'header' => 'First Name',
-                'value' => function($data) {
-                    return $data['firstname'];
-                }
+                'format' => 'raw'
             ],
+            //'client_id',
+            // 'branch_id',
             [
-                'attribute' => 'lastname',
-                'header' => 'Last Name',
+                'attribute' => 'branch_id',
                 'value' => function($data) {
-                    return $data['lastname'];
-                }
+                    return '<b><a href="' . Url::to(['branch/view', 'id' => $data->branch->id]) . '">' . $data->branch->name . "</a></b>";
+                },
+                'filter' => Select2::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'branch_id',
+                    'theme' => Select2::THEME_BOOTSTRAP,
+                    'data' => ArrayHelper::map(Branch::find()->select(['id', 'name'])->all(), 'id', 'name'),
+                    'options' => ['placeholder' => 'Select a Branch ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]),
+                'format' => 'raw'
             ],
+            //'created_at',
+            //'updated_at',
+            //'verification_token',
+            //'profile_pic',
+            //'office_id',
+            //'is_admin',
+            //'app_module',
+            //'telephone',
+            //'login_at',
+            //'passwrd_reset_at',
+            //'created_by',
+            //'updated_by',
             [
-                'attribute' => 'othername',
-                'header' => 'Other Name',
+                'format' => 'raw',
                 'value' => function($data) {
-                    return $data['othername'];
-                }
+                    return
+                    Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update', 'id' => $data['id']], ['title' => 'edit', 'class' => 'btn btn-info']);
+                },
+                'header' => 'OPTIONS'
             ],
-            [
-                'attribute' => 'telephone',
-                'header' => 'Telephone',
-                'value' => function($data) {
-                    return $data['telephone'];
-                }
-            ],
-            [
-                'attribute' => 'email',
-                'header' => 'Email',
-                'value' => function($data) {
-                    return $data['email'];
-                }
-            ],
-             ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {view}'],
         ],
     ]);
     ?>
-    <?php Pjax::end(); ?>
+
+
 </div>
-
-

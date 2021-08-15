@@ -1,123 +1,37 @@
 <?php
 
-use yii\data\ArrayDataProvider;
-use yii\helpers\Json;
-use yii\grid\GridView;
-use yii\bootstrap\Tabs;
 use yii\helpers\Html;
+use yii\grid\GridView;
 use yii\helpers\Url;
-use common\models\member\Member;
-use yii\bootstrap\Modal;
-use yii\widgets\Pjax;
 
-$this->title = "Members";
+/* @var $this yii\web\View */
+/* @var $searchModel common\models\client\MemberSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-
-$data = Json::decode($member);
-
-$dataProvider = new ArrayDataProvider([
-    'allModels' => $data,
-    'pagination' => [
-        'pageSize' => 10,
-    ],
-    'sort' => [
-        'attributes' => ['id'],
-    ],
-        ]);
-$searchModel = new Member();
-//Page descrition
-$this->params['page_description'] = 'Members';
+$this->title = 'Required Documents';
+$this->params['breadcrumbs'][] = $this->title;
+$this->params['page_description'] = '';
 ?>
+<?= $this->render('registration/reg-steps-top-nav', ['model' => $client, 'active' => 'doc']); ?>
 
-<p>
-     <?= Html::a('Create Member', ['new-member'], ['class' => 'btn btn-primary']) ?>
-    <br/>
+<div class="row">
 
-<div class="box">
-    <?php Pjax::begin(); ?>
-    <?php
-    echo GridView::widget([
-        'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'tableOptions' => ['class' => 'table table-striped'],
-        'summary' => '',
-        'columns' => [
-            ['attribute' => 'member_id_number',
-                'value' => function($data) {
-                    return Html::a($data['member_id_number'], ['view', 'id' => $data['id']]);
-                },
-                'format' => 'raw'],
-            [
-                'attribute' => 'firstname',
-                'header' => 'First Name',
-                'value' => function($data) {
-                    return $data['firstname'];
-                }
-            ],
-            [
-                'attribute' => 'lastname',
-                'header' => 'Last Name',
-                'value' => function($data) {
-                    return $data['lastname'];
-                }
-            ],
-            [
-                'attribute' => 'othername',
-                'header' => 'Other Name',
-                'value' => function($data) {
-                    return $data['othername'];
-                }
-            ],
-            [
-                'attribute' => 'primary_telephone',
-                'header' => 'Primary Telephone',
-                'value' => function($data) {
-                    return $data['primary_telephone'];
-                }
-            ],
-                       [
-                'attribute' => 'secondary_telephone',
-                'header' => 'Secondary Telephone',
-                'value' => function($data) {
-                    return $data['secondary_telephone'];
-                }
-            ],
-            [
-                'attribute' => 'gender',
-                'header' => 'Gender',
-                'value' => function($data) {
-                    return $data['gender'];
-                }
-            ],
+    <div class="col-lg-10" style="padding:0px;">
 
-            [
-                'attribute' => 'marital_status',
-                'header' => 'Marital Status',
-                'value' => function($data) {
-                    return $data['marital_status'];
-                }
+        <?=
+        GridView::widget([
+            'dataProvider' => $dataProvider,
+            // 'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                //'id',
+                'name',
+                'description',
             ],
-            [
-                'attribute' => 'date_of_birth',
-                'header' => 'Date of Birth',
-                'value' => function($data) {
-                    return $data['date_of_birth'];
-                }
-            ],
-            [
-                'attribute' => 'address',
-                'header' => 'Address',
-                'value' => function($data) {
-                    return $data['address'];
-                }
-            ],
-          
-              ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {view}'],
-        ],
-    ]);
-    ?>
-    <?php Pjax::end(); ?>
+        ]);
+        ?>
+    </div>
+    <div class="col-lg-2" style="padding:12px;">
+        <?= $this->render('registration/left-navigation', ['model' => $client, 'active' => 'summary']); ?>            
+    </div>
 </div>
-
-
-

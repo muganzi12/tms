@@ -4,8 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\User;
-use common\models\MasterData;
-use common\models\ApiRequestHelper;
+use common\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,13 +12,12 @@ use yii\filters\VerbFilter;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends Controller
-{
+class UserController extends Controller {
+
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -30,14 +28,21 @@ class UserController extends Controller
         ];
     }
 
-     /**
-     * Lists all Users.
+    /**
+     * Lists all User models.
      * @return mixed
      */
-     public function actionIndex($id) {
-        $api = new ApiRequestHelper('sacco');
-        $records = $api->makeGet('all-users/'.$id);
-        return $this->render('index', ['user' =>$records]);
+    public function actionIndex() {
+         $loggedIn = Yii::$app->member;
+        $searchModel = new UserSearch();
+        $searchModel->app_module=2;
+       $searchModel->client_id = $loggedIn->client_id;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -46,72 +51,67 @@ class UserController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-      public function actionView($id) {
-        $api = new ApiRequestHelper('sacco');
-        $response = $api->makeGet('details/' . $id);
-
+    public function actionView($id) {
         return $this->render('view', [
-                    'model' => $response,
+                    'model' => $this->findModel($id),
         ]);
     }
-  
-      /**
-     * Register a new System User
+
+    /**
+     * Creates a new User model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
      */
-    public function actionNewUser($stat=10,$pstat=0,$typ='sacco',$app=2) {
+    public function actionAddNewSystemUser($stat = 1, $admin = 0, $app = 2, $pwst = 0) {
         $model = new User();
-        $api = new ApiRequestHelper('sacco');
-        if ($model->load(Yii::$app->request->post())) {
-            $api->makePost('register-user', ['user' => $model->attributes]);
-            Yii::$app->session->setFlash('success', 'Account successfully created');
-            return $this->redirect(['index','id' => Yii::$app->member->sacco_id]);
-        }
-        else{
-            $pass ="Robin@123";
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'The account has been created successfully');
+            //Send Emails to notify a new user that an account has been created
+            Yii::$app->mailer->compose('new-account-created', [
+                        'name' => $model->firstname,
+                        'username' => $model->username
+                    ])->setFrom('kumusoftcreditscore@gmail.com')
+                    ->setTo($model->email)
+                    ->setSubject(strtoupper($model->firstname) . ', YOUR  ACCOUNT  HAS BEEN CREATED')
+                    ->send();
+            return $this->redirect(['index', 'id' => $model->client_id]);
+        } else {
+            //Create random password
+            $passwd = $model->randomPassword();
+            //Save this password to the currrent session
+            Yii::$app->session->set('default_password', $passwd);
             $model->created_at = time();
             $model->status = $stat;
-            $model->sacco_id = Yii::$app->member->sacco_id;
+            $model->password_status = $pwst;
+            $model->is_admin = $admin;
             $model->app_module = $app;
-            $model->password_status = $pstat;
-            $model->account_type = $typ;
             $model->created_by = Yii::$app->member->id;
-            $model->password_hash=Yii::$app->getSecurity()->generatePasswordHash($pass);
-               //Dropdowns for Office Held
-            $modules = $api->makeGet('office-held');
-            return $this->render('new-user', [
+             $model->client_id = Yii::$app->member->client_id;
+            $model->password_hash = Yii::$app->getSecurity()->generatePasswordHash($passwd);
+            return $this->render('add-new-system-user', [
                         'model' => $model,
-                        'modules'=> json_decode($modules),
-            ]);
-        }
-    }
-    
-    
-    
-    //Update User Details
-    
-    public function actionUpdate($id,$stat=10,$pass=0,$typ='sacco',$app=2) {
-        $model = $this->findModel($id);
-        $api = new ApiRequestHelper('sacco');
-        if ($model->load(Yii::$app->request->post())) {
-            $response = $api->makePatch('update-user', ['user' => $model->attributes]);
-              Yii::$app->session->setFlash('success', 'Account Details successfully updated');
-             return $this->redirect(['index','id' => Yii::$app->member->sacco_id]);
-        } else {
-            $pass ="Robin@123";
-            $model->updated_at = time();
-            $model->status= $stat;
-            $model->sacco_id = Yii::$app->member->sacco_id;
-            $model->app_module = $app;
-            $model->password_status = $pass;
-            $model->account_type = $typ;
-            $model->updated_by = Yii::$app->member->id;
-            $model->password_hash=Yii::$app->getSecurity()->generatePasswordHash($pass);
-            return $this->render('update', [
-                        'model' => $model
             ]);
         }
     }
 
+    /**
+     * Updates an existing User model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdate($id) {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+             return $this->redirect(['index', 'id' => $model->client_id]);
+        }
+
+        return $this->render('update', [
+                    'model' => $model,
+        ]);
+    }
 
     /**
      * Deletes an existing User model.
@@ -120,8 +120,7 @@ class UserController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -134,12 +133,12 @@ class UserController extends Controller
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = User::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }

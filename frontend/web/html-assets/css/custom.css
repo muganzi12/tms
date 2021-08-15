@@ -1,0 +1,65 @@
+
+html {
+    font-size: 16px;
+}
+/** Navigation on detail pages**/
+.right-nav-list{
+    padding-left:0px;
+    list-style: none;
+}
+.right-nav-list li{
+    border-bottom:1px solid #ddd;
+    padding-top:10px;
+    padding-bottom: 10px;
+}
+
+form div.required label.control-label:after {
+    content:" *";
+    color:red;
+    font-weight: bold;
+    font-size: 120%;
+}
+
+
+/** table headers **/
+.grid-view table thead {
+    background-color:#003ea9 !important;
+}
+.grid-view table thead  tr{
+    height: 35px;
+}
+.grid-view table thead  tr th,
+.grid-view table thead  tr th a{
+    color:white;
+}
+
+/** Dashboard **/
+.text-small{
+    font-size: 250% !important;
+}
+.big-numbers{
+    border-bottom: 1px dashed #eee;
+    margin-bottom: 10px; 
+    padding-bottom: 15px;
+}
+
+/** Top Nav Icons **/
+.top-bar .top-icon {
+    font-size: 17px;
+}
+div.top-icon i.os-icon{
+    line-height: 1px;
+}
+span.top-menu-item,
+a span.top-menu-item{
+    color:lightyellow; 
+    font-size:80%;
+    line-height:0.9;
+    display: block;
+}
+.office-name{
+    background-color: rgba(56,116,243, 0.8);
+    min-width: 325px !important;
+    display: inline-block;
+    clip-path: polygon(0 0, 100% 0%, calc(100% - 32px) 100%, 0% 100%) !important;
+}

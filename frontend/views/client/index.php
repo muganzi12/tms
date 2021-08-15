@@ -1,123 +1,92 @@
 <?php
 
-use yii\data\ArrayDataProvider;
-use yii\helpers\Json;
-use yii\grid\GridView;
-use yii\bootstrap\Tabs;
 use yii\helpers\Html;
+use yii\grid\GridView;
 use yii\helpers\Url;
-use common\models\member\Member;
-use yii\bootstrap\Modal;
-use yii\widgets\Pjax;
 
-$this->title = "Members";
+/* @var $this yii\web\View */
+/* @var $searchModel common\models\client\MemberSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-
-$data = Json::decode($member);
-
-$dataProvider = new ArrayDataProvider([
-    'allModels' => $data,
-    'pagination' => [
-        'pageSize' => 10,
-    ],
-    'sort' => [
-        'attributes' => ['id'],
-    ],
-        ]);
-$searchModel = new Member();
+$this->title = "Client";
 //Page descrition
-$this->params['page_description'] = 'Members';
+$this->params['page_description'] = 'Clients';
+
+//Top Right button
+$this->params['topright_button'] = true;
+$this->params['topright_button_label'] = 'New Client';
+$this->params['topright_button_link'] = ['client/add-new-client'];
+$this->params['topright_button_class'] = 'btn-success pull-right';
 ?>
+<div class="member-index">
 
-<p>
-     <?= Html::a('Create Member', ['new-member'], ['class' => 'btn btn-primary']) ?>
-    <br/>
 
-<div class="box">
-    <?php Pjax::begin(); ?>
-    <?php
-    echo GridView::widget([
+    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'tableOptions' => ['class' => 'table table-striped'],
-        'summary' => '',
+        //'filterModel' => $searchModel,
         'columns' => [
-            ['attribute' => 'member_id_number',
+            ['class' => 'yii\grid\SerialColumn'],
+            //'id',
+            [
+                'attribute' => 'reference_number',
                 'value' => function($data) {
-                    return Html::a($data['member_id_number'], ['view', 'id' => $data['id']]);
+                    return '<b><a href="' . Url::to(['client/view', 'id' => $data->id]) . '">' . $data->reference_number . "</a></b>";
                 },
-                'format' => 'raw'],
+                'format' => 'raw'
+            ],
+            'firstname',
+            'lastname',
             [
-                'attribute' => 'firstname',
-                'header' => 'First Name',
+                'attribute' => 'identification_type',
                 'value' => function($data) {
-                    return $data['firstname'];
-                }
+                    return $data->identificationType->name;
+                },
+                'format' => 'raw'
             ],
-            [
-                'attribute' => 'lastname',
-                'header' => 'Last Name',
-                'value' => function($data) {
-                    return $data['lastname'];
-                }
-            ],
-            [
-                'attribute' => 'othername',
-                'header' => 'Other Name',
-                'value' => function($data) {
-                    return $data['othername'];
-                }
-            ],
-            [
-                'attribute' => 'primary_telephone',
-                'header' => 'Primary Telephone',
-                'value' => function($data) {
-                    return $data['primary_telephone'];
-                }
-            ],
-                       [
-                'attribute' => 'secondary_telephone',
-                'header' => 'Secondary Telephone',
-                'value' => function($data) {
-                    return $data['secondary_telephone'];
-                }
-            ],
+            'identification_number',
+            'telephone',
+            // 'alt_telephone',
             [
                 'attribute' => 'gender',
-                'header' => 'Gender',
                 'value' => function($data) {
-                    return $data['gender'];
-                }
+                    return $data->genderType->name;
+                },
+                'format' => 'raw'
             ],
-
+            //'marital_status',
+            //'date_of_birth',
+            'address',
+            'email',
             [
-                'attribute' => 'marital_status',
-                'header' => 'Marital Status',
+                'attribute' => 'status',
+                'format' => 'raw',
                 'value' => function($data) {
-                    return $data['marital_status'];
-                }
+                    return '<a href="#" class="badge badge-block badge-' . $data->memberStatus->css_class . '">' . $data->memberStatus->name . '</a>';
+                },
+                'format' => 'raw'
             ],
+            //'membership_type',
+            //'person_scenario',
+            //'relationship',
+            //'related_to',
+            //'created_at',
+            //'created_by',
+            //'updated_at',
+            //'updated_by',
             [
-                'attribute' => 'date_of_birth',
-                'header' => 'Date of Birth',
+                'format' => 'raw',
                 'value' => function($data) {
-                    return $data['date_of_birth'];
-                }
+                    return
+                    Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update', 'id' => $data['id']], ['title' => 'edit', 'class' => 'btn btn-info']);
+                },
+                'header' => 'OPTIONS'
             ],
-            [
-                'attribute' => 'address',
-                'header' => 'Address',
-                'value' => function($data) {
-                    return $data['address'];
-                }
-            ],
-          
-              ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {view}'],
-        ],
+                        ],
     ]);
     ?>
-    <?php Pjax::end(); ?>
+
+
 </div>
-
-
-

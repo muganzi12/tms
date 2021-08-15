@@ -164,9 +164,12 @@ use yii\helpers\Url;
 </style>
 <div id="smartwizard" class="sw-main sw-theme-default">
     <ul class="nav nav-tabs nav-tabs-justified step-anchor">
-        <li class="nav-item <?= ($active == 'member') ? ('active') : (''); ?>"><a href="<?= Url::to(['member/new-member']); ?>" class="nav-link">Member Information</a></li>
-        <li class="nav-item <?= ($active == 'kin') ? ('active') : (''); ?>"><a href="<?= Url::to(['member/next-of-kin-list']); ?>" class="nav-link">Next of Kin Details</a></li>
-        <li class="nav-item"><a href="<?= Url::to(['member/details', 'id' => $model->id]); ?>" class="nav-link">Overview</a></li>
+        <li class="nav-item <?= ($active == 'member') ? ('active') : (''); ?>"><a href="<?= Url::to(['client/view', 'id' => $model->id]); ?>" class="nav-link">Client Profile</a></li>
+        <li class="nav-item <?= ($active == 'kin') ? ('active') : (''); ?>"><a href="<?= Url::to(['client/next-of-kin', 'id' => $model->id]); ?>" class="nav-link">Next of Kin Details</a></li>
+        <li class="nav-item <?= ($active == 'upload') ? ('active') : (''); ?>"><a href="<?= Url::to(['client/uploaded-documents', 'id' => $model->id]); ?>" class="nav-link">Upload Documents</a></li>
+        <li class="nav-item <?= ($active == 'approve') ? ('active') : (''); ?>"><a href="<?= Url::to(['client/approval-remarks', 'id' => $model->id]); ?>" class="nav-link">Approval remarks</a></li>
+        <li class="nav-item <?= ($active == 'rejection') ? ('active') : (''); ?>"><a href="<?= Url::to(['client/rejection-remarks', 'id' => $model->id]); ?>" class="nav-link">Rejection remarks</a></li>
+
     </ul>
 
 </div>

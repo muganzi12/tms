@@ -1,123 +1,82 @@
 <?php
 
-use yii\data\ArrayDataProvider;
-use yii\helpers\Json;
-use yii\grid\GridView;
-use yii\bootstrap\Tabs;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use common\models\member\Member;
-use yii\bootstrap\Modal;
-use yii\widgets\Pjax;
+use yii\grid\GridView;
 
-$this->title = "Members";
+/* @var $this yii\web\View */
+/* @var $searchModel common\models\client\MemberSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-
-$data = Json::decode($member);
-
-$dataProvider = new ArrayDataProvider([
-    'allModels' => $data,
-    'pagination' => [
-        'pageSize' => 10,
-    ],
-    'sort' => [
-        'attributes' => ['id'],
-    ],
-        ]);
-$searchModel = new Member();
-//Page descrition
-$this->params['page_description'] = 'Members';
+$this->title = 'Next Of Kin Details';
+$this->params['breadcrumbs'][] = $this->title;
+$this->params['page_description'] = '';
 ?>
+<?= $this->render('registration/reg-steps-top-nav', ['model' => $model, 'active' => 'kin']); ?>
+<div class="row">
+    
+    <div class="col-lg-10" style="padding:0px;">
+ 
 
-<p>
-     <?= Html::a('Create Member', ['new-member'], ['class' => 'btn btn-primary']) ?>
-    <br/>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-<div class="box">
-    <?php Pjax::begin(); ?>
-    <?php
-    echo GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         // 'filterModel' => $searchModel,
-        'tableOptions' => ['class' => 'table table-striped'],
-        'summary' => '',
         'columns' => [
-            ['attribute' => 'member_id_number',
+            ['class' => 'yii\grid\SerialColumn'],
+            //'id',
+            'firstname',
+            'lastname',
+            [
+                'attribute' => 'identification_type',
                 'value' => function($data) {
-                    return Html::a($data['member_id_number'], ['view', 'id' => $data['id']]);
+                    return $data->identificationType->name;
                 },
-                'format' => 'raw'],
+                'format' => 'raw'
+            ],
+            'identification_number',
             [
-                'attribute' => 'firstname',
-                'header' => 'First Name',
+                'attribute' => 'relationship',
                 'value' => function($data) {
-                    return $data['firstname'];
-                }
+                    return $data->relationshipType->name;
+                },
+                'format' => 'raw'
             ],
-            [
-                'attribute' => 'lastname',
-                'header' => 'Last Name',
-                'value' => function($data) {
-                    return $data['lastname'];
-                }
-            ],
-            [
-                'attribute' => 'othername',
-                'header' => 'Other Name',
-                'value' => function($data) {
-                    return $data['othername'];
-                }
-            ],
-            [
-                'attribute' => 'primary_telephone',
-                'header' => 'Primary Telephone',
-                'value' => function($data) {
-                    return $data['primary_telephone'];
-                }
-            ],
-                       [
-                'attribute' => 'secondary_telephone',
-                'header' => 'Secondary Telephone',
-                'value' => function($data) {
-                    return $data['secondary_telephone'];
-                }
-            ],
+            'telephone',
+            // 'alt_telephone',
             [
                 'attribute' => 'gender',
-                'header' => 'Gender',
                 'value' => function($data) {
-                    return $data['gender'];
-                }
+                    return $data->genderType->name;
+                },
+                'format' => 'raw'
             ],
-
+            //'marital_status',
+            //'date_of_birth',
+            'address',
+            'email',
+           
+            //'membership_type',
+            //'person_scenario',
+            //'relationship',
+            //'related_to',
+            //'created_at',
+            //'created_by',
+            //'updated_at',
+            //'updated_by',
             [
-                'attribute' => 'marital_status',
-                'header' => 'Marital Status',
+                'format' => 'raw',
                 'value' => function($data) {
-                    return $data['marital_status'];
-                }
-            ],
-            [
-                'attribute' => 'date_of_birth',
-                'header' => 'Date of Birth',
-                'value' => function($data) {
-                    return $data['date_of_birth'];
-                }
-            ],
-            [
-                'attribute' => 'address',
-                'header' => 'Address',
-                'value' => function($data) {
-                    return $data['address'];
-                }
-            ],
-          
-              ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {view}'],
-        ],
+                    return
+                    Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update-next-of-kin', 'id' => $data['id'], 'memb' => $data->client->id], ['title' => 'edit', 'class' => 'btn btn-info']);
+                },
+                'header' => 'OPTIONS'
+            ],],
     ]);
     ?>
-    <?php Pjax::end(); ?>
 </div>
-
-
-
+   <div class="col-lg-2" style="padding:12px;">
+        <?= $this->render('registration/left-navigation', ['model' => $model, 'active' => 'summary']); ?>            
+    </div>
+</div>

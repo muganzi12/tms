@@ -164,9 +164,11 @@ use yii\helpers\Url;
 </style>
 <div id="smartwizard" class="sw-main sw-theme-default">
     <ul class="nav nav-tabs nav-tabs-justified step-anchor">
-        <li class="nav-item <?= ($active == 'member') ? ('active') : (''); ?>"><a href="<?= Url::to(['member/new-member']); ?>" class="nav-link">Member Information</a></li>
-        <li class="nav-item <?= ($active == 'kin') ? ('active') : (''); ?>"><a href="<?= Url::to(['member/next-of-kin-list']); ?>" class="nav-link">Next of Kin Details</a></li>
-        <li class="nav-item"><a href="<?= Url::to(['member/details', 'id' => $model->id]); ?>" class="nav-link">Overview</a></li>
+        <li class="nav-item <?= ($active == 'loan') ? ('active') : (''); ?>"><a href="<?= Url::to(['loan/view', 'id' => $model->id]); ?>" class="nav-link">Loan Application</a></li>
+        <li class="nav-item <?= ($active == 'guarantor') ? ('active') : (''); ?>"><a href="<?= Url::to(['loan/loan-guarantors', 'id' => $model->id]); ?>" class="nav-link">Loan Guarantors</a></li>
+        <li class="nav-item <?= ($active == 'collateral') ? ('active') : (''); ?>"><a href="<?= Url::to(['loan/loan-collateral', 'id' => $model->id]); ?>" class="nav-link">Loan Collateral</a></li>
+        <li class="nav-item <?= ($active == 'rejection') ? ('active') : (''); ?>"><a href="<?= Url::to(['loan/rejection-remarks', 'id' => $model->id]); ?>" class="nav-link">Rejection Remarks</a></li>
+
     </ul>
 
 </div>

@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models;
 
 use Yii;
@@ -6,7 +7,9 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use common\models\sacco\Sacco;
+use common\models\masterdata\Company;
+use common\models\client\Branch;
+use common\models\masterdata\MasterData;
 
 /**
  * User model
@@ -23,26 +26,29 @@ use common\models\sacco\Sacco;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-class User extends ActiveRecord implements IdentityInterface
-{
-    const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 9;
-    const STATUS_ACTIVE = 10;
+class User extends ActiveRecord implements IdentityInterface {
 
+    const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 2;
+    const STATUS_ACTIVE = 1;
+
+    
+        public static function getDb() {
+        parent::getDb();
+        return Yii::$app->masterdb;
+    }
 
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return '{{%user}}';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             TimestampBehavior::className(),
         ];
@@ -51,32 +57,28 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-     public function rules() {
+    public function rules() {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             ['username', 'trim'],
-            [['app_module', 'sacco_id','branch_id','office_id','password_status','updated_at','updated_by'], 'integer'],
+            [['app_module', 'client_id','is_admin', 'branch_id', 'office_id', 'password_status', 'updated_at', 'updated_by'], 'integer'],
             [['profile_pic', 'signature'], 'string', 'max' => 255],
-            ['institution_id', 'required', 'message' => 'Fill in your Bank'],
-            ['username', 'required','message'=>'Provide User Name'],
+            ['client_id', 'required', 'message' => 'Fill in your Institution'],
+            ['username', 'required', 'message' => 'Provide User Name'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'trim'],
             ['email', 'required', 'message' => 'Fill in your email'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['firstname', 'required','message' => 'Fill in your First Name'],
-            ['account_type', 'required'],
-            ['lastname', 'required','message' => 'Fill in your Last Name'],
-            ['othername','string','max' => 255],
-            ['telephone', 'required','message' => 'Fill in your Telephone Number'],
+            ['firstname', 'required', 'message' => 'Fill in your First Name'],
+            ['lastname', 'required', 'message' => 'Fill in your Last Name'],
+            ['othername', 'string', 'max' => 255],
+            ['telephone', 'required', 'message' => 'Fill in your Telephone Number'],
             ['created_by', 'required'],
-            ['branch_id', 'required','message' => 'Select Branch He/She Belongs to'],
             ['created_at', 'required'],
-            ['sacco_id', 'required'],
-            ['office_id', 'required'],
-            ['app_module', 'required','message'=>'Select System Module'],
+            ['app_module', 'required', 'message' => 'Select System Module'],
             [['auth_key'], 'string', 'max' => 32],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
             ['password_hash', 'required'],
@@ -89,22 +91,23 @@ class User extends ActiveRecord implements IdentityInterface
             'username' => 'User Name',
             'institution_id' => 'Bank/SACCO',
             'email' => 'Email',
-            'firstname'=>'First Name',
-            'lastname'=>'Last Name',
-            'othername'=>'Other Name',
+            'firstname' => 'First Name',
+            'lastname' => 'Last Name',
+            'othername' => 'Other Name',
             'branch_id' => 'Branch',
+            'client_id' => 'Client',
             'office_id' => 'Office Held',
-            'is_receiving_officer'=>'Is She/He a Receiving Officer?',
+            'is_receiving_officer' => 'Is She/He a Receiving Officer?',
             'status' => 'Status',
             'password_hash' => 'Password'
         ];
     }
-    
-       public function beforeSave($insert) {
+
+    public function beforeSave($insert) {
         parent::beforeSave($insert);
         if ($this->isNewRecord) {
             $this->created_at = time();
-            $this->status = 10;
+            $this->status = 1;
             $this->created_by = Yii::$app->user->id;
             //Create random password
             $passwd = Yii::$app->security->generateRandomString(11);
@@ -140,13 +143,14 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-      public static function findByUsername($username) {
+    public static function findByUsername($username) {
         return static::findOne([
                     'username' => $username,
                     'status' => self::STATUS_ACTIVE,
                     'app_module' => Yii::$app->app_module
         ]);
     }
+
     /**
      * Finds user by password reset token
      *
@@ -266,28 +270,68 @@ class User extends ActiveRecord implements IdentityInterface
         return self::findOne(Yii::$app->user->id);
     }
 
-    public function getSacco() {
-        return $this->hasOne(Sacco::class, ['id' => 'sacco_id']);
+    public function getClient() {
+        return $this->hasOne(Company::class, ['id' => 'client_id']);
     }
     
+        public function getBranch() {
+        return $this->hasOne(Branch::class, ['id' => 'branch_id']);
+    }
+    
+        public function getUserStatus() {
+        return $this->hasOne(MasterData::class, ['id' => 'status']);
+    }
 
-
-  public function getFullnames() {
+    public function getFullnames() {
         return $this->firstname . ' ' . $this->lastname;
     }
-    
-     public function getProfilePicture() {
+
+    public function getProfilePicture() {
         if (!empty($this->profile_pic)) {
             return Yii::getAlias('@web/html') . "/profile-pics/" . $this->profile_pic;
         } else {
             return Yii::getAlias('@web/html') . "/profile-pics/default.jpeg";
         }
     }
-    
-      public function getSignature() {
+
+    public function getSignature() {
         if (!empty($this->signature)) {
             return Yii::getAlias('@web/html') . "/signature" . $this->signature;
-        } 
+        }
+    }
+
+   
+    function randomPassword($len = 11) {
+
+        //enforce min length 8
+        if ($len < 11)
+            $len = 11;
+
+        //define character libraries - remove ambiguous characters like iIl|1 0oO
+        $sets = array();
+        $sets[] = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        $sets[] = 'abcdefghjkmnpqrstuvwxyz';
+        $sets[] = '23456789';
+        $sets[] = '~!@#$%^&*(){}[],./?';
+
+        $password = '';
+
+        //append a character from each set - gets first 4 characters
+        foreach ($sets as $set) {
+            $password .= $set[array_rand(str_split($set))];
+        }
+
+        //use all characters to fill up to $len
+        while (strlen($password) < $len) {
+            //get a random set
+            $randomSet = $sets[array_rand($sets)];
+
+            //add a random char from the random set
+            $password .= $randomSet[array_rand(str_split($randomSet))];
+        }
+
+        //shuffle the password string before returning!
+        return str_shuffle($password);
     }
 
     

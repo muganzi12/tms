@@ -1,91 +1,81 @@
-
 <?php
 
-use yii\data\ArrayDataProvider;
-use yii\helpers\Json;
-use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use common\models\User;
-use yii\bootstrap\Modal;
-use yii\widgets\Pjax;
+use yii\grid\GridView;
 
-$this->title = "List of System Users";
+/* @var $this yii\web\View */
+/* @var $searchModel common\models\UserSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-
-$data = Json::decode($user);
-
-$dataProvider = new ArrayDataProvider([
-    'allModels' => $data,
-    'pagination' => [
-        'pageSize' => 10,
-    ],
-    'sort' => [
-        'attributes' => ['id'],
-    ],
-        ]);
-$searchModel = new User();
-//Page descrition
-$this->params['page_description'] = 'List of System Users';
+$this->title = 'Users';
+$this->params['breadcrumbs'][] = $this->title;
+$this->params['page_description'] = '';
 ?>
-<p>
-     <?= Html::a('New User', ['new-user'], ['class' => 'btn btn-primary']) ?>
-    <br/>
-<div class="box">
+<?= $this->render('../company/registration/reg-steps-top-nav', ['model' => $inst, 'active' => 'admin',]); ?>
+<div class="az-dashboard-nav"> 
+  <nav class="nav">
 
-    <?php Pjax::begin(); ?>
-    <?php
-    echo GridView::widget([
+    </nav>
+</div>
+
+<div class="col-lg-9">
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'tableOptions' => ['class' => 'table table-striped'],
-        'summary' => '',
+        //'filterModel' => $searchModel,
         'columns' => [
-            ['attribute' => 'username',
+            ['class' => 'yii\grid\SerialColumn'],
+            //'id',
+            'username',
+            'firstname',
+            'lastname',
+            //'auth_key',
+            //'password_hash',
+            //'password_status',
+            //'password_reset_token',
+            'email',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
                 'value' => function($data) {
-                    return Html::a($data['username'], ['view', 'id' => $data['id']]);
+                    return '<a href="#" class="badge badge-block badge-' . $data->userStatus->css_class . '">' . $data->userStatus->name . '</a>';
                 },
-                'format' => 'raw'],
-            [
-                'attribute' => 'firstname',
-                'header' => 'First Name',
-                'value' => function($data) {
-                    return $data['firstname'];
-                }
+                'format' => 'raw'
             ],
+            //'client_id',
+            //'branch_id',
+            //'created_at',
+            //'updated_at',
+            //'verification_token',
+            //'profile_pic',
+            //'office_id',
+            //'app_module',
+            //'telephone',
+            //'login_at',
+            //'passwrd_reset_at',
+            //'created_by',
+            //'updated_by',
             [
-                'attribute' => 'lastname',
-                'header' => 'Last Name',
+                'format' => 'raw',
                 'value' => function($data) {
-                    return $data['lastname'];
-                }
+                    return
+                    Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update', 'id' => $data['id']], ['title' => 'edit', 'class' => 'btn btn-info']);
+                },
+                'header' => 'OPTIONS'
             ],
-            [
-                'attribute' => 'othername',
-                'header' => 'Other Name',
-                'value' => function($data) {
-                    return $data['othername'];
-                }
-            ],
-            [
-                'attribute' => 'telephone',
-                'header' => 'Telephone',
-                'value' => function($data) {
-                    return $data['telephone'];
-                }
-            ],
-            [
-                'attribute' => 'email',
-                'header' => 'Email',
-                'value' => function($data) {
-                    return $data['email'];
-                }
-            ],
-           
         ],
     ]);
     ?>
-    <?php Pjax::end(); ?>
+
+
 </div>
 
 
+
+<div class="col-lg-3">
+    <?= Html::a('Update Company details', ['company/update', 'id' => $inst->id], ['class' => 'btn btn-primary btn-block']) ?>
+    <?= Html::a('New company admin', ['user/new-admin', 'id' => $inst->id], ['class' => 'btn btn-info btn-block']) ?>
+    <?= Html::a('Upload Logo', ['update', 'id' => $inst->id], ['class' => 'btn btn-secondary btn-block']) ?>
+
+
+</div>

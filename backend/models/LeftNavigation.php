@@ -13,63 +13,47 @@ class LeftNavigation extends Nav {
      */
     public static function getNavItems() {
         return [
-          
             [
-                'label' => '<i class="icon ion-ios-list"></i> Members',
-                'url' => ['member/index'],
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
+                'label' => '<span class="micon dw dw-home"></span><span class="mtext">Dashboard</span>',
+                'url' => ['site/index'],
+                'linkOptions' => ['class' => 'dropdown-toggle no-arrow'],
+                'encode' => false
+            ],
+            [
+                'label' => '<span class="micon dw dw-list"></span><span class="mtext">Companies</span>',
+                'url' => ['company/index'],
+                'linkOptions' => ['class' => 'dropdown-toggle no-arrow'],
+                'encode' => false
+            ],
+            [
+                'label' => '<span class="micon dw dw-list"></span><span class="mtext">Chart of Accounts</span>',
+                'items' => [
+                    [
+                        'label' => 'Accounts',
+                        'url' => ['account/index'],
+                        'visible' => true
+                    ],
+                ],
                 'encode' => false,
-                'visible' => true
+                'dropDownOptions' => ['class' => ['widget' => 'submenu']]
             ],
-        
-           
             [
-                'label' => '<i class="typcn typcn-book"></i>Branches',
-                'url' => ['branch/index'],
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
+                'label' => "<span class='micon dw dw-building'></span><span class='mtext'>Account Management</span>",
+                'items' => [
+                    [
+                        'label' => 'Super System Admins',
+                        'url' => ['user/super-admin'],
+                        'visible' => true
+                    ],
+                    [
+                        'label' => 'Company System Admins',
+                        'url' => ['user/client-admin'],
+                        'visible' => true
+                    ],
+                ],
                 'encode' => false,
-                'visible' => true
+                'dropDownOptions' => ['class' => ['widget' => 'submenu']]
             ],
-            //Profile
-            [
-                'label' => 'Account Management',
-                'options' => ['class' => 'sub-header']
-            ],
-            [
-                'label' => '<i class="icon ion-ios-person"></i>System Users',
-                'url' => ['user/index'],
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => true
-            ],
-            [
-                'label' => '<i class="typcn typcn-user-outline"></i>Update Profile',
-                'url' => ['profile/edit'],
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => true
-            ],
-            [
-                'label' => '<i class="icon ion-ios-list"></i>Change Password',
-                'url' => ['site/reset-mypasswd'],
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => true
-            ],
-            [
-                'label' => '<i class="icon ion-ios-list"></i>Change Profile Picture',
-                'url' => ['profile/upload-pic'],
-                'options' => ['class' => 'nav-item'],
-                'linkOptions' => ['class' => 'nav-link'],
-                'encode' => false,
-                'visible' => true
-            ],
-          
         ];
     }
 

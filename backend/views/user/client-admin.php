@@ -1,91 +1,70 @@
-
 <?php
 
-use yii\data\ArrayDataProvider;
-use yii\helpers\Json;
-use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use common\models\User;
-use yii\bootstrap\Modal;
-use yii\widgets\Pjax;
+use yii\grid\GridView;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use common\models\masterdata\Company;
+use yii\helpers\url;
+/* @var $this yii\web\View */
+/* @var $searchModel common\models\UserSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = "List of System Users";
-
-
-$data = Json::decode($user);
-
-$dataProvider = new ArrayDataProvider([
-    'allModels' => $data,
-    'pagination' => [
-        'pageSize' => 10,
-    ],
-    'sort' => [
-        'attributes' => ['id'],
-    ],
-        ]);
-$searchModel = new User();
-//Page descrition
-$this->params['page_description'] = 'List of System Users';
+$this->title = 'Users';
+$this->params['breadcrumbs'][] = $this->title;
+$this->params['page_description'] = '';
 ?>
-<p>
-     <?= Html::a('New User', ['new-user'], ['class' => 'btn btn-primary']) ?>
-    <br/>
-<div class="box">
 
-    <?php Pjax::begin(); ?>
-    <?php
-    echo GridView::widget([
+<div class="client-index">
+
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'tableOptions' => ['class' => 'table table-striped'],
-        'summary' => '',
+        'filterModel' => $searchModel,
         'columns' => [
-            ['attribute' => 'username',
+            ['class' => 'yii\grid\SerialColumn'],
+            //'id',
+            [
+                'attribute' => 'client_id',
                 'value' => function($data) {
-                    return Html::a($data['username'], ['view', 'id' => $data['id']]);
+                    return '<b><a href="' . Url::to(['company/view','id' => $data->client->id]) . '">' . $data->client->name . "</a></b>";
                 },
-                'format' => 'raw'],
+                'filter' => Select2::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'client_id',
+                    'theme' => Select2::THEME_BOOTSTRAP,
+                    'data' => ArrayHelper::map(Company::find()->all(), 'id', 'name'),
+                    'options' => ['placeholder' => 'Select a Client ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]),
+                'format' => 'raw'
+            ],
+            'username',
+            'firstname',
+            'lastname',
+            'email',
             [
-                'attribute' => 'firstname',
-                'header' => 'First Name',
+                'attribute' => 'status',
+                'format' => 'raw',
                 'value' => function($data) {
-                    return $data['firstname'];
-                }
+                    return '<a href="#" class="badge badge-block badge-' . $data->userStatus->css_class . '">' . $data->userStatus->name . '</a>';
+                },
+                'format' => 'raw'
             ],
             [
-                'attribute' => 'lastname',
-                'header' => 'Last Name',
+                'format' => 'raw',
                 'value' => function($data) {
-                    return $data['lastname'];
-                }
+                    return
+                    Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update', 'id' => $data['id']], ['title' => 'edit', 'class' => 'btn btn-info']);
+                },
+                'header' => 'OPTIONS'
             ],
-            [
-                'attribute' => 'othername',
-                'header' => 'Other Name',
-                'value' => function($data) {
-                    return $data['othername'];
-                }
-            ],
-            [
-                'attribute' => 'telephone',
-                'header' => 'Telephone',
-                'value' => function($data) {
-                    return $data['telephone'];
-                }
-            ],
-            [
-                'attribute' => 'email',
-                'header' => 'Email',
-                'value' => function($data) {
-                    return $data['email'];
-                }
-            ],
-           
         ],
     ]);
     ?>
-    <?php Pjax::end(); ?>
-</div>
 
+
+</div>
 

@@ -3,17 +3,17 @@
 use yii\bootstrap\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-use frontend\assets\AppAsset;
+use frontend\assets\LayoutAsset;
 use yii\helpers\Url;
+use frontend\models\LeftNavigation;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap\Modal;
 
-AppAsset::register($this);
-//$this->registerAssetBundle(yii\web\JqueryAsset::className(), \yii\web\View::POS_HEAD);
+LayoutAsset::register($this);
+//Add JQuery to header
+$this->registerAssetBundle(yii\web\JqueryAsset::className(), \yii\web\View::POS_HEAD);
+Yii::$app->assetManager->forceCopy = true;
 ?>
-<!DOCTYPE html>
 <?php $this->beginPage() ?>
 <html lang="<?= Yii::$app->language ?>">
     <head>
@@ -23,63 +23,66 @@ AppAsset::register($this);
         <meta http-equiv="Cache-control" content="no-cache">
         <meta name="author" content="Kumusoft Solutions">
         <?php $this->registerCsrfMetaTags() ?>
-        <title><?= Html::encode($this->title) ?> | SACCO APP</title>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <title><?= Html::encode($this->title) ?> |Loan Management System</title>
         <?php $this->head() ?>
         <style>
             html{
                 font-size:18px;
             }
+            ul.kumusoft li.dropdown.open ul.submenu{
+                display: block !important;
+            }
         </style>
-        <!--<script src="<?php //= Url::home();   ?>/public_html/html-assets/lib/jquery/jquery.min.js"></script>-->
     </head>
-    <body class="az-body az-body-sidebar az-light">
-        <?php $this->beginBody() ?>
-        <div class="az-sidebar">
-            <div class="az-sidebar-body">
-                <?= $this->render('blocks/left-nav'); ?>
-            </div>
+    <body>
+        <?php $this->beginBody() ?>   
+        <div class="header" style="background:#454647">
+            <?= $this->render('top_nav'); ?>
         </div>
-        <div class="az-content az-content-dashboard-five">
-            <div class="az-header" >
-                <?= $this->render('blocks/top-nav'); ?>
-            </div>
-            <?php if(!ArrayHelper::isIn('hide_page_title', $this->params)){ ?>
-            <div class="az-content-header d-block d-md-flex">
-                <div>
-                    <h2 class="az-content-title tx-24 mg-b-5"><?= $this->title; ?></h2>
-                    <p class="mg-b-0"><?= $this->params['page_description'] ?></p>
-                </div>
-            </div>
-            <?php } ?>
-            <div class="az-content-body">
-                <?php
-                //check if there are nay flush messages
-                $msgs = Yii::$app->session->getAllFlashes();
-                if (count($msgs) > 0) {
-                    foreach ($msgs as $key => $message) {
-                        $class = 'alert alert-' . $key;
-                        echo Alert::widget([
-                            'options' => [
-                                'class' => $class,
-                                'role' => 'alert'
-                            ],
-                            'body' => $message,
-                            'closeButton' => ['class' => 'close', 'type' => 'button', 'data-dismiss' => 'alert']
-                        ]);
-                    }
-                }
-                ?> 
-                <?= $content; ?>
-            </div>
 
-            <div class="az-footer ht-40">
-                <div class="container-fluid pd-t-0-f ht-100p">
-                    <span>&copy; 2021 Kumusoft Solutions Ltd</span>
-                </div><!-- container -->
-            </div><!-- az-footer -->
+        <div class="left-side-bar" style="background:#09255c">
+            <?= $this->render('left_nav'); ?>
         </div>
-     
+        <div class="mobile-menu-overlay"></div>
+
+        <div class="main-container">
+            <div class="pd-ltr-20 xs-pd-20-10">
+                <div class="min-height-200px">
+                    <div class="page-header" style="padding:7px 5px;margin-bottom: 10px;border-radius: 0px;">
+                        <div class="row">
+                            <div class="col-md-9 col-sm-12">
+                                <div class="title">
+                                    <h4><?= $this->title; ?></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12 text-right">
+                                <?= ArrayHelper::keyExists('topright_button', $this->params) ? Html::a($this->params['topright_button_label'], $this->params['topright_button_link'], ['class' => 'btn ' . $this->params['topright_button_class']]) : ('') ?>  
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    //check if there are nay flush messages
+                    $msgs = Yii::$app->session->getAllFlashes();
+                    if (count($msgs) > 0) {
+                        foreach ($msgs as $key => $message) {
+                            echo Alert::widget([
+                                'options' => [
+                                    'class' => 'alert alert-dismissible show alert-' . $key,
+                                    'role' => 'alert'
+                                ],
+                                'body' => $message,
+                                'closeButton' => ['class' => 'close', 'type' => 'button', 'data-dismiss' => 'alert']
+                            ]);
+                        }
+                    }
+                    ?>
+                    <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+                        <?= $content; ?>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
         <?php $this->endBody() ?>
     </body>
 </html>

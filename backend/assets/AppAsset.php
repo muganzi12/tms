@@ -7,8 +7,8 @@ use yii\web\AssetBundle;
 /**
  * Main backend application asset bundle.
  */
-class AppAsset extends AssetBundle
-{
+class AppAsset extends AssetBundle {
+
     public $basePath = '@webroot';
     public $baseUrl = '@web/html-assets/';
     public $css = [
@@ -19,7 +19,8 @@ class AppAsset extends AssetBundle
         'lib/flag-icon-css/css/flag-icon.min.css',
         'lib/jqvmap/jqvmap.min.css',
         'css/azia.css',
-        "t1/custom-styles.css"
+        'css/custom-style.css',
+        'css/custom.css'
     ];
     public $js = [
         'lib/bootstrap/js/bootstrap.bundle.min.js',
@@ -31,4 +32,5 @@ class AppAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
+
 }
