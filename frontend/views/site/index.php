@@ -18,8 +18,8 @@ $this->params['page_description'] = "Page Description here...";
         <div class="card-box height-100-p widget-style3">
             <div class="d-flex flex-wrap">
                 <div class="widget-data">
-                    <div class="weight-700 font-24 text-secondary"><?= $pending_loans['pending_loans']; ?></div>
-                    <div class="font-14 text-secondary weight-500">Pending Loan Applications</div>
+                    <div class="weight-700 font-24 text-success"><?= $pending_loans['pending_loans']; ?></div>
+                    <div class="font-14 text-primary weight-500">Pending Loan Applications</div>
                 </div>
                 <div class="widget-icon">
                     <div class="icon" data-color="white" ;"><i class="icon-copy fa fa-list" aria-hidden="true"></i></div>
@@ -31,8 +31,8 @@ $this->params['page_description'] = "Page Description here...";
         <div class="card-box height-100-p widget-style3">
             <div class="d-flex flex-wrap">
                 <div class="widget-data">
-                    <div class="weight-700 font-24 text-secondary"><?= $approved_loans['approved_loans']; ?></div>
-                    <div class="font-14 text-secondary weight-500">Approved Loan Applications</div>
+                    <div class="weight-700 font-24 text-success"><?= $approved_loans['approved_loans']; ?></div>
+                    <div class="font-14 text-primary weight-500">Approved Loan Applications</div>
                 </div>
                 <div class="widget-icon">
                     <div class="icon" data-color="white";"><i class="icon-copy fa fa-check-circle" aria-hidden="true"></i></div>
@@ -44,8 +44,8 @@ $this->params['page_description'] = "Page Description here...";
         <div class="card-box height-100-p widget-style3">
             <div class="d-flex flex-wrap">
                 <div class="widget-data">
-                    <div class="weight-700 font-24 text-dark"><?= $pending_clients['pending_clients']; ?></div>
-                    <div class="font-14 text-secondary weight-500">Number of Clients Pending for Approval</div>
+                    <div class="weight-700 font-24 text-success"><?= $pending_clients['pending_clients']; ?></div>
+                    <div class="font-14 text-primary weight-500">Number of Clients Pending for Approval</div>
                 </div>
                 <div class="widget-icon">
                     <div class="icon" data-color="#fc0";"><i class="ti-user" aria-hidden="true"></i></div>
@@ -58,11 +58,11 @@ $this->params['page_description'] = "Page Description here...";
         <div class="card-box height-100-p widget-style3">
             <div class="d-flex flex-wrap">
                 <div class="widget-data">
-                    <div class="weight-700 font-24 text-dark"><?= $released_loans['released_loans']; ?></div>
-                    <div class="font-14 text-secondary weight-500">Approved Clients</div>
+                    <div class="weight-700 font-24 text-success"><?= $released_loans['released_loans']; ?></div>
+                    <div class="font-14 text-primary weight-500">Approved Clients</div>
                 </div>
                 <div class="widget-icon">
-                    <div class="icon" data-color="#fc0" );"><i class="ti-user" aria-hidden="true"></i></div>
+                    <div class="icon" data-color="#e6e9ed);"><i class="ti-user" aria-hidden="true"></i></div>
                 </div>
             </div>
         </div>

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Supun
- * Date: 7/1/2017
- * Time: 4:14 PM
- */
 
 namespace loan;
 
