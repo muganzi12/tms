@@ -17,7 +17,12 @@ use yii\widgets\ActiveForm;
             <td> <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'required' => true]) ?>
             </td>
 
-            <td> <?= $form->field($model, 'is_required')->textInput(['maxlength' => true, 'required' => true]) ?>
+            <td>
+                <?=
+                $form->field($model, 'is_required')->radioList(
+                        [1 => 'Required', 2 => 'Optional']
+                )
+                ?>
             </td>
 
 

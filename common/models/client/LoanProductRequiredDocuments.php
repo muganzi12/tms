@@ -45,6 +45,7 @@ class LoanProductRequiredDocuments extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'loan_product_id' => 'Loan Product ID',
             'name' => 'Name',
+            'is_required'=>'Is Required?',
             'description' => 'Description',
             'created_at' => 'Created At',
             'created_by' => 'Created By',

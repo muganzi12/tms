@@ -50,7 +50,7 @@ class Client extends \yii\db\ActiveRecord {
             [['firstname', 'lastname', 'identification_type', 'identification_number', 'telephone', 'gender', 'marital_status', 'date_of_birth', 'address', 'person_scenario', 'status', 'created_at', 'created_by'], 'required'],
             [['identification_type', 'gender', 'marital_status','status', 'related_to', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['date_of_birth'], 'safe'],
-            [['reference_number', 'firstname', 'lastname', 'othername', 'email', 'person_scenario', 'relationship'], 'string', 'max' => 100],
+            [['reference_number', 'passport_photo','firstname', 'lastname', 'othername', 'email', 'person_scenario', 'relationship'], 'string', 'max' => 100],
             [['identification_number', 'telephone', 'alt_telephone'], 'string', 'max' => 14],
             [['address'], 'string', 'max' => 500],
             [['identification_number'], 'unique'],

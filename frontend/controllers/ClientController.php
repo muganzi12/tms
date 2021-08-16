@@ -165,6 +165,26 @@ class ClientController extends Controller {
         }
     }
 
+    //Upload Passport Picture
+    public function actionUploadPhoto($id) {
+        $model = $this->findModel($id);
+        if (Yii::$app->request->isPost) {
+            $sign = UploadedFile::getInstanceByName('Client[passport_photo]');
+            //try to upload
+            $filename = $model->reference_number . '_logo.' . $sign->extension;
+            $dir = Yii::getAlias('@dir_htmlassets');
+            //Try to save
+            $sign->saveAs($dir . "/passport/" . $filename);
+            //Update member details
+            $model->passport_photo = $filename;
+            $model->save(false);
+            Yii::$app->session->setFlash('success', 'You Successfully Uploaded Passport Photo ');
+            return $this->redirect(['view','id'=>$model->id]);
+        } else {
+            return $this->render('upload-photo', ['model' => $model]);
+        }
+    }
+
     //Approve a client
     public function actionApproveClient($id, $cat = 'CLIENT') {
         $model = new LoanManagerRemarks();
@@ -190,11 +210,11 @@ class ClientController extends Controller {
      * Lists all LoanManagerRemarks models.
      * @return mixed
      */
-    public function actionApprovalRemarks($id, $cat ="CLIENT") {
+    public function actionApprovalRemarks($id, $cat = "CLIENT") {
         $client = $this->findModel($id);
         $searchModel = new LoanManagerRemarksSearch();
-         $searchModel->client_id = $id;
-        $searchModel->category ="CLIENT";
+        $searchModel->client_id = $id;
+        $searchModel->category = "CLIENT";
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('approval-remarks', [
                     'searchModel' => $searchModel,
@@ -203,7 +223,7 @@ class ClientController extends Controller {
         ]);
     }
 
-    public function actionRejectionRemarks($id, $cat ="CLIENT") {
+    public function actionRejectionRemarks($id, $cat = "CLIENT") {
         $client = $this->findModel($id);
         $searchModel = new LoanManagerRemarksSearch();
         $searchModel->client_id = $id;
