@@ -92,7 +92,7 @@ $this->params['page_description'] = "Page Description here...";
                     'series' => [
                         [
                             'name' => 'Loan Applications',
-                            'color' => '#001E2D',
+                            'color' => '#069',
                             'data' => array_map('intval', array_column($report->requetsByInstitution(), 'total_request'))
                         ]
                     ],

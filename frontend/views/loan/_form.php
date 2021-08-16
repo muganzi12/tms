@@ -140,7 +140,7 @@ $('#productId').change(function(){
 		$('#loan-installment_frequency').attr('value',data.principal_installment_frequency);
 		$('#loan-interest_rate').attr('value',data.interest_rate);
                 $('#loan-interest_frequency').attr('value',data.interest_frequency);
-                $('#loan-loan_period').attr('value',data.maximum_repayment_period*30);
+                $('#loan-loan_period').attr('value',data.maximum_repayment_period);
                 $('#loan-reference_number').attr('value',data.product_code + Math.floor((Math.random() *100000000000) + 1));
    
 	});

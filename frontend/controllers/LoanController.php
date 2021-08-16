@@ -81,6 +81,13 @@ class LoanController extends Controller {
         ]);
     }
 
+    // Loan Schedule
+
+    public function actionLoanSchedule() {
+
+        return $this->render('loan-schedule');
+    }
+
     /**
      * Lists of Approved Loan Applications.
      * @return mixed
@@ -192,7 +199,7 @@ class LoanController extends Controller {
         $model = new LoanGuarantor();
         $loan = $this->findLoanModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['loan-guarantors','id' => $loan->id]);
+            return $this->redirect(['loan-guarantors', 'id' => $loan->id]);
         } else {
             $ident = MasterData::findAll(['reference_table' => 'identification_type']);
             $sex = MasterData::findAll(['reference_table' => 'sex']);
