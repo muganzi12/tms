@@ -79,6 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ])
         ?>
+            
   <div class="profile-section" style="margin-top:20px;">
                 <h5>Loan Guarantors</h5>
                 <?= $this->render('details/loan-guarantors', ['dataProvider' => $model->loanGuarantor]); ?>

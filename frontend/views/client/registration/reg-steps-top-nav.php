@@ -163,7 +163,8 @@ use yii\helpers\Url;
     }
 </style>
 <div id="smartwizard" class="sw-main sw-theme-default">
-    <ul class="nav nav-tabs nav-tabs-justified step-anchor"> <ul class="nav nav-tabs">     <li class="nav-item <?= ($active == 'member') ? ('active') : (''); ?>"><a href="<?= Url::to(['client/view', 'id' => $model->id]); ?>" class="nav-link">Client Profile</a></li>
+    <ul class="nav nav-tabs nav-tabs-justified step-anchor"> <ul class="nav nav-tabs">    
+            <li class="nav-item <?= ($active == 'member') ? ('active') : (''); ?>"><a href="<?= Url::to(['client/view', 'id' => $model->id]); ?>" class="nav-link">Client Profile</a></li>
         <li class="nav-item <?= ($active == 'kin') ? ('active') : (''); ?>"><a href="<?= Url::to(['client/next-of-kin', 'id' => $model->id]); ?>" class="nav-link">Next of Kin Details</a></li>
         <li class="nav-item <?= ($active == 'upload') ? ('active') : (''); ?>"><a href="<?= Url::to(['client/uploaded-documents', 'id' => $model->id]); ?>" class="nav-link"> Documents</a></li>
         <li class="nav-item <?= ($active == 'loan') ? ('active') : (''); ?>"><a href="<?= Url::to(['loan/loan-applications', 'id' => $model->id]); ?>" class="nav-link">Loan Applications</a></li>

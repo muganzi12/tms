@@ -126,6 +126,7 @@ class LoanController extends Controller {
      * @return mixed
      */
     public function actionLoanGuarantors($id) {
+        $this->layout = "main_dashboard";
         $loan = $this->findLoanModel($id);
         $searchModel = new LoanGuarantorSearch();
         $searchModel->loan_id = $id;
@@ -143,6 +144,7 @@ class LoanController extends Controller {
      * @return mixed
      */
     public function actionLoanCollateral($id) {
+        $this->layout = "main_dashboard";
         $loan = $this->findLoanModel($id);
         $searchModel = new LoanCollateralSearch();
         $searchModel->loan_id = $id;
@@ -216,6 +218,7 @@ class LoanController extends Controller {
     }
 
     public function actionAddLoanGuarantor($id) {
+        $this->layout = "main_dashboard";
         $model = new LoanGuarantor();
         $loan = $this->findLoanModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -236,6 +239,7 @@ class LoanController extends Controller {
     }
 
     public function actionAddLoanCollateral($id) {
+        $this->layout = "main_dashboard";
         $model = new LoanCollateral();
         $loan = $this->findLoanModel($id);
         if (Yii::$app->request->isPost) {
