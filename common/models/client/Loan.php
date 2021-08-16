@@ -136,7 +136,7 @@ class Loan extends \yii\db\ActiveRecord {
 
     /**
      * Registration Documents presented by this client
-     * @return CompanyDocument
+     * @return 
      */
     public function getLoanGuarantor() {
         $searchModel = new LoanGuarantorSearch();
