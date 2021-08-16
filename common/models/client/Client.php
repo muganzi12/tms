@@ -6,6 +6,7 @@ use Yii;
 use common\models\client\MasterData;
 use common\models\masterdata\Company;
 use yii\db\Query;
+use common\models\client\ClientDocumentsSearch;
 
 /**
  * This is the model class for table "member".
@@ -48,9 +49,9 @@ class Client extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['firstname', 'lastname', 'identification_type', 'identification_number', 'telephone', 'gender', 'marital_status', 'date_of_birth', 'address', 'person_scenario', 'status', 'created_at', 'created_by'], 'required'],
-            [['identification_type', 'gender', 'marital_status','status', 'related_to', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['identification_type', 'gender', 'marital_status', 'status', 'related_to', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['date_of_birth'], 'safe'],
-            [['reference_number', 'passport_photo','firstname', 'lastname', 'othername', 'email', 'person_scenario', 'relationship'], 'string', 'max' => 100],
+            [['reference_number', 'passport_photo', 'firstname', 'lastname', 'othername', 'email', 'person_scenario', 'relationship'], 'string', 'max' => 100],
             [['identification_number', 'telephone', 'alt_telephone'], 'string', 'max' => 14],
             [['address'], 'string', 'max' => 500],
             [['identification_number'], 'unique'],
@@ -126,9 +127,10 @@ class Client extends \yii\db\ActiveRecord {
         return Company::find()->select(['code'])->where(['id' => $inst])->one();
     }
 
-        public function getFullNames() {
+    public function getFullNames() {
         return $this->firstname . ' ' . $this->lastname;
     }
+
     /**
      * Generate Request Reference  Number
      */
@@ -136,6 +138,49 @@ class Client extends \yii\db\ActiveRecord {
         $pref = self::getClientCode()['code'];
         //$prefix = strtoupper(substr($pref, 0, 3));
         return $pref . time();
+    }
+
+    public function getPassportPhoto() {
+        if (!empty($this->passport_photo)) {
+            return Yii::getAlias('@web/html') . "/passport/" . $this->passport_photo;
+        }
+    }
+
+    /**
+     * Registration Documents presented by this client
+     * @return CompanyDocument
+     */
+    public function getDocuments() {
+        $searchModel = new ClientDocumentsSearch();
+        $searchModel->client_id = $this->id;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $dataProvider;
+    }
+
+    /**
+     * Approved Remarks on this client
+     * @return CompanyDocument
+     */
+    public function getApprovalRemarks($cat = "CLIENT", $status = 1) {
+        $searchModel = new LoanManagerRemarksSearch();
+        $searchModel->client_id = $this->id;
+        $searchModel->category = "CLIENT";
+         $searchModel->remarks_status = $status;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $dataProvider;
+    }
+
+    /**
+     * Rejection Remarks on this client
+     * @return CompanyDocument
+     */
+    public function getRejectionRemarks($cat = "CLIENT", $status = 2) {
+        $searchModel = new LoanManagerRemarksSearch();
+        $searchModel->client_id = $this->id;
+        $searchModel->category = $cat;
+        $searchModel->remarks_status = $status;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $dataProvider;
     }
 
 }

@@ -10,10 +10,9 @@ use yii\grid\GridView;
 $this->title = 'Client Rejection Remarks';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('registration/reg-steps-top-nav', ['model' => $client, 'active' => 'rejection']); ?>
 
 <div class="row">  
-    <div class="col-lg-10" style="padding:0px;"> 
+    <div class="col-lg-12"> 
 
         <?=
         GridView::widget([
@@ -30,8 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     </div>
-    <div class="col-lg-2" style="padding:12px;">
-        <?= $this->render('registration/left-navigation', ['model' => $client, 'active' => 'summary']); ?>            
-    </div>
+ 
 </div>
 

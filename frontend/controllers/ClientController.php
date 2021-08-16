@@ -39,6 +39,7 @@ class ClientController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+        //$this->layout = "main_dashboard";
         $searchModel = new ClientSearch();
         $searchModel->person_scenario = "CLIENT";
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -50,6 +51,7 @@ class ClientController extends Controller {
     }
 
     public function actionNextOfKin($id) {
+        $this->layout = "main_dashboard";
         $model = $this->findModel($id);
         $searchModel = new ClientSearch();
         $searchModel->person_scenario = "NEXTOFKIN";
@@ -64,6 +66,7 @@ class ClientController extends Controller {
     }
 
     public function actionUploadedDocuments($id) {
+        $this->layout = "main_dashboard";
         $model = $this->findModel($id);
         $searchModel = new ClientDocumentsSearch();
         $searchModel->client_id = $id;
@@ -83,6 +86,7 @@ class ClientController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
+        $this->layout = "main_dashboard";
         return $this->render('view', [
                     'model' => $this->findModel($id),
         ]);
@@ -114,6 +118,7 @@ class ClientController extends Controller {
     }
 
     public function actionAddNextOfKin($id, $stat = 19, $person_scenario = 'NEXTOFKIN') {
+        $this->layout = "main_dashboard";
         $model = new Client();
         $client = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -140,6 +145,7 @@ class ClientController extends Controller {
     }
 
     public function actionUploadDocument($id) {
+        $this->layout = "main_dashboard";
         $model = new ClientDocuments();
         $client = $this->findModel($id);
         if (Yii::$app->request->isPost) {
@@ -167,6 +173,7 @@ class ClientController extends Controller {
 
     //Upload Passport Picture
     public function actionUploadPhoto($id) {
+        $this->layout = "main_dashboard";
         $model = $this->findModel($id);
         if (Yii::$app->request->isPost) {
             $sign = UploadedFile::getInstanceByName('Client[passport_photo]');
@@ -179,14 +186,15 @@ class ClientController extends Controller {
             $model->passport_photo = $filename;
             $model->save(false);
             Yii::$app->session->setFlash('success', 'You Successfully Uploaded Passport Photo ');
-            return $this->redirect(['view','id'=>$model->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('upload-photo', ['model' => $model]);
         }
     }
 
     //Approve a client
-    public function actionApproveClient($id, $cat = 'CLIENT') {
+    public function actionApproveClient($id, $cat = 'CLIENT', $status = 1) {
+        $this->layout = "main_dashboard";
         $model = new LoanManagerRemarks();
         $client = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -199,6 +207,7 @@ class ClientController extends Controller {
             $model->created_by = Yii::$app->member->id;
             $model->client_id = $id;
             $model->category = $cat;
+            $model->remarks_status = $status;
             return $this->render('approve-client', [
                         'model' => $model,
                         'client' => $client,
@@ -210,11 +219,12 @@ class ClientController extends Controller {
      * Lists all LoanManagerRemarks models.
      * @return mixed
      */
-    public function actionApprovalRemarks($id, $cat = "CLIENT") {
+    public function actionApprovalRemarks($id, $cat = "CLIENT", $status = 1) {
         $client = $this->findModel($id);
         $searchModel = new LoanManagerRemarksSearch();
         $searchModel->client_id = $id;
         $searchModel->category = "CLIENT";
+        $searchModel->remarks_status = $status;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('approval-remarks', [
                     'searchModel' => $searchModel,
@@ -223,11 +233,12 @@ class ClientController extends Controller {
         ]);
     }
 
-    public function actionRejectionRemarks($id, $cat = "CLIENT") {
+    public function actionRejectionRemarks($id, $cat = "CLIENT", $status = 2) {
         $client = $this->findModel($id);
         $searchModel = new LoanManagerRemarksSearch();
         $searchModel->client_id = $id;
         $searchModel->category = $cat;
+        $searchModel->remarks_status = $status;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('rejection-remarks', [
@@ -238,7 +249,8 @@ class ClientController extends Controller {
     }
 
     //Reject a client
-    public function actionRejectClient($id, $cat = 'CLIENT') {
+    public function actionRejectClient($id, $cat = 'CLIENT', $status = 2) {
+        $this->layout = "main_dashboard";
         $model = new LoanManagerRemarks();
         $client = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -251,6 +263,7 @@ class ClientController extends Controller {
             $model->created_by = Yii::$app->member->id;
             $model->client_id = $id;
             $model->category = $cat;
+            $model->remarks_status = $status;
             return $this->render('reject-client', [
                         'model' => $model,
                         'client' => $client,
@@ -266,6 +279,7 @@ class ClientController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id) {
+        $this->layout = "main_dashboard";
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

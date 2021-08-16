@@ -17,6 +17,8 @@ $this->params['topright_button'] = true;
 $this->params['topright_button_label'] = 'New Client';
 $this->params['topright_button_link'] = ['client/add-new-client'];
 $this->params['topright_button_class'] = 'btn-success pull-right';
+
+
 ?>
 <div class="member-index">
 

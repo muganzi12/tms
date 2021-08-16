@@ -4,6 +4,7 @@ namespace common\models\client;
 
 use Yii;
 use common\models\client\Loan;
+use common\models\client\Client;
 /**
  * This is the model class for table "loan_manager_remarks".
  *
@@ -33,8 +34,8 @@ class LoanManagerRemarks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['loan_id','client_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['category', 'remarks', 'created_at', 'created_by'], 'required'],
+            [['loan_id','client_id', 'remarks_status','created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['category', 'remarks','remarks_status', 'created_at', 'created_by'], 'required'],
             [['category'], 'string', 'max' => 20],
             [['remarks'], 'string', 'max' => 500],
         ];
@@ -51,6 +52,7 @@ class LoanManagerRemarks extends \yii\db\ActiveRecord
             'client_id' => 'Client ID',
             'category' => 'Category',
             'remarks' => 'Remarks',
+            'remarks_status'=>'Remarks',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
@@ -60,6 +62,10 @@ class LoanManagerRemarks extends \yii\db\ActiveRecord
     
         public function getLoan() {
         return $this->hasOne(Loan::class, ['id' => 'loan_id']);
+    }
+    
+     public function getClient() {
+        return $this->hasOne(Client::class, ['id' => 'client_id']);
     }
     
 }

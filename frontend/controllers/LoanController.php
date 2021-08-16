@@ -55,6 +55,24 @@ class LoanController extends Controller {
      * Lists of Approved Loan Applications.
      * @return mixed
      */
+    public function actionLoanApplications($id) {
+        $this->layout = "main_dashboard";
+         $client = $this->findClientModel($id);
+        $searchModel = new LoanSearch();
+        $searchModel->client_id = $id;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('loan-applications', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                     'client' => $client,
+        ]);
+    }
+
+    /**
+     * Lists of Approved Loan Applications.
+     * @return mixed
+     */
     public function actionApprovedLoanApplications() {
         $searchModel = new LoanSearch();
         $searchModel->status = 20;
@@ -161,6 +179,7 @@ class LoanController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
+         $this->layout = "main_dashboard";
         return $this->render('view', [
                     'model' => $this->findModel($id),
         ]);
@@ -171,6 +190,7 @@ class LoanController extends Controller {
      */
     public function actionNewLoanApplication($id, $stat = 19) {
         $model = new Loan();
+        $this->layout = "main_dashboard";
         $client = $this->findClientModel($id);
         $loan = $this->findLoanModel($id);
         if (Yii::$app->request->isAjax && $model->load($_POST)) {
@@ -315,6 +335,7 @@ class LoanController extends Controller {
       Approve Loan Application
      */
     public function actionUpdate($id) {
+         $this->layout = "main_dashboard";
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
