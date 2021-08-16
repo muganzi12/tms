@@ -42,7 +42,7 @@ $this->params['hide_page_title'] = true;
 
             <div class="profile-section" style="margin-top:20px;">
                 <h5>Client Details
-                    <?php //= Html::a('<i class="os-icon os-icon-download"></i> Download Profile',['company/download-profile','id'=>$model->id],['class'=>'btn btn-dark pull-right'])  ?>
+                    
                 </h5>
                 <?= $this->render('details/client-details', ['model' => $model]); ?>
             </div>
