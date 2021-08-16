@@ -25,7 +25,7 @@ use common\models\client\ChartOfAccounts;
             </td>
 
             <td>
-                <?= $form->field($model, 'interest_rate')->textInput(['maxlength' => true, 'type' => 'number', 'step' => '0.01', 'required' => true]) ?>
+                <?= $form->field($model, 'interest_rate')->textInput(['maxlength' => true, 'type' => 'number','step' => '0.01', 'required' => true]) ?>
             </td>
             <td>  
                 <?= $form->field($model, 'maximum_repayment_period')->textInput(['maxlength' => true, 'type' => 'number', 'step' => '1', 'required' => true]) ?>

@@ -16,24 +16,22 @@ use Yii;
  * @property int|null $updated_at
  * @property int|null $updated_by
  */
-class LoanProductRequiredDocuments extends \yii\db\ActiveRecord
-{
+class LoanProductRequiredDocuments extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'loan_product_required_documents';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['loan_product_id', 'name', 'description', 'created_at', 'created_by'], 'required'],
-            [['loan_product_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['loan_product_id', 'is_required', 'name', 'description', 'created_at', 'created_by'], 'required'],
+            [['loan_product_id', 'is_required', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name'], 'string', 'max' => 100],
             [['description'], 'string', 'max' => 255],
         ];
@@ -42,8 +40,7 @@ class LoanProductRequiredDocuments extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'loan_product_id' => 'Loan Product ID',
@@ -55,4 +52,5 @@ class LoanProductRequiredDocuments extends \yii\db\ActiveRecord
             'updated_by' => 'Updated By',
         ];
     }
+
 }

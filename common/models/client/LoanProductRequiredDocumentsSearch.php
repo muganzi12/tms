@@ -9,15 +9,14 @@ use common\models\client\LoanProductRequiredDocuments;
 /**
  * LoanProductRequiredDocumentsSearch represents the model behind the search form of `common\models\client\LoanProductRequiredDocuments`.
  */
-class LoanProductRequiredDocumentsSearch extends LoanProductRequiredDocuments
-{
+class LoanProductRequiredDocumentsSearch extends LoanProductRequiredDocuments {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['id', 'loan_product_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'loan_product_id', 'is_required', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name', 'description'], 'safe'],
         ];
     }
@@ -25,8 +24,7 @@ class LoanProductRequiredDocumentsSearch extends LoanProductRequiredDocuments
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,8 +36,7 @@ class LoanProductRequiredDocumentsSearch extends LoanProductRequiredDocuments
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = LoanProductRequiredDocuments::find();
 
         // add conditions that should always apply here
@@ -60,6 +57,7 @@ class LoanProductRequiredDocumentsSearch extends LoanProductRequiredDocuments
         $query->andFilterWhere([
             'id' => $this->id,
             'loan_product_id' => $this->loan_product_id,
+            'is_required' => $this->is_required,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
@@ -67,8 +65,9 @@ class LoanProductRequiredDocumentsSearch extends LoanProductRequiredDocuments
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+                ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }
+
 }

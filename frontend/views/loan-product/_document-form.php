@@ -14,14 +14,18 @@ use yii\widgets\ActiveForm;
     <table class="table">
 
         <tr>
-            <td> <?= $form->field($model, 'name')->textInput(['maxlength' => true,'required'=>true]) ?>
+            <td> <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'required' => true]) ?>
             </td>
 
-        </tr>
-                <tr>
+            <td> <?= $form->field($model, 'is_required')->textInput(['maxlength' => true, 'required' => true]) ?>
+            </td>
 
-            <td>
-                <?= $form->field($model, 'description')->textArea(['maxlength' => 300, 'rows' => 6, 'cols' => 50,'required'=>true]) ?>
+
+        </tr>
+        <tr>
+
+            <td colspan="6">
+                <?= $form->field($model, 'description')->textArea(['maxlength' => 300, 'rows' => 4, 'cols' => 50, 'required' => true]) ?>
             </td>
         </tr>
         <tr>
