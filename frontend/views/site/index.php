@@ -45,7 +45,7 @@ $this->params['page_description'] = "Page Description here...";
             <div class="d-flex flex-wrap">
                 <div class="widget-data">
                     <div class="weight-700 font-24 text-dark"><?= $pending_clients['pending_clients']; ?></div>
-                    <div class="font-14 text-secondary weight-500">Pending Clients</div>
+                    <div class="font-14 text-secondary weight-500">Number of Clients Pending for Approval</div>
                 </div>
                 <div class="widget-icon">
                     <div class="icon" data-color="#fc0";"><i class="ti-user" aria-hidden="true"></i></div>

@@ -39,7 +39,7 @@ class LoanGuarantor extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['loan_id', 'firstname', 'lastname', 'identification_type', 'identification_number', 'telephone_primary', 'gender', 'telephone_alternative', 'physical_address', 'created_at', 'created_by'], 'required'],
+            [['loan_id', 'firstname', 'lastname', 'identification_type', 'identification_number', 'telephone_primary', 'gender','physical_address', 'created_at', 'created_by'], 'required'],
             [['loan_id', 'gender', 'identification_type', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['firstname', 'lastname', 'othername', 'employer_name', 'source_of_income'], 'string', 'max' => 100],
             [['identification_number', 'telephone_primary', 'telephone_alternative'], 'string', 'max' => 14],

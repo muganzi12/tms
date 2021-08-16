@@ -24,7 +24,7 @@ use yii\helpers\ArrayHelper;
 
             </td>
             <td>
-                <?= $form->field($model, 'othername')->textInput(['maxlength' => true,'required'=>true]) ?>
+                <?= $form->field($model, 'othername')->textInput(['maxlength' => true]) ?>
 
             </td>
          
@@ -72,12 +72,12 @@ use yii\helpers\ArrayHelper;
 
             </td>
             <td>
-                <?= $form->field($model, 'telephone_alternative')->textInput(['maxlength' => true,'required'=>true]) ?>
+                <?= $form->field($model, 'telephone_alternative')->textInput(['maxlength' => true]) ?>
 
             </td>
             
               <td>
-                <?= $form->field($model, 'source_of_income')->textInput(['maxlength' => true,'required'=>true]) ?>
+                <?= $form->field($model, 'source_of_income')->textInput(['maxlength' => true]) ?>
 
             </td>
         </tr>

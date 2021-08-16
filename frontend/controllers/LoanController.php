@@ -165,12 +165,13 @@ class LoanController extends Controller {
     public function actionNewLoanApplication($id, $stat = 19) {
         $model = new Loan();
         $client = $this->findClientModel($id);
+        $loan = $this->findLoanModel($id);
         if (Yii::$app->request->isAjax && $model->load($_POST)) {
             Yii::$app->response->format = 'json';
             return \yii\widgets\ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index',]);
+            return $this->redirect(['add-loan-guarantor', 'id' => $loan->id]);
         } else {
             $currency = MasterData::findAll(['reference_table' => 'currency']);
             $model->created_at = time();
@@ -181,6 +182,7 @@ class LoanController extends Controller {
             return $this->render('new-loan-application', [
                         'model' => $model,
                         'client' => $client,
+                        'loan' => $loan,
                         'currency' => $currency,
             ]);
         }
@@ -190,7 +192,7 @@ class LoanController extends Controller {
         $model = new LoanGuarantor();
         $loan = $this->findLoanModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index',]);
+            return $this->redirect(['loan-guarantors','id' => $loan->id]);
         } else {
             $ident = MasterData::findAll(['reference_table' => 'identification_type']);
             $sex = MasterData::findAll(['reference_table' => 'sex']);
