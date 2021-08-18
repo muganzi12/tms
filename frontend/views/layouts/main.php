@@ -4,84 +4,81 @@ use yii\bootstrap\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\widgets\Breadcrumbs;
-use frontend\assets\LayoutAsset;
+use frontend\assets\NewAsset;
 use yii\helpers\Url;
 use frontend\models\LeftNavigation;
 use yii\helpers\ArrayHelper;
 
-LayoutAsset::register($this);
+NewAsset::register($this);
 //Add JQuery to header
 $this->registerAssetBundle(yii\web\JqueryAsset::className(), \yii\web\View::POS_HEAD);
 Yii::$app->assetManager->forceCopy = true;
 ?>
 <?php $this->beginPage() ?>
-<html lang="<?= Yii::$app->language ?>">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
     <head>
-        <meta charset="<?= Yii::$app->charset ?>">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Kumusoft">
-        <meta http-equiv="Cache-control" content="no-cache">
-        <meta name="author" content="Kumusoft Solutions">
         <?php $this->registerCsrfMetaTags() ?>
-        <title><?= Html::encode($this->title) ?> |Loan Management System</title>
+        <title><?= Html::encode($this->title) ?> | Loan Management System</title>
         <?php $this->head() ?>
         <style>
             html{
-                font-size:18px;
-            }
-            ul.kumusoft li.dropdown.open ul.submenu{
-                display: block !important;
+                font-size:16px;
             }
         </style>
     </head>
-    <body>
-        <?php $this->beginBody() ?>   
-        <div class="header" style="background:#454647">
-            <?= $this->render('top_nav'); ?>
-        </div>
 
-        <div class="left-side-bar" style="background:#09255c">
-            <?= $this->render('left_nav'); ?>
-        </div>
-        <div class="mobile-menu-overlay"></div>
+    <body class="layout-default">    
+        <?php $this->beginBody() ?> 
+        <div class="preloader"></div>
+        <!-- Header Layout -->
+        <div class="mdk-header-layout js-mdk-header-layout">
+            <!-- Header -->
+            <?= $this->render('new_topnav'); ?>
+            <!-- // END Header -->
 
-        <div class="main-container">
-            <div class="pd-ltr-20 xs-pd-20-10">
-                <div class="min-height-200px">
-                    <div class="page-header" style="padding:7px 5px;margin-bottom: 10px;border-radius: 0px;">
-                        <div class="row">
-                            <div class="col-md-9 col-sm-12">
-                                <div class="title">
-                                    <h4><?= $this->title; ?></h4>
+            <!-- Header Layout Content -->
+            <div class="mdk-header-layout__content">
+
+                <div class="mdk-drawer-layout js-mdk-drawer-layout"
+                     data-push
+                     data-responsive-width="992px">
+                    <div class="mdk-drawer-layout__content page">
+
+                        <div class="container-fluid page__heading-container">
+                            <div class="page__heading d-flex align-items-center">
+                                <div class="flex">
+                                    <h1 class="m-0"><?= $this->title; ?></h1>
                                 </div>
-                            </div>
-                            <div class="col-md-3 col-sm-12 text-right">
-                                <?= ArrayHelper::keyExists('topright_button', $this->params) ? Html::a($this->params['topright_button_label'], $this->params['topright_button_link'], ['class' => 'btn ' . $this->params['topright_button_class']]) : ('') ?>  
+
+                                <a href=""
+                                   class="btn btn-success ml-1">Action</a>
                             </div>
                         </div>
+
+                        <div class="container-fluid page__container">
+                            <?= $content; ?>
+                        </div>
+
                     </div>
-                    <?php
-                    //check if there are nay flush messages
-                    $msgs = Yii::$app->session->getAllFlashes();
-                    if (count($msgs) > 0) {
-                        foreach ($msgs as $key => $message) {
-                            echo Alert::widget([
-                                'options' => [
-                                    'class' => 'alert alert-dismissible show alert-' . $key,
-                                    'role' => 'alert'
-                                ],
-                                'body' => $message,
-                                'closeButton' => ['class' => 'close', 'type' => 'button', 'data-dismiss' => 'alert']
-                            ]);
-                        }
-                    }
-                    ?>
-                    <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-                        <?= $content; ?>
-                    </div>
+                    <!-- // END drawer-layout__content -->
+                    <?= $this->render('new_leftnav'); ?>
                 </div>
-               
+                <!-- // END drawer-layout -->
+
             </div>
+            <!-- // END header-layout__content -->
+
+        </div>
+        <!-- // END header-layout -->
+
+        <!-- App Settings FAB -->
+        <div id="app-settings">
+            <app-settings layout-active="default">    
+            </app-settings>
         </div>
         <?php $this->endBody() ?>
     </body>

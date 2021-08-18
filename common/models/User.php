@@ -32,8 +32,7 @@ class User extends ActiveRecord implements IdentityInterface {
     const STATUS_INACTIVE = 2;
     const STATUS_ACTIVE = 1;
 
-    
-        public static function getDb() {
+    public static function getDb() {
         parent::getDb();
         return Yii::$app->masterdb;
     }
@@ -62,7 +61,7 @@ class User extends ActiveRecord implements IdentityInterface {
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             ['username', 'trim'],
-            [['app_module', 'client_id','is_admin', 'branch_id', 'office_id', 'password_status', 'updated_at', 'updated_by'], 'integer'],
+            [['app_module', 'client_id', 'is_admin', 'branch_id', 'office_id', 'password_status', 'updated_at', 'updated_by'], 'integer'],
             [['profile_pic', 'signature'], 'string', 'max' => 255],
             ['client_id', 'required', 'message' => 'Fill in your Institution'],
             ['username', 'required', 'message' => 'Provide User Name'],
@@ -273,12 +272,12 @@ class User extends ActiveRecord implements IdentityInterface {
     public function getClient() {
         return $this->hasOne(Company::class, ['id' => 'client_id']);
     }
-    
-        public function getBranch() {
+
+    public function getBranch() {
         return $this->hasOne(Branch::class, ['id' => 'branch_id']);
     }
-    
-        public function getUserStatus() {
+
+    public function getUserStatus() {
         return $this->hasOne(MasterData::class, ['id' => 'status']);
     }
 
@@ -300,7 +299,6 @@ class User extends ActiveRecord implements IdentityInterface {
         }
     }
 
-   
     function randomPassword($len = 11) {
 
         //enforce min length 8
@@ -333,7 +331,5 @@ class User extends ActiveRecord implements IdentityInterface {
         //shuffle the password string before returning!
         return str_shuffle($password);
     }
-
-    
 
 }

@@ -8,7 +8,7 @@ use yii\helpers\Url;
 /* @var $searchModel common\models\client\LoanSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Loan Applications';
+//$this->title = 'Loan Applications';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="loan-index">

@@ -74,7 +74,6 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        $this->layout = "main_dashboard";
         $report = new Reports();
         $searchModel = new LoanSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

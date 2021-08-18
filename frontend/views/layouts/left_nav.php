@@ -23,7 +23,7 @@ use frontend\models\LeftNavigation;
         Nav::widget([
             'items' => LeftNavigation::getNavItems(),
             'options' => [
-                'class' => ['widget' => 'kumusoft'],
+                'class' => ['widget' => 'sidebar-menu'],
                 'id' => 'left_nav_menu'
             ],
             'dropDownCaret' => '&nbsp;'

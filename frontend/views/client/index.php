@@ -42,11 +42,10 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
             [
                 'attribute' => 'identification_type',
                 'value' => function($data) {
-                    return $data->identificationType->name;
+                    return $data->identification_number.'<br/><badge class="badge badge-secondary">'.$data->identificationType->name.'</badge>';
                 },
                 'format' => 'raw'
             ],
-            'identification_number',
             'telephone',
             // 'alt_telephone',
             [
@@ -56,10 +55,7 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
                 },
                 'format' => 'raw'
             ],
-            //'marital_status',
-            //'date_of_birth',
-            'address',
-            'email',
+            //'email',
             [
                 'attribute' => 'status',
                 'format' => 'raw',
@@ -68,14 +64,6 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
                 },
                 'format' => 'raw'
             ],
-            //'membership_type',
-            //'person_scenario',
-            //'relationship',
-            //'related_to',
-            //'created_at',
-            //'created_by',
-            //'updated_at',
-            //'updated_by',
             [
                 'format' => 'raw',
                 'value' => function($data) {

@@ -8,62 +8,38 @@ $this->params['page_description'] = "Page Description here...";
 ?>
 <style>
     .widget-style3{border:1px solid #999;}
-
 </style>
-<div class="title pb-20 pt-20">
-    <h2 class="h3 mb-0">Dashboard</h2>
-</div>
-<div class="row pb-10">
-    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
-        <div class="card-box height-100-p widget-style3">
-            <div class="d-flex flex-wrap">
-                <div class="widget-data">
-                    <div class="weight-700 font-24 text-success"><?= $pending_loans['pending_loans']; ?></div>
-                    <div class="font-14 text-primary weight-500">Pending Loan Applications</div>
-                </div>
-                <div class="widget-icon">
-                    <div class="icon" data-color="white" ;"><i class="icon-copy fa fa-list" aria-hidden="true"></i></div>
-                </div>
+<div class="row card-group-row">
+    <div class="col-xl-3 col-md-6 card-group-row__col">
+        <div class="card card-group-row__card card-body flex-row align-items-center">
+            <div class="flex">
+                <div class="text-amount"><?= $pending_loans['pending_loans']; ?></div>
+                <div class="text-muted mt-1">Applications pending</div>
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
-        <div class="card-box height-100-p widget-style3">
-            <div class="d-flex flex-wrap">
-                <div class="widget-data">
-                    <div class="weight-700 font-24 text-success"><?= $approved_loans['approved_loans']; ?></div>
-                    <div class="font-14 text-primary weight-500">Approved Loan Applications</div>
-                </div>
-                <div class="widget-icon">
-                    <div class="icon" data-color="white";"><i class="icon-copy fa fa-check-circle" aria-hidden="true"></i></div>
-                </div>
+    <div class="col-xl-3 col-md-6 card-group-row__col">
+        <div class="card card-group-row__card card-body flex-row align-items-center">
+            <div class="flex">
+                <div class="text-amount"><?= $approved_loans['approved_loans']; ?></div>
+                <div class="text-muted mt-1">Loans Approved</div>
+                <!-- <div class="text-stats text-success">51.5% <i class="material-icons">arrow_upward</i></div> -->
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
-        <div class="card-box height-100-p widget-style3">
-            <div class="d-flex flex-wrap">
-                <div class="widget-data">
-                    <div class="weight-700 font-24 text-success"><?= $pending_clients['pending_clients']; ?></div>
-                    <div class="font-14 text-primary weight-500">Number of Clients Pending for Approval</div>
-                </div>
-                <div class="widget-icon">
-                    <div class="icon" data-color="#fc0";"><i class="ti-user" aria-hidden="true"></i></div>
-                </div>
+    <div class="col-xl-3 col-md-6 card-group-row__col">
+        <div class="card card-group-row__card card-body flex-row align-items-center">
+            <div class="flex">
+                <div class="text-amount"><?= $pending_clients['pending_clients']; ?></div>
+                <div class="text-muted mt-1">Clients pending approval</div>
             </div>
         </div>
     </div>
-
-    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
-        <div class="card-box height-100-p widget-style3">
-            <div class="d-flex flex-wrap">
-                <div class="widget-data">
-                    <div class="weight-700 font-24 text-success"><?= $released_loans['released_loans']; ?></div>
-                    <div class="font-14 text-primary weight-500">Approved Clients</div>
-                </div>
-                <div class="widget-icon">
-                    <div class="icon" data-color="#e6e9ed);"><i class="ti-user" aria-hidden="true"></i></div>
-                </div>
+    <div class="col-xl-3 col-md-6 card-group-row__col">
+        <div class="card card-group-row__card card-body flex-row align-items-center">
+            <div class="flex">
+                <div class="text-amount"><?= $released_loans['released_loans']; ?></div>
+                <div class="text-muted mt-1">Clients Approved</div>
             </div>
         </div>
     </div>

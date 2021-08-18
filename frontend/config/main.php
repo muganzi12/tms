@@ -44,14 +44,36 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-    /*
-      'urlManager' => [
-      'enablePrettyUrl' => true,
-      'showScriptName' => false,
-      'rules' => [
-      ],
-      ],
-     */
+        /*
+          'urlManager' => [
+          'enablePrettyUrl' => true,
+          'showScriptName' => false,
+          'rules' => [
+          ],
+          ],
+         */
+        'assetManager' => [
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'sourcePath' => null,
+                    'basePath' => '@webroot',
+                    'baseUrl' => '@web/flowdash',
+                    'js' => [
+                        'assets/vendor/jquery.min.js',
+                    ],
+                ],
+                'yii\bootstrap\BootstrapAsset' => [
+                    'basePath' => '@webroot',
+                    'baseUrl' => '@web/flowdash',
+                    'js' => [
+                        'assets/vendor/bootstrap.min.js'
+                    ],
+                    'css' => [
+                        'css/bootstrap.less'
+                    ],
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];
