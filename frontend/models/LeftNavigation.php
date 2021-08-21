@@ -62,7 +62,7 @@ class LeftNavigation extends Nav {
             . "</li>
                     </ul>
                 </li>",
-            "<div class='sidebar-heading'>SETTINGS</div>",
+            "<div class='sidebar-heading' style='margin-top:20px;'>SETTINGS</div>",
             "<li class='sidebar-menu-item'>
                     <a class='sidebar-menu-button'  data-toggle='collapse' href='#chart_of_accounts'>
                         <i class='sidebar-menu-icon sidebar-menu-icon--left material-icons'>border_all</i>

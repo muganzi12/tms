@@ -3,21 +3,19 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\client\Loan */
 
 $this->title = $model->reference_number;
-$this->params['breadcrumbs'][] = ['label' => 'Loans', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['loan_id'] = $model->id;
 \yii\web\YiiAsset::register($this);
 ?>
-<?= $this->render('registration/reg-steps-top-nav', ['model' => $model, 'active' => 'loan']); ?>
-
+<style>
+    h2.section-title{
+        border-bottom:3px solid #069;
+        display:block;
+    }
+    </style>
 <div class="row">
-
-    <div class="col-lg-10" style="padding:0px;">
-
-
+    <h2 class="section-title">Loan application details</h2>
         <?=
         DetailView::widget([
             'model' => $model,
@@ -69,11 +67,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ])
         ?>
-
-
-    </div>
-    <div class="col-lg-2" style="padding:12px;">
-        <?= $this->render('registration/left-navigation', ['model' => $model, 'active' => 'summary']); ?>            
-    </div>
+        <h2 class="section-title">Guarrantors</h2>
+        <h2 class="section-title">Guarrantors</h2>
+        <h2 class="section-title">Remarks</h2>
 </div>
 

@@ -15,7 +15,8 @@ class NewAsset extends AssetBundle {
         "assets/vendor/perfect-scrollbar.css",
         "assets/css/app.css",
         "assets/css/vendor-material-icons.css",
-        "assets/css/vendor-fontawesome-free.css"
+        "assets/css/vendor-fontawesome-free.css",
+        "assets/css/custom.css"
     ];
     public $js = [
         //"assets/vendor/jquery.min.js",

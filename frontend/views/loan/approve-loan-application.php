@@ -6,9 +6,6 @@ use yii\helpers\Html;
 /* @var $model common\models\client\Loan */
 
 $this->title = 'Approve Loan Application: ' . $model->reference_number;
-$this->params['breadcrumbs'][] = ['label' => 'Loans', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
 ?>
 
 <?= $this->render('registration/reg-steps-top-nav', ['model' => $model, 'active' => 'loan']); ?>

@@ -83,8 +83,10 @@ class ClientController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
+        $this->layout="clientprofile";
         return $this->render('view', [
                     'model' => $this->findModel($id),
+                    'clientId'=>$id
         ]);
     }
 
@@ -266,6 +268,7 @@ class ClientController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id) {
+        $this->layout="clientprofile";
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

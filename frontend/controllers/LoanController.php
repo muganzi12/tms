@@ -161,6 +161,7 @@ class LoanController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
+        $this->layout="loan";
         return $this->render('view', [
                     'model' => $this->findModel($id),
         ]);

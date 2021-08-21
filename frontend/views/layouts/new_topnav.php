@@ -200,7 +200,7 @@ use yii\helpers\Url;
                            data-toggle="dropdown"
                            data-caret="false">
                             <span class="mr-1 d-flex-inline">
-                                <span class="text-light">Adrian D.</span>
+                                <span class="text-light"><?= Yii::$app->member->firstname;?></span>
                             </span>
                             <img src="<?= Url::base(true); ?>/flowdash/assets/images/avatar/demi.png"
                                  class="rounded-circle"

@@ -5,15 +5,9 @@ use yii\widgets\ActiveForm;
 use yii\jui\DatePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\client\Member */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="member-form">
-
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options'=>['style'=>'width:100%;']]); ?>
     <table class="table">
         <tr>
             <td>
@@ -27,13 +21,11 @@ use yii\helpers\ArrayHelper;
                 <?= $form->field($model, 'lastname')->textInput(['maxlength' => true,'required'=>true]) ?>
 
             </td>
-
         </tr>
 
         <tr>
             <td>
                 <?= $form->field($model, 'othername')->textInput(['maxlength' => true]) ?>
-
             </td>
             <td>
                 <?php
@@ -52,23 +44,17 @@ use yii\helpers\ArrayHelper;
             </td>
             <td>
                 <?= $form->field($model, 'identification_number')->textInput(['maxlength' => true,'required'=>true]) ?>
-
             </td>
-
         </tr>
 
         <tr>
             <td>
                 <?= $form->field($model, 'telephone')->textInput(['maxlength' => true,'required'=>true]) ?>
-
             </td>
             <td>
                 <?= $form->field($model, 'alt_telephone')->textInput(['maxlength' => true]) ?>
-
             </td>
-
             <td>
-
                 <?php
                 echo $form->field($model, 'gender')->widget(Select2::classname(), [
                     'value' => '',
@@ -83,19 +69,12 @@ use yii\helpers\ArrayHelper;
                 ]);
                 ?>
             </td>
-
-
-
         </tr>
-
-
         <tr>
             <td >
                 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-
             </td>
             <td>
-
                 <?php
                 echo $form->field($model, 'marital_status')->widget(Select2::classname(), [
                     'value' => '',
@@ -110,9 +89,7 @@ use yii\helpers\ArrayHelper;
                 ]);
                 ?>
             </td>
-            <td>
-              
-               
+            <td>                       
                 <?=
                 $form->field($model, 'date_of_birth')->widget(
                         DatePicker::class,
@@ -131,24 +108,18 @@ use yii\helpers\ArrayHelper;
                             'options' => ['class' => 'form-control', 'readonly' => 'readonly', 'required' => true]
                 ])
                 ?>
-
             </td>
-
-
         </tr>
         <tr>
             <td colspan="6">
-                <?= $form->field($model, 'address')->textInput(['maxlength' => true,'required'=>true]) ?>
-
+                <?= $form->field($model, 'address')->textArea(['rows' => 2,'required'=>true]) ?>
             </td>
         </tr>
-
         <tr>
             <td colspan="6">
                 <?= Html::submitButton(($model->id > 0) ? ('Update') : ('Save'), ['class' => ($model->id > 0) ? ('btn btn-success') : ('btn btn-primary'), 'style' => 'margin-top:30px;']) ?>
             </td>
             <td colspan="2">
-
                 <?= $form->field($model, 'created_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'created_at')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'updated_at')->hiddenInput()->label(false) ?>
@@ -156,11 +127,7 @@ use yii\helpers\ArrayHelper;
                 <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'person_scenario')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
-
-
             </td>
         </tr>
     </table>
     <?php ActiveForm::end(); ?>
-
-</div>

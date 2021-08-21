@@ -16,7 +16,7 @@ Yii::$app->assetManager->forceCopy = true;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>" dir="ltr">
+<html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,25 +30,21 @@ Yii::$app->assetManager->forceCopy = true;
             }
         </style>
     </head>
-    <body class="layout-login">
-    <?php $this->beginBody() ?> 
-        <div class="layout-login__overlay"></div>
-        <div class="layout-login__form bg-white"
-             data-perfect-scrollbar>
-            <div class="d-flex justify-content-center mt-2 mb-5 navbar-light">
-                <a href="index.html"
-                   class="navbar-brand"
-                   style="min-width: 0">
-                    <img class="navbar-brand-icon"
-                         src="<?= Url::base(true);?>/flowdash/assets/images/stack-logo-blue.svg"
-                         width="25"
-                         alt="Stack">
-                    <span>LOAN MANAGER</span>
-                </a>
-            </div>
-            
-            <p class="mb-5">Login to access your Loan Manager Account </p>
+
+    <body class="layout-default">    
+        <?php $this->beginBody() ?> 
+        <div class="preloader"></div>
+        <!-- Header Layout -->
+        <div class="mdk-header-layout js-mdk-header-layout">
+            <?= $this->render('new_topnav'); ?>
             <?= $content; ?>
+        </div>
+        <!-- // END header-layout -->
+
+        <!-- App Settings FAB -->
+        <div id="app-settings">
+            <app-settings layout-active="default">    
+            </app-settings>
         </div>
         <?php $this->endBody() ?>
     </body>

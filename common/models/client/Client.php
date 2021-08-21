@@ -129,6 +129,16 @@ class Client extends \yii\db\ActiveRecord {
         public function getFullNames() {
         return $this->firstname . ' ' . $this->lastname;
     }
+
+    /**
+     * The age of this client
+     */
+    public function getAge(){
+        $tz  = new \DateTimeZone('Africa/Kampala');
+        return \DateTime::createFromFormat('Y-m-d', $this->date_of_birth, $tz)
+            ->diff(new \DateTime('now', $tz))
+            ->y;
+    }
     /**
      * Generate Request Reference  Number
      */
