@@ -9,15 +9,14 @@ use common\models\client\LoanManagerRemarks;
 /**
  * LoanManagerRemarksSearch represents the model behind the search form of `common\models\client\LoanManagerRemarks`.
  */
-class LoanManagerRemarksSearch extends LoanManagerRemarks
-{
+class LoanManagerRemarksSearch extends LoanManagerRemarks {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['id', 'loan_id', 'client_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'loan_id', 'client_id', 'remarks_status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['category', 'remarks'], 'safe'],
         ];
     }
@@ -25,8 +24,7 @@ class LoanManagerRemarksSearch extends LoanManagerRemarks
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,8 +36,7 @@ class LoanManagerRemarksSearch extends LoanManagerRemarks
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = LoanManagerRemarks::find();
 
         // add conditions that should always apply here
@@ -62,14 +59,16 @@ class LoanManagerRemarksSearch extends LoanManagerRemarks
             'loan_id' => $this->loan_id,
             'client_id' => $this->client_id,
             'created_at' => $this->created_at,
+            'remarks_status' => $this->remarks_status,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
         ]);
 
         $query->andFilterWhere(['like', 'category', $this->category])
-            ->andFilterWhere(['like', 'remarks', $this->remarks]);
+                ->andFilterWhere(['like', 'remarks', $this->remarks]);
 
         return $dataProvider;
     }
+
 }

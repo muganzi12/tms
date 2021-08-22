@@ -3,7 +3,7 @@
 namespace common\models\client;
 
 use Yii;
-
+use common\models\client\Client;
 /**
  * This is the model class for table "member_documents".
  *
@@ -19,25 +19,24 @@ use Yii;
  * @property int|null $updated_at
  * @property int|null $updated_by
  */
-class ClientDocuments extends \yii\db\ActiveRecord
-{
+class ClientDocuments extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'client_documents';
     }
 
-        public $file;
+    public $file;
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['client_id', 'name', 'description','client_id', 'created_at', 'created_by'], 'required'],
-            [['client_id', 'document_type','client_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['client_id', 'name', 'description', 'client_id', 'created_at', 'created_by'], 'required'],
+            [['client_id', 'document_type', 'client_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['description', 'name'], 'string', 'max' => 255],
             [['file_name'], 'string', 'max' => 255],
             [['file_name'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf,png'],
@@ -47,8 +46,7 @@ class ClientDocuments extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'client_id' => 'Client',
@@ -63,4 +61,9 @@ class ClientDocuments extends \yii\db\ActiveRecord
             'updated_by' => 'Updated By',
         ];
     }
+
+    public function getClient() {
+        return $this->hasOne(Client::class, ['id' => 'client_id']);
+    }
+
 }

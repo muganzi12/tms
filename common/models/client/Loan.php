@@ -7,6 +7,7 @@ use common\models\client\MasterData;
 use common\models\client\Client;
 use common\models\client\LoanProduct;
 use yii\db\ActiveRecord;
+use common\models\client\LoanCollateralSearch;
 
 /**
  * This is the model class for table "loan".
@@ -56,7 +57,6 @@ class Loan extends \yii\db\ActiveRecord {
             [['application_date', 'disbursment_date', 'installment_payment_start_date', 'installment_payment_last_date', 'interest_payment_start_date', 'interest_payment_last_date'], 'safe'],
             [['reference_number'], 'string', 'max' => 255],
             [['interest_frequency', 'installment_frequency'], 'string', 'max' => 20],
-          
         ];
     }
 
@@ -125,13 +125,24 @@ class Loan extends \yii\db\ActiveRecord {
     public function getLoanStatus() {
         return $this->hasOne(MasterData::class, ['id' => 'status']);
     }
-    
-     public function getLoanType() {
+
+    public function getLoanType() {
         return $this->hasOne(LoanProduct::class, ['id' => 'loan_type']);
     }
 
     public function getClient() {
         return $this->hasOne(Client::class, ['id' => 'client_id']);
+    }
+
+    /**
+     * Registration Documents presented by this client
+     * @return 
+     */
+    public function getLoanGuarantor() {
+        $searchModel = new LoanGuarantorSearch();
+        $searchModel->loan_id = $this->id;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $dataProvider;
     }
 
 }

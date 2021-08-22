@@ -55,6 +55,24 @@ class LoanController extends Controller {
      * Lists of Approved Loan Applications.
      * @return mixed
      */
+    public function actionLoanApplications($id) {
+        $this->layout = "main_dashboard";
+         $client = $this->findClientModel($id);
+        $searchModel = new LoanSearch();
+        $searchModel->client_id = $id;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('loan-applications', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                     'client' => $client,
+        ]);
+    }
+
+    /**
+     * Lists of Approved Loan Applications.
+     * @return mixed
+     */
     public function actionApprovedLoanApplications() {
         $searchModel = new LoanSearch();
         $searchModel->status = 20;
@@ -108,6 +126,7 @@ class LoanController extends Controller {
      * @return mixed
      */
     public function actionLoanGuarantors($id) {
+        $this->layout = "main_dashboard";
         $loan = $this->findLoanModel($id);
         $searchModel = new LoanGuarantorSearch();
         $searchModel->loan_id = $id;
@@ -125,6 +144,7 @@ class LoanController extends Controller {
      * @return mixed
      */
     public function actionLoanCollateral($id) {
+        $this->layout = "main_dashboard";
         $loan = $this->findLoanModel($id);
         $searchModel = new LoanCollateralSearch();
         $searchModel->loan_id = $id;
@@ -172,6 +192,7 @@ class LoanController extends Controller {
      */
     public function actionNewLoanApplication($id, $stat = 19) {
         $model = new Loan();
+        $this->layout = "main_dashboard";
         $client = $this->findClientModel($id);
         $loan = $this->findLoanModel($id);
         if (Yii::$app->request->isAjax && $model->load($_POST)) {
@@ -197,6 +218,7 @@ class LoanController extends Controller {
     }
 
     public function actionAddLoanGuarantor($id) {
+        $this->layout = "main_dashboard";
         $model = new LoanGuarantor();
         $loan = $this->findLoanModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -217,6 +239,7 @@ class LoanController extends Controller {
     }
 
     public function actionAddLoanCollateral($id) {
+        $this->layout = "main_dashboard";
         $model = new LoanCollateral();
         $loan = $this->findLoanModel($id);
         if (Yii::$app->request->isPost) {
@@ -316,6 +339,7 @@ class LoanController extends Controller {
       Approve Loan Application
      */
     public function actionUpdate($id) {
+         $this->layout = "main_dashboard";
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
