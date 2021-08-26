@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\client\InvestorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -34,10 +34,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'raw'
             ],
-            'firstname',
-            'lastname',
-            'othername',
-            'identification_type',
+            [
+                'attribute' => 'firstname',
+                'value' => function($data) {
+                    return '<b><a href="' . Url::to(['investor/view', 'id' => $data->id]) . '">' . $data->firstname . '' . $data->lastname . "</a></b>";
+                },
+                'format' => 'raw'
+            ],
+           // 'othername',
+            //'identification_type',
             'identfication_number',
             'telephone',
             'physical_address',

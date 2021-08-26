@@ -41,8 +41,8 @@ class Investor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['firstname', 'lastname', 'identification_type', 'identfication_number', 'telephone', 'physical_address', 'date_of_birth', 'created_at', 'created_by'], 'required'],
-            [['identification_type', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['firstname', 'lastname', 'identification_type', 'identfication_number','gender', 'telephone', 'physical_address', 'date_of_birth', 'created_at', 'created_by'], 'required'],
+            [['identification_type', 'status', 'gender','created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['date_of_birth'], 'safe'],
             [['firstname', 'lastname', 'othername', 'email'], 'string', 'max' => 100],
             [['identfication_number', 'telephone', 'alt_telephone'], 'string', 'max' => 14],

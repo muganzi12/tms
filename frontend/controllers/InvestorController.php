@@ -87,12 +87,14 @@ class InvestorController extends Controller {
             return $this->redirect(['index']);
         } else {
             $ident = MasterData::findAll(['reference_table' => 'identification_type']);
+            $sex = MasterData::findAll(['reference_table' => 'sex']);
             $model->created_at = time();
             $model->created_by = Yii::$app->member->id;
             $model->status = $stat;
             return $this->render('add-new-investor', [
                         'model' => $model,
                         'ident' => $ident,
+                        'sex' => $sex,
             ]);
         }
     }
@@ -156,7 +158,7 @@ class InvestorController extends Controller {
             return $this->render('update', [
                         'model' => $model,
                         'ident' => $ident,
-                       'investorId' => $id
+                        'investorId' => $id
             ]);
         }
     }

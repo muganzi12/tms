@@ -10,8 +10,6 @@ use Yii;
  * @property int $id
  * @property int $investor_id
  * @property int $loan_product
- * @property int $account_to_credit
- * @property int $account_to_debit
  * @property float $amount_to_invest
  * @property float $investment_duration
  * @property float $interest_rate
@@ -38,8 +36,8 @@ class Investment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['investor_id', 'loan_product', 'account_to_credit', 'account_to_debit', 'amount_to_invest', 'investment_duration', 'interest_rate', 'total_interest', 'expected_total_amount', 'created_at', 'created_by'], 'required'],
-            [['investor_id', 'loan_product', 'account_to_credit', 'account_to_debit', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['investor_id', 'loan_product','duration_type', 'amount_to_invest', 'investment_duration', 'interest_rate', 'total_interest', 'expected_total_amount', 'created_at', 'created_by'], 'required'],
+            [['investor_id', 'loan_product','created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['amount_to_invest', 'investment_duration', 'interest_rate', 'total_interest', 'expected_total_amount'], 'number'],
         ];
     }
@@ -53,13 +51,12 @@ class Investment extends \yii\db\ActiveRecord
             'id' => 'ID',
             'investor_id' => 'Investor ID',
             'loan_product' => 'Loan Product',
-            'account_to_credit' => 'Account To Credit',
-            'account_to_debit' => 'Account To Debit',
+            'duration_type'=>'Duration Frequency',
             'amount_to_invest' => 'Amount To Invest',
             'investment_duration' => 'Investment Duration',
             'interest_rate' => 'Interest Rate',
             'total_interest' => 'Total Interest',
-            'expected_total_amount' => 'Expected Total Amount',
+            'expected_total_amount' => 'Expected Returnable Amount',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

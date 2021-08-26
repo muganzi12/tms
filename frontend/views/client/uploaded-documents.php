@@ -46,6 +46,21 @@ $this->params['client_id'] = $clientId;
                             Html::a('Download File', '#' . $data->file_name, ['class' => 'btn btn-secondary btn-sm', 'download' => true]);
                         }
                     ],
+                    ['class' => 'yii\grid\ActionColumn',
+                        'template' => '{delete} {update}',
+                        'urlCreator' => function($action, $model, $key, $index) {
+                            return Url::to([$action, 'id' => $key]);
+                        },
+                        'buttons' => [
+                            'view' => function ($url, $model, $key) {
+                                return Html::a('<span style="font-size:85%;"><i class="fa fa-delete" style="color:#444;"></i></span><br/>', ['delete', 'id' => $model->id], ['title' => 'Delete']);
+                            },
+                            'update' => function ($url, $model, $key) {
+                                return Html::a('<span style="font-size:85%;"><i class="fa fa-edit" style="color:green;"></i></span>', ['update', 'id' => $model->id], ['title' => 'Update']);
+                            },
+                        ],
+                    ],
+              
                 ],
             ]);
             ?>

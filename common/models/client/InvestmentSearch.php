@@ -17,7 +17,7 @@ class InvestmentSearch extends Investment
     public function rules()
     {
         return [
-            [['id', 'investor_id', 'loan_product', 'account_to_credit', 'account_to_debit', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'investor_id', 'loan_product', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['amount_to_invest', 'investment_duration', 'interest_rate', 'total_interest', 'expected_total_amount'], 'number'],
         ];
     }
@@ -61,8 +61,6 @@ class InvestmentSearch extends Investment
             'id' => $this->id,
             'investor_id' => $this->investor_id,
             'loan_product' => $this->loan_product,
-            'account_to_credit' => $this->account_to_credit,
-            'account_to_debit' => $this->account_to_debit,
             'amount_to_invest' => $this->amount_to_invest,
             'investment_duration' => $this->investment_duration,
             'interest_rate' => $this->interest_rate,
