@@ -8,11 +8,12 @@ use yii\helpers\Html;
 $this->title = 'Enter  Remarks to Reject a Loan Application';
 $this->params['breadcrumbs'][] = ['label' => 'Loan Manager Remarks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+//Pass LoanID to the layout 
+$this->params['loan_id'] = $loanId;
 ?>
-<?= $this->render('registration/reg-steps-top-nav', ['model' => $loan, 'active' => 'rejection']); ?>
 
 <div class="row">  
-    <div class="col-lg-10" style="padding:0px;"> 
+    <div class="col-lg-12" style="padding:0px;"> 
 
     <?= $this->render('_loan-rejection-form', [
         'model' => $model,
@@ -21,7 +22,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
-   <div class="col-lg-2" style="padding:12px;">
-        <?= $this->render('registration/left-navigation', ['model' => $loan, 'active' => 'summary']); ?>            
-    </div>
+
 </div>

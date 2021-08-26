@@ -18,7 +18,6 @@ $this->params['page_description'] = '';
             <th>S/N</th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Other name</th>
             <th>Identification type</th>
             <th>Identification Number</th>
             <th>Relationship</th>
@@ -40,7 +39,6 @@ $this->params['page_description'] = '';
                 <td><?= $i++ ?></td>
                 <td><?= $kin->firstname; ?></td>
                 <td><?= $kin->lastname; ?></td>
-                <td><?= $kin->othername; ?></td>
                 <td><?= $kin->identificationType->name; ?></td>
                 <td><?= $kin->identification_number; ?></td>
                 <td><?= $kin->relationshipType->name; ?></td>

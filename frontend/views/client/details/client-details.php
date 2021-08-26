@@ -4,10 +4,8 @@
  */
 ?>
 <div class="row">
-    <div class="col-lg-3">
-        <img src="<?= $model->passportPhoto; ?>" style="width: 90%;height:auto;margin:0 10px 10px 10px;border:1px solid #ccc;border-radius: 7px;"/>      
-    </div>
-    <div class="col-lg-9">
+
+    <div class="col-lg-12">
         <table class="table">
             <tr>
                 <td><b>Reference Number</b><br/>

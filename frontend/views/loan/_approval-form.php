@@ -140,12 +140,16 @@ use yii\jui\DatePicker;
                 $form->field($model, 'payment_installment_amount')->dropDownList([]) ?>
 
             </td> 
+            <td colspan="6"> 
+
+                <?= $form->field($model, 'remarks')->textArea(['maxlength' => true, 'required' => true]) ?>
+            </td>
         </tr>
 
 
         <tr>
             <td>
-                <?= Html::submitButton(($model->id > 0) ? ('Approve Loan Application') : ('Submit'), ['class' => ($model->id > 0) ? ('btn btn-success') : ('btn btn-primary'), 'style' => 'margin-top:30px;']) ?>
+                <?= Html::submitButton(($model->id > 0) ? ('Approve') : ('Submit'), ['class' => ($model->id > 0) ? ('btn btn-success') : ('btn btn-primary'), 'style' => 'margin-top:30px;']) ?>
             </td>
             <td colspan="2">
 

@@ -53,19 +53,7 @@ Yii::$app->assetManager->forceCopy = true;
                                 <div class="flex">
                                     <h1 class="m-0"><?= $this->title; ?></h1>
                                 </div>
-                                <?php
-                                $show_button=true;
-                                $btn_icon='add';
-                                $btn_label="Action";
-                                $link=['site/index'];
-                                $btn_class='success';
-                                
-                                if($show_button){
-                                  echo  Html::a("<i class='material-icons'>$btn_icon</i> $btn_label",
-                                    $link, ['class' => "btn btn-$btn_class ml-1"]
-                                    );
-                                }
-                                 ?>
+                              
                             </div>
                         </div>
 

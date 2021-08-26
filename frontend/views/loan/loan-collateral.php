@@ -6,9 +6,11 @@ use yii\helpers\url;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 
-$this->title = "Chart of Accounts";
+$this->title = "Loan Collateral";
 //Page descrition
 $this->params['page_description'] = 'Chart of Accounts';
+//Pass LoanID to the layout 
+$this->params['loan_id'] = $loanId;
 ?>
 <style>
     .profile-section{}
@@ -19,11 +21,10 @@ $this->params['page_description'] = 'Chart of Accounts';
     }
 </style>
 <section class="sheet padding-10mm" style="padding:0 7px 0 7px;">
-    <?= $this->render('details/page-header_loan', ['model' => $loan, 'active_menu' => 'collateral']); ?>
-      <?= $this->render('registration/reg-steps-top-nav',['model'=>$loan,'active'=>'collateral']); ?>
+ 
       <div class="profile-section" style="margin-top:20px;">
 
-        <div class="col-lg-10" style="padding:0px;">
+        <div class="col-lg-12" style="padding:0px;">
 
 
         <?=
@@ -69,7 +70,5 @@ $this->params['page_description'] = 'Chart of Accounts';
         ]);
         ?>
     </div>
-    <div class="col-lg-2" style="padding:12px;">
-        <?= $this->render('registration/left-navigation', ['model' => $loan, 'active' => 'summary']); ?>            
-    </div>
+
 </div>

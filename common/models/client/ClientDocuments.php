@@ -39,7 +39,7 @@ class ClientDocuments extends \yii\db\ActiveRecord {
             [['client_id', 'document_type', 'client_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['description', 'name'], 'string', 'max' => 255],
             [['file_name'], 'string', 'max' => 255],
-            [['file_name'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf,png'],
+           // [['file_name'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf,png'],
         ];
     }
 

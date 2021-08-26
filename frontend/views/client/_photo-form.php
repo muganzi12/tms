@@ -18,10 +18,10 @@ $this->title = "Upload profile picture";
             <div class="row">
                 <div class="tab-content">
                     <div class="col-lg-8">
-                        <?= $form->field($model, 'passport_photo')->fileInput()->label('Browse Passport Photo') ?> 
+                        <?= $form->field($model, 'passport_photo')->fileInput(['required'=>true])->label('Browse Passport Photo') ?> 
                     </div>
                     <div class="col-lg-4" style="margin-top:20px;">
-                        <?= Html::submitButton('Upload Passport Photo', ['class' => 'btn btn-success']) ?> 
+                        <?= Html::submitButton('Upload', ['class' => 'btn btn-success']) ?> 
                     </div>
                     <div class="col-lg-12">
                         <?= $form->field($model, 'id')->hiddenInput()->label(false); ?>

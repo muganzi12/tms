@@ -202,7 +202,7 @@ use yii\helpers\Url;
                             <span class="mr-1 d-flex-inline">
                                 <span class="text-light"><?= Yii::$app->member->firstname;?></span>
                             </span>
-                            <img src="<?= Url::base(true); ?>/flowdash/assets/images/avatar/demi.png"
+                            <img src="<?= Yii::$app->member->profilePicture; ?>"
                                  class="rounded-circle"
                                  width="32"
                                  alt="Frontted">
@@ -210,19 +210,19 @@ use yii\helpers\Url;
                         <div id="account_menu"
                              class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-item-text dropdown-item-text--lh">
-                                <div><strong>Adrian Demian</strong></div>
-                                <div class="text-muted">@adriandemian</div>
+                                <div><strong><?= Yii::$app->member->fullnames; ?></strong></div>
+                                <div class="text-muted"><?= Yii::$app->member->username; ?></div>
                             </div>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
-                               href="index.html"><i class="material-icons">dvr</i> Dashboard</a>
+                               href="<?= Url::home(); ?>"><i class="material-icons">dvr</i> Dashboard</a>
                             <a class="dropdown-item"
                                href="profile.html"><i class="material-icons">account_circle</i> My profile</a>
                             <a class="dropdown-item"
                                href="edit-account.html"><i class="material-icons">edit</i> Edit account</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
-                               href="login.html"><i class="material-icons">exit_to_app</i> Logout</a>
+                               href="<?= Url::to(['site/logout']); ?>"><i class="material-icons">exit_to_app</i> Logout</a>
                         </div>
                     </li>
                 </ul>

@@ -148,10 +148,11 @@ class Client extends \yii\db\ActiveRecord {
         //$prefix = strtoupper(substr($pref, 0, 3));
         return $pref . time();
     }
-
-    public function getPassportPhoto() {
+      public function getPassportPhoto() {
         if (!empty($this->passport_photo)) {
             return Yii::getAlias('@web/html') . "/passport/" . $this->passport_photo;
+        } else {
+            return Yii::getAlias('@web/html') . "/passport/default.jpeg";
         }
     }
 

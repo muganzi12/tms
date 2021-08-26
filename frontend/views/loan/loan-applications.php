@@ -13,6 +13,8 @@ use yii\helpers\ArrayHelper;
 
 $this->title = 'Loan Applications';
 $this->params['breadcrumbs'][] = $this->title;
+//Pass CLientID to the layout 
+$this->params['client_id'] = $clientId;
 ?>
 <style>
     .profile-section{}
@@ -23,11 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 </style>
 <section class="sheet padding-10mm" style="padding:0 7px 0 7px;">
-    <?= $this->render('details/page-header', ['model' => $client, 'active_menu' => 'loan']); ?>
-      <?= $this->render('../client/registration/reg-steps-top-nav',['model'=>$client,'active'=>'loan']); ?>
-      <div class="profile-section" style="margin-top:20px;">
 
-        <div class="col-lg-10" style="padding:0px;">
+    <div class="profile-section" style="margin-top:20px;">
+
+        <div class="col-lg-12" style="padding:0px;">
 
 
     <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
@@ -81,7 +82,5 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
       </div>
-        <div class="col-lg-2" style="padding:12px;">
-            <?= $this->render('../client/registration/left-navigation', ['model' => $client, 'active' => 'summary']); ?>            
-        </div>
+   
     </div>

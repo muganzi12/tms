@@ -140,7 +140,7 @@ use yii\helpers\ArrayHelper;
 
         <tr>
             <td colspan="6">
-                  <?= $form->field($model, 'address')->textInput(['maxlength' => true,'required'=>true]) ?>
+                  <?= $form->field($model, 'address')->textArea(['maxlength' => true,'required'=>true]) ?>
   
             </td>
         </tr>

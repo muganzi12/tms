@@ -39,7 +39,6 @@ class ClientController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        //$this->layout = "main_dashboard";
         $searchModel = new ClientSearch();
         $searchModel->person_scenario = "CLIENT";
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -66,7 +65,7 @@ class ClientController extends Controller {
     }
 
     public function actionUploadedDocuments($id) {
-        $this->layout = "main_dashboard";
+        $this->layout = "clientprofile";
         $model = $this->findModel($id);
         $searchModel = new ClientDocumentsSearch();
         $searchModel->client_id = $id;
@@ -76,6 +75,7 @@ class ClientController extends Controller {
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
                     'model' => $model,
+                    'clientId' => $id
         ]);
     }
 
@@ -86,10 +86,10 @@ class ClientController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
-        $this->layout="clientprofile";
+        $this->layout = "clientprofile";
         return $this->render('view', [
                     'model' => $this->findModel($id),
-                    'clientId'=>$id
+                    'clientId' => $id
         ]);
     }
 
@@ -119,7 +119,7 @@ class ClientController extends Controller {
     }
 
     public function actionAddNextOfKin($id, $stat = 19, $person_scenario = 'NEXTOFKIN') {
-        $this->layout = "main_dashboard";
+        $this->layout = "clientprofile";
         $model = new Client();
         $client = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -139,6 +139,7 @@ class ClientController extends Controller {
                         'client' => $client,
                         'ident' => $ident,
                         'sex' => $sex,
+                        'clientId' => $id,
                         'marital' => $marital,
                         'relationship' => $relationship,
             ]);
@@ -146,7 +147,7 @@ class ClientController extends Controller {
     }
 
     public function actionUploadDocument($id) {
-        $this->layout = "main_dashboard";
+         $this->layout = "clientprofile";
         $model = new ClientDocuments();
         $client = $this->findModel($id);
         if (Yii::$app->request->isPost) {
@@ -160,7 +161,7 @@ class ClientController extends Controller {
             $model->load(Yii::$app->request->post());
             $model->file_name = $filename;
             $model->save(false);
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['uploaded-documents', 'id' => $client->id]);
         } else {
             $model->created_at = time();
             $model->created_by = Yii::$app->member->id;
@@ -168,13 +169,14 @@ class ClientController extends Controller {
             return $this->render('upload-document', [
                         'model' => $model,
                         'client' => $client,
+                        'clientId' => $id,
             ]);
         }
     }
 
     //Upload Passport Picture
     public function actionUploadPhoto($id) {
-        $this->layout = "main_dashboard";
+         $this->layout = "clientprofile";
         $model = $this->findModel($id);
         if (Yii::$app->request->isPost) {
             $sign = UploadedFile::getInstanceByName('Client[passport_photo]');
@@ -189,13 +191,13 @@ class ClientController extends Controller {
             Yii::$app->session->setFlash('success', 'You Successfully Uploaded Passport Photo ');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('upload-photo', ['model' => $model]);
+            return $this->render('upload-photo', ['model' => $model,'clientId' => $id,]);
         }
     }
 
     //Approve a client
     public function actionApproveClient($id, $cat = 'CLIENT', $status = 1) {
-        $this->layout = "main_dashboard";
+        $this->layout = "clientprofile";
         $model = new LoanManagerRemarks();
         $client = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -212,6 +214,7 @@ class ClientController extends Controller {
             return $this->render('approve-client', [
                         'model' => $model,
                         'client' => $client,
+                        'clientId' => $id,
             ]);
         }
     }
@@ -221,6 +224,7 @@ class ClientController extends Controller {
      * @return mixed
      */
     public function actionApprovalRemarks($id, $cat = "CLIENT", $status = 1) {
+        
         $client = $this->findModel($id);
         $searchModel = new LoanManagerRemarksSearch();
         $searchModel->client_id = $id;
@@ -251,7 +255,7 @@ class ClientController extends Controller {
 
     //Reject a client
     public function actionRejectClient($id, $cat = 'CLIENT', $status = 2) {
-        $this->layout = "main_dashboard";
+        $this->layout = "clientprofile";
         $model = new LoanManagerRemarks();
         $client = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -268,6 +272,7 @@ class ClientController extends Controller {
             return $this->render('reject-client', [
                         'model' => $model,
                         'client' => $client,
+                         'clientId' => $id,
             ]);
         }
     }
@@ -280,7 +285,7 @@ class ClientController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id) {
-        $this->layout="clientprofile";
+        $this->layout = "clientprofile";
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -296,6 +301,7 @@ class ClientController extends Controller {
                         'model' => $model,
                         'ident' => $ident,
                         'sex' => $sex,
+                        'clientId' => $id,
                         'marital' => $marital,
             ]);
         }

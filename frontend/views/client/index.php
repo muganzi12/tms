@@ -17,21 +17,32 @@ $this->params['topright_button'] = true;
 $this->params['topright_button_label'] = 'New Client';
 $this->params['topright_button_link'] = ['client/add-new-client'];
 $this->params['topright_button_class'] = 'btn-success pull-right';
-
-
 ?>
 <div class="member-index">
 
+    <p>
+        <?= Html::a('New Client', ['add-new-client'], ['class' => 'btn btn-success pull-right']) ?>
+    </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
 
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
-        'tableOptions'=>['class'=>'table table-striped'],
+        'tableOptions' => ['class' => 'table table-striped'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'passport_photo',
+                'label' => 'Passport',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    $url = $data->passportPhoto;
+                    return Html::img($url, ['alt' => 'table-img', 'width' => '50', 'height' => '50']);
+                },
+                'format' => 'raw'
+            ],
             [
                 'attribute' => 'reference_number',
                 'value' => function($data) {
@@ -40,16 +51,18 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
                 'format' => 'raw'
             ],
             [
+                
+                'attribute' => 'firstname',
                 'header' => 'Client Name',
                 'value' => function($data) {
-                    return $data->firstname.' '.$data->lastname;
+                    return $data->firstname . ' ' . $data->lastname;
                 },
                 'format' => 'raw'
             ],
             [
                 'attribute' => 'identification_type',
                 'value' => function($data) {
-                    return $data->identification_number.'<br/><badge class="badge badge-secondary">'.$data->identificationType->name.'</badge>';
+                    return $data->identification_number . '<br/><badge class="badge badge-secondary">' . $data->identificationType->name . '</badge>';
                 },
                 'format' => 'raw'
             ],
@@ -69,14 +82,14 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
                 },
                 'format' => 'raw'
             ],
-            // [
-            //     'format' => 'raw',
-            //     'value' => function($data) {
-            //         return
-            //         Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update', 'id' => $data['id']], ['title' => 'edit', 'class' => 'btn btn-info']);
-            //     },
-            //     'header' => 'OPTIONS'
-            // ],
+        // [
+        //     'format' => 'raw',
+        //     'value' => function($data) {
+        //         return
+        //         Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update', 'id' => $data['id']], ['title' => 'edit', 'class' => 'btn btn-info']);
+        //     },
+        //     'header' => 'OPTIONS'
+        // ],
         ],
     ]);
     ?>

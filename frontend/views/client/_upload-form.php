@@ -13,16 +13,16 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <table class="table">
         <tr>
-            <td>   <?= $form->field($model, 'name')->textInput() ?>
+            <td>   <?= $form->field($model, 'name')->textInput(['required'=>true]) ?>
             </td>
-            <td> <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+            <td> <?= $form->field($model, 'description')->textInput(['maxlength' => true,'required'=>true]) ?>
             </td>
 
         </tr>
 
         <tr>
             <td colspan="6">
-                <?= $form->field($model, 'file_name')->fileInput() ?> 
+                <?= $form->field($model, 'file_name')->fileInput(['required'=>true]) ?> 
             </td>
         </tr>
         <tr>

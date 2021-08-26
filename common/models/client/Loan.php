@@ -55,7 +55,7 @@ class Loan extends \yii\db\ActiveRecord {
             [['client_id', 'loan_type', 'currency', 'status', 'amortization_method', 'loan_period', 'created_at', 'created_by', 'approved_by', 'approved_at', 'updated_at', 'updated_by'], 'integer'],
             [['amount_applied_for', 'amount_approved', 'interest_rate', 'payment_installment_amount'], 'number'],
             [['application_date', 'disbursment_date', 'installment_payment_start_date', 'installment_payment_last_date', 'interest_payment_start_date', 'interest_payment_last_date'], 'safe'],
-            [['reference_number'], 'string', 'max' => 255],
+            [['reference_number','remarks'], 'string', 'max' => 255],
             [['interest_frequency', 'installment_frequency'], 'string', 'max' => 20],
         ];
     }
@@ -84,7 +84,7 @@ class Loan extends \yii\db\ActiveRecord {
             'reference_number' => 'Reference Number',
             'client_id' => 'Client',
             'loan_type' => 'Loan Type',
-            'amount_applied_for' => 'Amount',
+            'amount_applied_for' => 'Amount Applied',
             'currency' => "Currency",
             'application_date' => 'Application Date',
             'amount_approved' => 'Amount Approved',

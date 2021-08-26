@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
     <table class="table">
         <tr>
 
-            <td colspan="6">
+            <td colspan="12">
                 <?= $form->field($model, 'remarks')->textArea(['maxlength' => 300, 'rows' => 6, 'cols' => 50,'required'=>true]) ?>
             </td>
         </tr>
@@ -31,6 +31,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'category')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'loan_id')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'remarks_status')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
 
 

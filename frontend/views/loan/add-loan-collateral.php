@@ -8,7 +8,10 @@ use yii\helpers\Html;
 $this->title = 'Add Loan Collateral';
 $this->params['breadcrumbs'][] = ['label' => 'Loans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+//Pass LoanID to the layout 
+$this->params['loan_id'] = $loanId;
 ?>
+
 <style>
     .profile-section{}
     .profile-section h5{
@@ -18,11 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 </style>
 <section class="sheet padding-10mm" style="padding:0 7px 0 7px;">
-    <?= $this->render('details/page-header_loan', ['model' => $loan, 'active_menu' => 'collateral']); ?>
-      <?= $this->render('registration/reg-steps-top-nav',['model'=>$loan,'active'=>'collateral']); ?>
-      <div class="profile-section" style="margin-top:20px;">
 
-        <div class="col-lg-10" style="padding:0px;">
+    <div class="profile-section" style="margin-top:20px;">
+
+        <div class="col-lg-12" style="padding:0px;">
+
 
 
         <?=
@@ -30,11 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'loan' => $loan,
             'type' => $type,
+             'ownership' => $ownership,
         ])
         ?>
 
     </div>
-    <div class="col-lg-2" style="padding:12px;">
-        <?= $this->render('registration/left-navigation', ['model' => $loan, 'active' => 'summary']); ?>            
-    </div>
+
 </div>
