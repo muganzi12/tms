@@ -10,10 +10,10 @@ $loan_id = $this->params['loan_id'];
 <?php $this->beginContent('@frontend/views/layouts/main.php'); ?>
 <div class="container-fluid page__container">
     <div class="row">
-        <div class="col-lg-8"> 
+        <div class="col-lg-9"> 
             <?= $content; ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
         <div class="card card-margin-md-negative-40">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-light">

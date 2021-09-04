@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use common\models\client\LoanAmortization;
 
 $this->title = $model->reference_number;
 $this->params['loan_id'] = $model->id;
@@ -67,7 +67,49 @@ $this->params['loan_id'] = $model->id;
             ],
         ])
         ?>
-        <h2 class="section-title">Guarrantors</h2>
+        <h2 class="section-title">Payment Schedule</h2>
+        <?php
+           $start_date = new DateTime('2021-07-12');
+            $loan = new LoanAmortization();
+            $loan->setPrincipal(18000000);
+            $loan->setInterestRate(20.1);
+            $loan->setTerm(36);
+
+            $schedule = $loan->getBreakdownByMonth();
+        ?>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Due Date</th>
+            <th>Opening Balance</th>
+            <th>Monthly Payment</th>
+            <th>Interest</th>
+            <th>Principal</th>
+            <th>Closing Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($schedule as $payment){
+            $monthly=$payment->jsonSerialize();
+            ?>
+        <tr>
+            <th><?= $monthly['date']; ?></th>
+            <td><?= Yii::$app->formatter->asCurrency($monthly['openingBalance'],'UGX'); ?></td>
+            <td><?= Yii::$app->formatter->asCurrency($monthly['totalPaymentRounded'],'UGX'); ?><br/>
+           <div class="text-stats text-success"><?= number_format(($monthly['totalPaymentRounded']-$monthly['totalPayment']),2);?><i class="material-icons">arrow_upward</i></div>    
+        </td>
+            <td>
+                <?= Yii::$app->formatter->asCurrency($monthly['interestRounded'],'UGX'); ?><br/>
+                <div class="text-stats text-success"><?= number_format(($monthly['interestRounded']-$monthly['interestDue']),2);?><i class="material-icons">arrow_upward</i></div>
+            </td>
+            <td><?= Yii::$app->formatter->asCurrency($monthly['principalRounded'],'UGX'); ?><br/>
+            <div class="text-stats text-success"><?= number_format(($monthly['principalRounded']-$monthly['principalDue']),2);?><i class="material-icons">arrow_upward</i></div>
+        </td>
+            <td><?= Yii::$app->formatter->asCurrency($monthly['closingBalance'],'UGX'); ?></td>
+        </tr>
+        <?php }; ?>
+    </tbody>
+</table>
         <h2 class="section-title">Guarrantors</h2>
         <h2 class="section-title">Remarks</h2>
 </div>
