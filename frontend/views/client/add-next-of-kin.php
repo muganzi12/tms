@@ -9,7 +9,12 @@ $this->title = 'New Next of Kin';
 $this->params['breadcrumbs'][] = ['label' => 'Members', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['page_description'] = '';
+//Pass CLientID to the layout 
+$this->params['client_id'] = $clientId;
 ?>
+<h5>
+    Enter Details to Create New Next of Kin
+</h5>
 <style>
     .profile-section{}
     .profile-section h5{
@@ -19,11 +24,10 @@ $this->params['page_description'] = '';
     }
 </style>
 <section class="sheet padding-10mm" style="padding:0 7px 0 7px;">
-    <?= $this->render('details/page-header_kin', ['model' => $model, 'active_menu' => 'kin']); ?>
-      <?= $this->render('registration/reg-steps-top-nav',['model'=>$client,'active'=>'kin']); ?>
+
       <div class="profile-section" style="margin-top:20px;">
 
-        <div class="col-lg-10" style="padding:0px;">
+        <div class="col-lg-12" style="padding:0px;">
 
 
 <?=
@@ -37,7 +41,4 @@ $this->params['page_description'] = '';
     ?>
 
 </div>
-   <div class="col-lg-2" style="padding:12px;">
-        <?= $this->render('registration/left-navigation', ['model' => $client, 'active' => 'summary']); ?>            
-    </div>
 </div>

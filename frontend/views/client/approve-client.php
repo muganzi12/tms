@@ -8,6 +8,8 @@ use yii\helpers\Html;
 $this->title = 'Enter  Remarks to Approve Client';
 $this->params['breadcrumbs'][] = ['label' => 'Loan Manager Remarks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+//Pass CLientID to the layout 
+$this->params['client_id'] = $clientId;
 ?>
 <style>
     .profile-section{}
@@ -18,11 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 </style>
 <section class="sheet padding-10mm" style="padding:0 7px 0 7px;">
-    <?= $this->render('details/page-header_kin', ['model' => $model, 'active_menu' => 'member']); ?>
-      <?= $this->render('registration/reg-steps-top-nav',['model'=>$client,'active'=>'member']); ?>
-      <div class="profile-section" style="margin-top:20px;">
 
-        <div class="col-lg-10" style="padding:0px;">
+    <div class="profile-section" style="margin-top:20px;">
+
+        <div class="col-lg-12" style="padding:0px;">
+
 
     <?= $this->render('_approval-form', [
         'model' => $model,
@@ -30,7 +32,5 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
     </div>
-    <div class="col-lg-2" style="padding:12px;">
-<?= $this->render('registration/left-navigation', ['model' => $client, 'active' => 'summary']); ?>            
-    </div>
+
 </div>

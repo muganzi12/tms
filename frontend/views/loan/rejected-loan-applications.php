@@ -10,6 +10,7 @@ use yii\helpers\Url;
 
 $this->title = 'Loan Applications';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="loan-index">
 

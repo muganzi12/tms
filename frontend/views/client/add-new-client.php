@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\client\Member */
 
-$this->title = 'Create New Client';
+$this->title = 'Enter Details to Register a New client';
 $this->params['breadcrumbs'][] = ['label' => 'Members', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['page_description'] = '';

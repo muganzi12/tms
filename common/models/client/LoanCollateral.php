@@ -37,7 +37,7 @@ class LoanCollateral extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['loan_id', 'name', 'description', 'type_of_collateral', 'estimated_price', 'created_at', 'created_by'], 'required'],
-            [['loan_id', 'type_of_collateral', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['loan_id', 'type_of_collateral','type_of_ownership', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['estimated_price'], 'number'],
             [['description', 'proof_of_ownership', 'location'], 'string', 'max' => 255],
         ];

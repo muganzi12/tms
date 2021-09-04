@@ -56,8 +56,8 @@ class LoanController extends Controller {
      * @return mixed
      */
     public function actionLoanApplications($id) {
-        $this->layout = "main_dashboard";
-         $client = $this->findClientModel($id);
+        $this->layout = "clientprofile";
+        $client = $this->findClientModel($id);
         $searchModel = new LoanSearch();
         $searchModel->client_id = $id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -65,7 +65,8 @@ class LoanController extends Controller {
         return $this->render('loan-applications', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                     'client' => $client,
+                    'client' => $client,
+                    'clientId' => $id,
         ]);
     }
 
@@ -126,7 +127,7 @@ class LoanController extends Controller {
      * @return mixed
      */
     public function actionLoanGuarantors($id) {
-        $this->layout = "main_dashboard";
+        $this->layout = "loan";
         $loan = $this->findLoanModel($id);
         $searchModel = new LoanGuarantorSearch();
         $searchModel->loan_id = $id;
@@ -136,6 +137,7 @@ class LoanController extends Controller {
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
                     'loan' => $loan,
+                    'loanId' => $id,
         ]);
     }
 
@@ -144,7 +146,7 @@ class LoanController extends Controller {
      * @return mixed
      */
     public function actionLoanCollateral($id) {
-        $this->layout = "main_dashboard";
+        $this->layout = "loan";
         $loan = $this->findLoanModel($id);
         $searchModel = new LoanCollateralSearch();
         $searchModel->loan_id = $id;
@@ -154,6 +156,7 @@ class LoanController extends Controller {
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
                     'loan' => $loan,
+                    'loanId' => $id,
         ]);
     }
 
@@ -181,7 +184,7 @@ class LoanController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
-        $this->layout="loan";
+        $this->layout = "loan";
         return $this->render('view', [
                     'model' => $this->findModel($id),
         ]);
@@ -191,8 +194,8 @@ class LoanController extends Controller {
      * New Loan Application
      */
     public function actionNewLoanApplication($id, $stat = 19) {
+        $this->layout = "clientprofile";
         $model = new Loan();
-        $this->layout = "main_dashboard";
         $client = $this->findClientModel($id);
         $loan = $this->findLoanModel($id);
         if (Yii::$app->request->isAjax && $model->load($_POST)) {
@@ -212,13 +215,14 @@ class LoanController extends Controller {
                         'model' => $model,
                         'client' => $client,
                         'loan' => $loan,
+                        'clientId' => $id,
                         'currency' => $currency,
             ]);
         }
     }
 
     public function actionAddLoanGuarantor($id) {
-        $this->layout = "main_dashboard";
+        $this->layout = "loan";
         $model = new LoanGuarantor();
         $loan = $this->findLoanModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -232,6 +236,7 @@ class LoanController extends Controller {
             return $this->render('add-loan-guarantor', [
                         'model' => $model,
                         'loan' => $loan,
+                        'loanId' => $id,
                         'ident' => $ident,
                         'sex' => $sex,
             ]);
@@ -239,7 +244,7 @@ class LoanController extends Controller {
     }
 
     public function actionAddLoanCollateral($id) {
-        $this->layout = "main_dashboard";
+        $this->layout = "loan";
         $model = new LoanCollateral();
         $loan = $this->findLoanModel($id);
         if (Yii::$app->request->isPost) {
@@ -256,13 +261,16 @@ class LoanController extends Controller {
             return $this->redirect(['loan-collateral', 'id' => $loan->id]);
         } else {
             $type = MasterData::findAll(['reference_table' => 'type_of_collateral']);
+            $ownership = MasterData::findAll(['reference_table' => 'type_of_ownership']);
             $model->created_at = time();
             $model->created_by = Yii::$app->member->id;
             $model->loan_id = $id;
             return $this->render('add-loan-collateral', [
                         'model' => $model,
                         'loan' => $loan,
+                        'loanId' => $id,
                         'type' => $type,
+                        'ownership' => $ownership,
             ]);
         }
     }
@@ -271,6 +279,7 @@ class LoanController extends Controller {
       Approve Loan Application
      */
     public function actionApproveLoanApplication($id, $stat = 20) {
+        $this->layout = "loan";
         $model = $this->findModel($id);
 
         if (Yii::$app->request->isAjax && $model->load($_POST)) {
@@ -286,6 +295,7 @@ class LoanController extends Controller {
             $model->status = $stat;
             return $this->render('approve-loan-application', [
                         'model' => $model,
+                        'loanId' => $id,
                         'method' => $method,
             ]);
         }
@@ -294,22 +304,31 @@ class LoanController extends Controller {
     /**
       Loan Disbursement
      */
-    public function actionDisburseLoan($id, $stat = 41) {
-        $model = $this->findModel($id);
+    public function actionDisburseLoan($id, $cat = 'LOAN',$stat = 4) {
+        $this->layout = "loan";
+        $model = new LoanManagerRemarks();
+        $loan = $this->findLoanModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index', 'id' => $model->id]);
+            Yii::$app->db->createCommand('UPDATE loan SET status = 41 WHERE id =' . $id)->execute();
+            Yii::$app->session->setFlash('success', 'You have successfully disbursed Loan');
+            return $this->redirect(['disbursed-loan-applications']);
         } else {
-            $model->approved_at = time();
-            $model->approved_by = Yii::$app->member->id;
-            $model->status = $stat;
+            $model->created_at = time();
+            $model->created_by = Yii::$app->member->id;
+            $model->loan_id = $id;
+            $model->category = $cat;
+            $model->remarks_status = $stat;
             return $this->render('disburse-loan', [
                         'model' => $model,
+                        'loan' => $loan,
+                        'loanId' => $id,
             ]);
         }
     }
 
-    //Approve a client
-    public function actionRejectLoanApplication($id, $cat = 'LOAN') {
+    //Reject Loan Application Loan
+    public function actionRejectLoanApplication($id, $cat = 'LOAN', $stat = 3) {
+        $this->layout = "loan";
         $model = new LoanManagerRemarks();
         $loan = $this->findLoanModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -328,9 +347,11 @@ class LoanController extends Controller {
             $model->created_by = Yii::$app->member->id;
             $model->loan_id = $id;
             $model->category = $cat;
+            $model->remarks_status = $stat;
             return $this->render('reject-loan-application', [
                         'model' => $model,
                         'loan' => $loan,
+                        'loanId' => $id,
             ]);
         }
     }
@@ -339,7 +360,7 @@ class LoanController extends Controller {
       Approve Loan Application
      */
     public function actionUpdate($id) {
-         $this->layout = "main_dashboard";
+        $this->layout = "loan";
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

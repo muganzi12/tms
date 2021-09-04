@@ -52,8 +52,23 @@ use yii\helpers\ArrayHelper;
             </td>
         </tr>
         <tr>
+              <td>
+                <?php
+                echo $form->field($model, 'type_of_ownership')->widget(Select2::classname(), [
+                    'value' => '',
+                    'theme' => Select2::THEME_CLASSIC,
+                    'data' => ArrayHelper::map($ownership, 'id', 'name'),
+                    'options' => [
+                        'placeholder' => 'Select Type of Ownership',
+                        'class' => 'form-control',
+                        'multiple' => false,
+                        'required' => true
+                    ],
+                ]);
+                ?>
+            </td>
             <td colspan="6">
-                <?= $form->field($model, 'proof_of_ownership')->fileInput() ?> 
+                <?= $form->field($model, 'proof_of_ownership')->fileInput(['required' => true]) ?> 
 
             </td>
         </tr>
