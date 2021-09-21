@@ -34,7 +34,7 @@ class ChartOfAccounts extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['gl_code', 'account_name','category', 'account_type', 'description', 'created_at', 'created_by'], 'required'],
-            [['parent_id', 'gl_code', 'account_type', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['parent_id', 'gl_code', 'account_type', 'created_at', 'created_by', 'updated_at', 'updated_by','level'], 'integer'],
             [['account_name','category'], 'string', 'max' => 100],
             [['description'], 'string', 'max' => 255],
         ];
@@ -46,7 +46,7 @@ class ChartOfAccounts extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'parent_id' => 'Header',
+            'parent_id' => 'Parent Account',
             'gl_code' => 'General Ledger Code',
             'account_name' => 'Account Name',
             'account_type' => 'Account Type',
@@ -55,7 +55,20 @@ class ChartOfAccounts extends \yii\db\ActiveRecord {
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
+            'level'=>'Level'
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function beforeSave($insert){
+        $parent = ChartOfAccounts::findOne($this->parent_id);
+        if(!is_object($parent)){
+            $this->category="HEADER";
+        }
+        $this->level = is_object($parent)?($parent->level+1):(1);
+        return true;
     }
 
     //Select Header type from the chart_of_accounts table from the masterdata db  
@@ -65,6 +78,17 @@ class ChartOfAccounts extends \yii\db\ActiveRecord {
     
       public function getType() {
         return $this->hasOne(MasterData::class, ['id' => 'account_type']);
+    }
+
+    public function getFullAccountName(){
+        return $this->gl_code.' - '.$this->account_name;
+    }
+
+    /**
+    * The Parent Account 
+    */
+    public function getParent() {
+        return $this->hasOne(ChartOfAccounts::class, ['id' => 'parent_id']);
     }
     
       public static function getGlCode() {

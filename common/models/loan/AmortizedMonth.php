@@ -1,5 +1,5 @@
 <?php
-namespace common\models\client;
+namespace common\models\loan;
 
 use \DateTime;
 use JsonSerializable;

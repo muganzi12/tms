@@ -5,7 +5,7 @@ namespace common\models\client;
 use Yii;
 use common\models\client\MasterData;
 use common\models\client\ChartOfAccounts;
-
+use common\models\loan\LedgerTransactionConfig;
 /**
  * This is the model class for table "loan_product".
  *
@@ -13,10 +13,7 @@ use common\models\client\ChartOfAccounts;
  * @property string $name
  * @property string $description
  * @property float $interest_rate
- * @property int $account_to_credit
- * @property int $account_to_debit
  * @property int $currency
- * @property float $processing_loan_fees
  * @property float $minimum_amount
  * @property float $maximum_amount
  * @property int $maximum_repayment_period
@@ -42,9 +39,9 @@ class LoanProduct extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['name', 'description', 'interest_rate','product_code', 'account_to_credit', 'account_to_debit', 'processing_loan_fees', 'minimum_amount', 'maximum_amount', 'maximum_repayment_period','principal_installment_frequency','interest_frequency', 'status', 'penalty', 'created_at', 'created_by'], 'required'],
+            [['name', 'description', 'interest_rate','product_code', 'minimum_amount', 'maximum_amount', 'maximum_repayment_period','principal_installment_frequency','interest_frequency', 'status', 'penalty', 'created_at', 'created_by'], 'required'],
             [['interest_rate', 'processing_loan_fees', 'minimum_amount', 'maximum_amount', 'penalty'], 'number'],
-            [['account_to_credit', 'account_to_debit', 'maximum_repayment_period','status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['maximum_repayment_period','status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name','principal_installment_frequency','interest_frequency',], 'string', 'max' => 100],
             [['description'], 'string', 'max' => 500],
              [['product_code'], 'string', 'max' => 45],
@@ -62,11 +59,8 @@ class LoanProduct extends \yii\db\ActiveRecord {
             'product_code' => 'Product Code',
             'description' => 'Description',
             'interest_rate' => 'Interest Rate',
-            'account_to_credit' => 'Account To Credit',
-            'account_to_debit' => 'Account To Debit',
             'principal_installment_frequency' => 'Principal Installment Frequency',
             'interest_frequency' => 'Interest Frequency',
-            'processing_loan_fees' => 'Processing Loan Fees',
             'minimum_amount' => 'Minimum Amount',
             'maximum_amount' => 'Maximum Amount',
             'maximum_repayment_period' => 'Maximum Repayment Period',
@@ -83,14 +77,18 @@ class LoanProduct extends \yii\db\ActiveRecord {
         return $this->hasOne(MasterData::class, ['id' => 'status']);
     }
 
-    // Get an account to credit
-    public function getAccountToCredit() {
-        return $this->hasOne(ChartOfAccounts::class, ['id' => 'account_to_credit']);
+    /**
+     * Preconfigured Ledger transactions
+     */
+    public function getLedgerTransactions(){
+        return $this->hasMany(LedgerTransactionConfig::class,['product_id'=>'id']);
     }
 
-   // Get an account to debit
-    public function getAccountToDebit() {
-        return $this->hasOne(ChartOfAccounts::class, ['id' => 'account_to_debit']);
+    /**
+     * Required Documents at the point of appplying
+     */
+    public function getRequiredDocuments(){
+        return $this->hasMany(LoanProductRequiredDocuments::class,['loan_product_id'=>'id']);
     }
 
 }

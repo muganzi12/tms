@@ -14,10 +14,16 @@ use common\models\client\LoanGuarantorSearch;
 use common\models\client\MasterData;
 use common\models\client\LoanCollateral;
 use common\models\client\LoanCollateralSearch;
+use common\models\client\ChartOfAccounts;
 use yii\web\UploadedFile;
 use common\models\client\LoanManagerRemarks;
 use common\models\client\LoanManagerRemarksSearch;
-
+use common\models\client\LoanAmortization;
+use common\models\loan\LedgerTransactionConfig;
+use common\models\loan\LedgerHelper;
+use common\models\loan\Ledger;
+use common\models\loan\LedgerPayment;
+use common\models\ReferenceHelper;
 /**
  * LoanController implements the CRUD actions for Loan model.
  */
@@ -191,6 +197,66 @@ class LoanController extends Controller {
     }
 
     /**
+     * Displays a payment history for the loan
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionPaymentHistory($id) {
+        $this->layout = "loan";
+        return $this->render('payment-history', [
+                    'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Make payment
+     */
+    public function actionPay($id,$ledger){
+        $this->layout = "loan";
+        $payledgers = explode(",",$ledger);
+        $payment = new LedgerPayment();
+        $ledgers = Ledger::find()->where(['id'=>$payledgers])->all();
+        
+        //If we have managed to load and save the payment...
+        if ($payment->load(Yii::$app->request->post())){
+        $payment->reference_no = ReferenceHelper::getPaymentReferenceNumber();
+        //Advance payment=Amount Paid-Amount Expected
+        $payment->advance_payment = ($payment->amount_paid-$payment->bill_total);
+        //Save Payment
+        $payment->save(false);
+        //Save Ledger records for this payment...
+        $ledgerPayments = LedgerHelper::setLedgerPayment($payment,$ledgers);
+            foreach($ledgerPayments AS $lg){
+                $lg->save(false);
+            }
+        //Update Payment status
+        Ledger::updateAll(['ledger_status'=>Ledger::STATUS_PAID],['id'=>$payledgers]);
+        //Go back to payment history
+        return $this->redirect(['payment-history','id'=>$id]);
+        }else{
+        $pay_accounts = ChartOfAccounts::find()
+                ->where(['like','gl_code','121'])
+                ->andWhere(['>','gl_code','12100'])
+                ->all();
+        $payment_methods = MasterData::find()
+                ->where(['reference_table'=>'payment_method'])
+                ->all();
+        return $this->render('pay',
+            [
+                'model' => $this->findModel($id),
+                'ledgers'=>$ledgers,
+                'pay_ledgers'=>$ledger,
+                'payment'=>$payment,
+                'total'=>array_sum(array_column($ledgers,'amount')),
+                'pay_accounts'=>$pay_accounts,
+                'payment_methods'=>$payment_methods
+            ]
+        );
+     }
+    }
+
+    /**
      * New Loan Application
      */
     public function actionNewLoanApplication($id, $stat = 19) {
@@ -302,7 +368,7 @@ class LoanController extends Controller {
     }
 
     /**
-      Loan Disbursement
+     *  Loan Disbursement
      */
     public function actionDisburseLoan($id, $cat = 'LOAN',$stat = 4) {
         $this->layout = "loan";
@@ -357,7 +423,7 @@ class LoanController extends Controller {
     }
 
     /**
-      Approve Loan Application
+     *  Approve Loan Application
      */
     public function actionUpdate($id) {
         $this->layout = "loan";
@@ -376,6 +442,37 @@ class LoanController extends Controller {
         }
     }
 
+    /**
+     * Generate a payment schedule for a specified loan
+     */
+    public function actionGenerateSchedule($id){
+         $this->layout = "loan";
+        $model = $this->findModel($id);
+        return $this->render('generate-schedule',['model'=>$model]);
+    }
+
+    /**
+     * Save ledger entries (bills) associated to a loan
+     * @param $id Unique Loan ID
+     * @param $stage The stage at which we need to generate the entries
+     */
+    public function actionGenerateLedgerEntries($id,$stage){
+        $ledgerHelper = new LedgerHelper(['tag'=>$stage,'loan_id'=>$id]);
+        $ledgerEntries=[];
+        //Are we generating the payment schedule?
+        if($stage=='approved'){
+            $ledgerEntries = $ledgerHelper->prepareLoanScheduleEntries();
+        }else{
+            $ledgerEntries = $ledgerHelper->prepareLoanLedgerEntry();
+        }
+        //Save to the database
+         //Save to the DB
+        foreach($ledgerEntries AS $ent){
+            $ent->save(false);
+        }
+        //Go back to the ledger generateion page
+        return $this->redirect(['loan/generate-schedule','id'=>$id]);
+    }
     /**
      * Deletes an existing Loan model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

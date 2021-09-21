@@ -28,20 +28,20 @@
                     <?= $model->loanType->name; ?></td>
                 <td>
                     <b>Amount Applied For</b><br/>
-                    <?= number_format($model->amount_applied_for); ?>
+                    <?= Yii::$app->formatter->asCurrency($model->amount_applied_for,'UGX'); ?>
                 </td>
                 <td>
-                    <b>Amount Applied</b><br/>
+                    <b>Amount Approved</b><br/>
                     <?= number_format($model->amount_approved); ?>
                 </td>
                 <td>
                     <b>Application Date</b><br/>
-                    <?= $model->application_date; ?>
+                    <?= Yii::$app->formatter->asDate($model->application_date); ?>
                 </td>
             </tr>
             <tr>
-                <td><b>Interest</b><br/>
-                    <?= $model->interest_rate; ?></td>
+                <td><b>Interest Rate</b><br/>
+                    <?= Yii::$app->formatter->asPercent($model->interest_rate/100); ?></td>
                 <td>
                     <b>Interest Frequency</b><br/>
                     <?= $model->interest_frequency; ?>

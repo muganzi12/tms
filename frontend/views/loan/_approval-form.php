@@ -13,22 +13,13 @@ use yii\jui\DatePicker;
 ?>
 
 <div class="loan-form">
-
     <?php $form = ActiveForm::begin(); ?>
     <table class="table">
-
-
         <tr>
-
-
-            <td> 
-
+            <td style="width:33%"> 
                 <?= $form->field($model, 'amount_approved')->textInput(['maxlength' => true, 'required' => true]) ?>
             </td>
-
-
-            <td> 
-
+            <td style="width:34%"> 
                 <?php
                 echo $form->field($model, 'amortization_method')->widget(Select2::classname(), [
                     'value' => '',
@@ -42,9 +33,7 @@ use yii\jui\DatePicker;
                     ],
                 ]);
                 ?>
-
             </td>
-
             <td>
                 <?=
                 $form->field($model, 'installment_payment_start_date')->widget(
@@ -108,7 +97,6 @@ use yii\jui\DatePicker;
                             'options' => ['class' => 'form-control', 'required' => true]
                 ])
                 ?>
-
             </td>
             <td>
                 <?=
@@ -129,30 +117,24 @@ use yii\jui\DatePicker;
                             'options' => ['class' => 'form-control','required' => true]
                 ])
                 ?>
-
             </td>
         </tr>
-
         <tr>
             <td>
-
                 <?=
                 $form->field($model, 'payment_installment_amount')->dropDownList([]) ?>
-
             </td> 
             <td colspan="6"> 
-
-                <?= $form->field($model, 'remarks')->textArea(['maxlength' => true, 'required' => true]) ?>
+                <?= $form->field($model, 'activity_remarks')
+                ->textArea(['maxlength' => true, 'required' => true])
+                ->label('Approval Remarks') ?>
             </td>
         </tr>
-
-
         <tr>
             <td>
                 <?= Html::submitButton(($model->id > 0) ? ('Approve') : ('Submit'), ['class' => ($model->id > 0) ? ('btn btn-success') : ('btn btn-primary'), 'style' => 'margin-top:30px;']) ?>
             </td>
             <td colspan="2">
-
                 <?= $form->field($model, 'created_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'created_at')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'updated_at')->hiddenInput()->label(false) ?>
@@ -170,8 +152,6 @@ use yii\jui\DatePicker;
                 <?= $form->field($model, 'installment_frequency')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'loan_period')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
-
-
             </td>
         </tr>
     </table>

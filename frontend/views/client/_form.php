@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
     <table class="table">
         <tr>
             <td>
-                <?= $form->field($model, 'reference_number')->textInput(['readonly' => true]) ?> 
+                <?= $form->field($model, 'account_number')->textInput(['readonly' => true]) ?> 
             </td>
             <td>
                 <?= $form->field($model, 'firstname')->textInput(['maxlength' => true,'required'=>true]) ?>

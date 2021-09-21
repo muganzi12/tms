@@ -16,9 +16,9 @@ class LoanProductSearch extends LoanProduct {
      */
     public function rules() {
         return [
-            [['id', 'account_to_credit', 'product_code', 'account_to_debit', 'maximum_repayment_period', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'product_code', 'maximum_repayment_period', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name', 'description', 'product_code'], 'safe'],
-            [['interest_rate', 'processing_loan_fees', 'minimum_amount', 'maximum_amount', 'penalty'], 'number'],
+            [['interest_rate', 'minimum_amount', 'maximum_amount', 'penalty'], 'number'],
         ];
     }
 
@@ -58,9 +58,6 @@ class LoanProductSearch extends LoanProduct {
         $query->andFilterWhere([
             'id' => $this->id,
             'interest_rate' => $this->interest_rate,
-            'account_to_credit' => $this->account_to_credit,
-            'account_to_debit' => $this->account_to_debit,
-            'processing_loan_fees' => $this->processing_loan_fees,
             'minimum_amount' => $this->minimum_amount,
             'maximum_amount' => $this->maximum_amount,
             'maximum_repayment_period' => $this->maximum_repayment_period,

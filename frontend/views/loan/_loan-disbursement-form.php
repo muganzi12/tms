@@ -40,7 +40,6 @@ use yii\jui\DatePicker;
                             'options' => ['class' => 'form-control', 'readonly' => 'readonly', 'required' => true]
                 ])
                 ?>
-
             </td>
 
         </tr>

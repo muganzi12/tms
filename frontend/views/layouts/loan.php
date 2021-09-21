@@ -19,11 +19,13 @@ $loan = Loan::findOne($loan_id);
                             <img src="<?= $loan->client->passportPhoto; ?>" alt="avatar" class="avatar-img rounded-circle">
                         </div>
                         <div class="card-header card-header-tabs-basic nav flex" role="tablist">
-                            <?= Html::a('Profile', ['loan/view', 'id' => $loan_id], ['class' => 'active']); ?>
-                            <?= Html::a('Loan Guarantors', ['loan/loan-guarantors', 'id' => $loan_id], ['class' => '']); ?>
-                            <?= Html::a('Loan Collateral', ['loan/loan-collateral', 'id' => $loan_id], ['class' => '']); ?>
-                            <?= Html::a('Payment History', ['client/view', 'id' => $loan_id], ['class' => '']); ?>       
-                        </div>
+                            <?= Html::a('<i class="material-icons mr-1">description</i> Loan Application', ['loan/view', 'id' => $loan_id], ['class' => 'active']); ?>
+                            <?= Html::a('<i class="material-icons mr-1">supervisor_account</i> Guarantors', ['loan/loan-guarantors', 'id' => $loan_id], ['class' => '']); ?>
+                            <?= Html::a('<i class="material-icons mr-1">perm_media</i> Collateral', ['loan/loan-collateral', 'id' => $loan_id], ['class' => '']); ?>
+                            <?= Html::a('<i class="material-icons mr-1">directions</i> File Movement', ['loan/#', 'id' => $loan_id], ['class' => '']); ?>
+                            <?= Html::a('<i class="material-icons mr-1">payment</i> Payment History', ['loan/payment-history', 'id' => $loan_id], ['class' => '']); ?> 
+                            <?= Html::a('<i class="material-icons mr-1">fingerprint</i> Applicant Profile', ['client/view', 'id' => $loan->client->id], ['class' => 'pull-right','style'=>'color:green;']); ?>
+                         </div>
                     </div>
                 </div>
             </div>
@@ -31,7 +33,7 @@ $loan = Loan::findOne($loan_id);
                 <div class="row">
                     <div class="col-lg-3" style="border-right:1px solid #eee;">
                         <h1 class="h4 mb-1"><?= $loan->client->firstname . ' ' . $loan->client->lastname; ?></h1>
-                        <p class="text-muted"><b>File No:</b> <?= $loan->client->reference_number; ?></p>
+                        <p class="text-muted"><b>Account No:</b> <?= $loan->client->account_number; ?></p>
                         <div class="text-muted d-flex align-items-center">
                             <i class="material-icons mr-1">location_on</i>
                             <div class="flex"><?= $loan->client->address; ?></div>
@@ -53,8 +55,8 @@ $loan = Loan::findOne($loan_id);
                             <div class="flex"><?= $loan->client->genderType->name; ?></div>
                         </div>
 
-                        <ul class="list-group" style="margin-top:20px;margin-bottom:20px;">
-                            <li class="list-group-item"><b>
+                        <ul class="list-group" style="margin-top:20px;margin-bottom:20px;">   
+                        <li class="list-group-item"><b>
                                     <?= Html::a('<i class="material-icons">create</i> Update loan details', ['loan/update', 'id' => $loan_id], ['class' => '']); ?>
                                 </b></li>
                             <li class="list-group-item"><b>
@@ -62,6 +64,9 @@ $loan = Loan::findOne($loan_id);
                                 </b></li>
                             <li class="list-group-item"><b>
                                     <?= Html::a('<i class="material-icons">attach_file</i> Attach Collateral', ['loan/add-loan-collateral', 'id' => $loan_id], ['class' => '']); ?>
+                                </b></li>
+                                 <li class="list-group-item"><b>
+                                    <?= Html::a('<i class="material-icons">date_range</i> Generate Payment Schedule', ['loan/generate-schedule', 'id' => $loan_id], ['class' => '']); ?>
                                 </b></li>
                             <?php if ($loan->status == 19) { ?>
                                 <li class="list-group-item"><b>

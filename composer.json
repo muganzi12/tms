@@ -25,7 +25,10 @@
         "yiisoft/yii2-jui": "^2.0",
         "kartik-v/yii2-export": "^1.4",
         "kartik-v/yii2-mpdf": "*",
-        "miloschuman/yii2-highcharts-widget": "^9.0"
+        "miloschuman/yii2-highcharts-widget": "^9.0",
+        "kartik-v/yii2-widget-depdrop": "dev-master",
+        "yii2tech/activemail": "^1.0",
+        "nullref/yii2-datatables": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -44,10 +47,8 @@
             "enabled": false
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ]
+    "repositories": [{
+        "type": "composer",
+        "url": "https://asset-packagist.org"
+    }]
 }

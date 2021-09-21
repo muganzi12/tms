@@ -92,6 +92,17 @@ class SiteController extends Controller {
     }
 
     /**
+    * Cashbook Dashboard
+    */
+    public function actionCashbook(){
+        return $this->render('cashbook');
+    }
+
+    public function actionAdmin(){
+        return $this->render('admin');
+    }
+
+    /**
      * Logs in a user.
      *
      * @return mixed

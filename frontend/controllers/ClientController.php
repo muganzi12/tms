@@ -14,7 +14,7 @@ use yii\web\UploadedFile;
 use common\models\client\ClientDocumentsSearch;
 use common\models\client\LoanManagerRemarks;
 use common\models\client\LoanManagerRemarksSearch;
-
+use common\models\ReferenceHelper;
 /**
  * MemberController implements the CRUD actions for Member model.
  */
@@ -44,6 +44,22 @@ class ClientController extends Controller {
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+     /**
+     * Lists all Member models.
+     * @return mixed
+     */
+    public function actionInvestors() {
+        $searchModel = new ClientSearch();
+        $searchModel->person_scenario = "INVESTOR";
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('investors', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
         ]);
@@ -108,7 +124,7 @@ class ClientController extends Controller {
             $model->created_by = Yii::$app->member->id;
             $model->status = $stat;
             $model->person_scenario = $person_scenario;
-            $model->reference_number = $model->generateReferenceNumber();
+            $model->account_number = ReferenceHelper::getClientReferenceNumber('CLIENT');
             return $this->render('add-new-client', [
                         'model' => $model,
                         'ident' => $ident,

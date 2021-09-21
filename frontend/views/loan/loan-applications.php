@@ -25,9 +25,9 @@ $this->params['client_id'] = $clientId;
     }
 </style>
 <section class="sheet padding-10mm" style="padding:0 7px 0 7px;">
-
+<h2 style="border-bottom:2px solid 3px;color:#069;">Loan Applications</h2>
     <div class="profile-section" style="margin-top:20px;">
-
+    
         <div class="col-lg-12" style="padding:0px;">
 
 

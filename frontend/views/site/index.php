@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use miloschuman\highcharts\Highcharts;
 
-$this->title = "Dashboard";
+$this->title = "Membership Dashboard";
 $this->params['page_description'] = "Page Description here...";
 ?>
 <style>

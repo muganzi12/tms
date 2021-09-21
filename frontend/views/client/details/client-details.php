@@ -8,8 +8,8 @@
     <div class="col-lg-12">
         <table class="table">
             <tr>
-                <td><b>Reference Number</b><br/>
-                    <?= $model->reference_number; ?></td>
+                <td><b>Account Number</b><br/>
+                    <?= $model->account_number; ?></td>
                 <td>
                     <b>First Name</b><br/>
                     <?= $model->firstname; ?>

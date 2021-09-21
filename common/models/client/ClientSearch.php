@@ -18,7 +18,7 @@ class ClientSearch extends Client
     {
         return [
             [['id','identification_type','related_to', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['firstname','reference_number', 'lastname', 'othername', 'identification_number', 'telephone', 'alt_telephone', 'gender', 'marital_status', 'date_of_birth', 'address', 'email', 'person_scenario', 'relationship'], 'safe'],
+            [['firstname','account_number', 'lastname', 'othername', 'identification_number', 'telephone', 'alt_telephone', 'gender', 'marital_status', 'date_of_birth', 'address', 'email', 'person_scenario', 'relationship'], 'safe'],
         ];
     }
 
@@ -76,7 +76,7 @@ class ClientSearch extends Client
             ->andFilterWhere(['like', 'alt_telephone', $this->alt_telephone])
             ->andFilterWhere(['like', 'gender', $this->gender])
             ->andFilterWhere(['like', 'marital_status', $this->marital_status])
-            ->andFilterWhere(['like', 'reference_number', $this->reference_number])
+            ->andFilterWhere(['like', 'account_number', $this->account_number])
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'person_scenario', $this->person_scenario])

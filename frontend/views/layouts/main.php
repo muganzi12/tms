@@ -53,7 +53,7 @@ Yii::$app->assetManager->forceCopy = true;
                                 <div class="flex">
                                     <h1 class="m-0"><?= $this->title; ?></h1>
                                 </div>
-                              
+                                <?= ArrayHelper::keyExists('topright_button', $this->params) ? Html::a($this->params['topright_button_label'], $this->params['topright_button_link'], ['class' => 'btn ' . $this->params['topright_button_class']]) : ('') ?> 
                             </div>
                         </div>
 

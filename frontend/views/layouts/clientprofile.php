@@ -33,7 +33,7 @@ $client = Client::findOne($client_id);
                 <div class="row">
                     <div class="col-lg-3" style="border-right:1px solid #eee;">
                         <h1 class="h4 mb-1"><?= $client->firstname . ' ' . $client->lastname; ?></h1>
-                        <p class="text-muted"><b>File No:</b> <?= $client->reference_number; ?></p>
+                        <p class="text-muted"><b>Account No:</b> <?= $client->account_number; ?></p>
                         <div class="text-muted d-flex align-items-center">
                             <i class="material-icons mr-1">location_on</i>
                             <div class="flex"><?= $client->address; ?></div>

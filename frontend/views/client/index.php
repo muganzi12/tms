@@ -19,13 +19,6 @@ $this->params['topright_button_link'] = ['client/add-new-client'];
 $this->params['topright_button_class'] = 'btn-success pull-right';
 ?>
 <div class="member-index">
-
-    <p>
-        <?= Html::a('New Client', ['add-new-client'], ['class' => 'btn btn-success pull-right']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
-
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
@@ -44,9 +37,9 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
                 'format' => 'raw'
             ],
             [
-                'attribute' => 'reference_number',
+                'attribute' => 'account_number',
                 'value' => function($data) {
-                    return '<b><a href="' . Url::to(['client/view', 'id' => $data->id]) . '">' . $data->reference_number . "</a></b>";
+                    return '<b><a href="' . Url::to(['client/view', 'id' => $data->id]) . '">' . $data->account_number . "</a></b>";
                 },
                 'format' => 'raw'
             ],

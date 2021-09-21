@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\client\MasterData;
-
+use common\models\Reports;
 /**
  * AccountController implements the CRUD actions for ChartOfAccounts model.
  */
@@ -37,9 +37,11 @@ class AccountController extends Controller {
         $searchModel = new ChartOfAccountsSearch();
         $searchModel->category = 'HEADER';
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $chartofaccounts=Reports::getChartOfAccounts();
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
+                    'chart'=>$chartofaccounts
         ]);
     }
 
@@ -73,21 +75,27 @@ class AccountController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionAddNewAccount($id, $cat = 'DETAIL') {
+    public function actionAddNewAccount($cat = 'DETAIL') {
         $model = new ChartOfAccounts();
-        $account = $this->findAccountModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['accounts', 'id' => $account->id]);
+            return $this->redirect(['index']);
         } else {
             $model->created_at = time();
-            $model->parent_id = $id;
             $model->category = $cat;
             $model->created_by = Yii::$app->member->id;
+            $chartofaccounts=Reports::getChartOfAccounts(false);
+        
+            //Add None
+            $no_option = new ChartOfAccounts();
+            $no_option->id=0;
+            $no_option->account_name="NONE";
+
+            array_unshift($chartofaccounts,$no_option);
             $type = MasterData::findAll(['reference_table' => 'account_type']);
             return $this->render('add-new-account', [
                         'model' => $model,
                         'type' => $type,
-                        'account' => $account,
+                        'chartofaccounts'=>$chartofaccounts
             ]);
         }
     }
@@ -103,11 +111,15 @@ class AccountController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
-
+        $type = MasterData::findAll(['reference_table' => 'account_type']);
+        $chartofaccounts=Reports::getChartOfAccounts(false);
+            
         return $this->render('update', [
                     'model' => $model,
+                    'type'=>$type,
+                    'chartofaccounts'=>$chartofaccounts
         ]);
     }
 

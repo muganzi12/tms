@@ -18,9 +18,7 @@ $this->params['loan_id'] = $model->id;
 </style>
 <section class="sheet padding-10mm" style="padding:0 7px 0 7px;">
     <div class="profile-section" style="margin-top:0px;">
-        <h5>Loan Application Details
-            <?php //= Html::a('<i class="os-icon os-icon-download"></i> Download Profile',['company/download-profile','id'=>$model->id],['class'=>'btn btn-dark pull-right'])  ?>
-        </h5>
+        <h5>Loan Application Details</h5>
       <?= $this->render('details/loan-details', ['model' => $model]); ?>
     </div>
    

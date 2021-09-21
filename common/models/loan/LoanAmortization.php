@@ -1,5 +1,5 @@
 <?php 
-namespace common\models\client;
+namespace common\models\loan;
 	/**
 	 * LOAN AMORTIZATION CALCULATOR
 	 */

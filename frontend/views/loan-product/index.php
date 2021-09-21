@@ -26,22 +26,8 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
             'product_code',
             //'description',
             'interest_rate',
-            [
-                'attribute' => 'account_to_credit',
-                'value' => function($data) {
-                    return $data->accountToCredit->gl_code;
-                },
-                'format' => 'raw'
-            ],
-            [
-                'attribute' => 'account_to_debit',
-                'value' => function($data) {
-                    return $data->accountToDebit->gl_code;
-                },
-                'format' => 'raw'
-            ],
             //'currency',
-            'processing_loan_fees',
+            //'processing_loan_fees',
             'minimum_amount',
             'maximum_amount',
             'principal_installment_frequency',
@@ -62,14 +48,18 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
             //'created_by',
             //'updated_at',
             //'updated_by',
-            [
-                'format' => 'raw',
-                'value' => function($data) {
-                    return
-                    Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update', 'id' => $data['id']], ['title' => 'edit', 'class' => 'btn btn-info']);
+            ['class' => 'yii\grid\ActionColumn',
+            'contentOptions' => ['style' => 'width: 110px'],
+            'template'=>'{update} {details}',
+              'buttons'=>[
+                'details'=>function ($url, $model) {
+                   return Html::a('<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">library_books</i>', ['loan-product/view','id'=>$model->id]);
                 },
-                'header' => 'OPTIONS'
-            ],
+                'update'=>function ($url, $model) {
+                   return Html::a('<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">edit</i>', ['loan-product/update','id'=>$model->id]);
+                },
+              ],
+        ],
         ],
     ]);
     ?>

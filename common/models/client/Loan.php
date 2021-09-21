@@ -8,7 +8,8 @@ use common\models\client\Client;
 use common\models\client\LoanProduct;
 use yii\db\ActiveRecord;
 use common\models\client\LoanCollateralSearch;
-
+use common\models\loan\LoanAmortization;
+use common\models\loan\Ledger;
 /**
  * This is the model class for table "loan".
  *
@@ -38,6 +39,12 @@ use common\models\client\LoanCollateralSearch;
 class Loan extends \yii\db\ActiveRecord {
 
     const SCENARIO_APPROVE = 'approve-loan-application';
+
+
+    /**
+     * Activity remarks. When approving, rejecting or deferring loan applications
+     */
+    public $activity_remarks;
 
     /**
      * {@inheritdoc}
@@ -109,8 +116,10 @@ class Loan extends \yii\db\ActiveRecord {
 
     public function beforeSave($insert) {
         parent::beforeSave($insert);
-        $this->created_at = time();
-        $this->created_by = Yii::$app->user->id;
+        if($this->isNewRecord){
+            $this->created_at = time();
+            $this->created_by = Yii::$app->user->id;
+        }
         return true;
     }
 
@@ -143,6 +152,21 @@ class Loan extends \yii\db\ActiveRecord {
         $searchModel->loan_id = $this->id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $dataProvider;
+    }
+
+    /**
+     * Generate the payment schedule from the application information
+     */
+    public function getPaymentSchedule(){
+        $schedule = new LoanAmortization();
+        $schedule->setPrincipal($this->amount_approved);//Principal
+        $schedule->setTerm($this->loan_period); //Number of months
+        $schedule->setInterestRate($this->interest_rate/100);//Interest Rate
+        return $schedule->getBreakdownByMonth();
+    }
+
+    public function getLedgerEntries(){
+        return $this->hasMany(Ledger::class, ['entry_reference_id' => 'id'])->where(['entry_type'=>"LOAN"]);  
     }
 
 }

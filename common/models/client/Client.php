@@ -12,7 +12,7 @@ use common\models\client\ClientDocumentsSearch;
  * This is the model class for table "member".
  *
  * @property int $id
- *  * @property string $reference_number
+ * @property string $account_number
  * @property string $firstname
  * @property string $lastname
  * @property string|null $othername
@@ -51,7 +51,7 @@ class Client extends \yii\db\ActiveRecord {
             [['firstname', 'lastname', 'identification_type', 'identification_number', 'telephone', 'gender', 'marital_status', 'date_of_birth', 'address', 'person_scenario', 'status', 'created_at', 'created_by'], 'required'],
             [['identification_type', 'gender', 'marital_status', 'status', 'related_to', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['date_of_birth'], 'safe'],
-            [['reference_number', 'passport_photo', 'firstname', 'lastname', 'othername', 'email', 'person_scenario', 'relationship'], 'string', 'max' => 100],
+            [['account_number', 'passport_photo', 'firstname', 'lastname', 'othername', 'email', 'person_scenario', 'relationship'], 'string', 'max' => 100],
             [['identification_number', 'telephone', 'alt_telephone'], 'string', 'max' => 14],
             [['address'], 'string', 'max' => 500],
             [['identification_number'], 'unique'],
@@ -86,6 +86,7 @@ class Client extends \yii\db\ActiveRecord {
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
+            'account_number'=>'File Number'
         ];
     }
 
@@ -136,9 +137,13 @@ class Client extends \yii\db\ActiveRecord {
      */
     public function getAge(){
         $tz  = new \DateTimeZone('Africa/Kampala');
-        return \DateTime::createFromFormat('Y-m-d', $this->date_of_birth, $tz)
-            ->diff(new \DateTime('now', $tz))
-            ->y;
+        if(defined($this->date_of_birth)){
+            return \DateTime::createFromFormat('Y-m-d', $this->date_of_birth, $tz)
+                ->diff(new \DateTime('now', $tz))
+                ->y;
+         }else{
+            return '-';
+        }
     }
     /**
      * Generate Request Reference  Number
@@ -148,7 +153,8 @@ class Client extends \yii\db\ActiveRecord {
         //$prefix = strtoupper(substr($pref, 0, 3));
         return $pref . time();
     }
-      public function getPassportPhoto() {
+
+    public function getPassportPhoto() {
         if (!empty($this->passport_photo)) {
             return Yii::getAlias('@web/html') . "/passport/" . $this->passport_photo;
         } else {

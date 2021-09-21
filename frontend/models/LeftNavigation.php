@@ -14,12 +14,20 @@ class LeftNavigation extends Nav {
      */
     public static function getNavItems() {
         return [
+            "<div class='sidebar-heading' style='margin-top:20px;'>DASHBOARDS</div>",
             [
-                'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">apps</i> <span class="sidebar-menu-text">Dashboard</span>',
+                'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">perm_identity</i> <span class="sidebar-menu-text">Membership</span>',
                 'url' => ['site/index'],
                 'linkOptions' => ['class' => 'sidebar-menu-button'],
                 'encode' => false
             ],
+            // [
+            //     'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">attach_money</i> <span class="sidebar-menu-text">Cash Book</span>',
+            //     'url' => ['site/cashbook'],
+            //     'linkOptions' => ['class' => 'sidebar-menu-button'],
+            //     'encode' => false
+            // ],
+            "<div class='sidebar-heading' style='margin-top:20px;'>LOANS MANAGEMENT</div>",
             [
                 'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">assignment_ind</i> <span class="sidebar-menu-text">Clients</span>',
                 'url' => ['client/index'],
@@ -28,7 +36,7 @@ class LeftNavigation extends Nav {
             ],
             [
                 'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">event_seat</i> <span class="sidebar-menu-text">Investors</span>',
-                'url' => ['investor/index'],
+                'url' => ['client/investors'],
                 'linkOptions' => ['class' => 'sidebar-menu-button'],
                 'encode' => false
             ],
@@ -51,57 +59,64 @@ class LeftNavigation extends Nav {
                             <li class='sidebar-menu-item'>"
             . Html::a("<span class='sidebar-menu-text'>Rejected Applications</span>", ['loan/rejected-loan-applications'], ['class' => 'sidebar-menu-button'])
             . "</li>
-                            <li class='sidebar-menu-item'>"
-            . Html::a("<span class='sidebar-menu-text'>Due this Month</span>", ['#'], ['class' => 'sidebar-menu-button'])
-            . "</li>
-                            <li class='sidebar-menu-item'>"
-            . Html::a("<span class='sidebar-menu-text'>All active loans</span>", ['#'], ['class' => 'sidebar-menu-button'])
-            . "</li>
-                            <li class='sidebar-menu-item'>"
-            . Html::a("<span class='sidebar-menu-text'>Fully paid loans</span>", ['#'], ['class' => 'sidebar-menu-button'])
-            . "</li>
                     </ul>
                 </li>",
-            "<div class='sidebar-heading' style='margin-top:20px;'>SETTINGS</div>",
-            "<li class='sidebar-menu-item'>
-                    <a class='sidebar-menu-button'  data-toggle='collapse' href='#chart_of_accounts'>
-                        <i class='sidebar-menu-icon sidebar-menu-icon--left material-icons'>border_all</i>
-                        <span class='sidebar-menu-text'>Chart of Accounts</span>
-                        <span class='ml-auto sidebar-menu-toggle-icon'></span>
-                    </a>
-                    <ul class='sidebar-submenu collapse' id='chart_of_accounts'>
-                            <li class='sidebar-menu-item'>"
-            . Html::a("<span class='sidebar-menu-text'>List of accounts</span>", ['account/index'], ['class' => 'sidebar-menu-button'])
-            . "</li>
-                            <li class='sidebar-menu-item'>"
-            . Html::a("<span class='sidebar-menu-text'>In-active Accounts</span>", ['#'], ['class' => 'sidebar-menu-button'])
-            . "</li>
-                    </ul>
-                </li>",
-            [
-                'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">folder_open</i> <span class="sidebar-menu-text">Loan Products</span>',
-                'url' => ['loan-product/index'],
-                'linkOptions' => ['class' => 'sidebar-menu-button'],
-                'encode' => false
-            ],
-            [
-                'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">account_balance</i> <span class="sidebar-menu-text">Branches</span>',
-                'url' => ['branch/index'],
-                'linkOptions' => ['class' => 'sidebar-menu-button'],
-                'encode' => false
-            ],
-            [
-                'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">person</i> <span class="sidebar-menu-text">System User Accounts</span>',
-                'url' => ['user/index'],
-                'linkOptions' => ['class' => 'sidebar-menu-button'],
-                'encode' => false
-            ],
-            [
-                'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">view_compact</i> <span class="sidebar-menu-text">User Groups</span>',
-                'url' => ['user/user-groups'],
-                'linkOptions' => ['class' => 'sidebar-menu-button'],
-                'encode' => false
-            ],
+                "<li class='sidebar-menu-item'>
+                <a class='sidebar-menu-button'  data-toggle='collapse' href='#loan_payment'>
+                    <i class='sidebar-menu-icon sidebar-menu-icon--left material-icons'>payment</i>
+                    <span class='sidebar-menu-text'>Loan Payments</span>
+                    <span class='ml-auto sidebar-menu-toggle-icon'></span>
+                </a>
+                <ul class='sidebar-submenu collapse' id='loan_payment'>
+                        <li class='sidebar-menu-item'>"
+        . Html::a("<span class='sidebar-menu-text'>Overdue Payment</span>", ['#'], ['class' => 'sidebar-menu-button'])
+        . "</li>
+                        <li class='sidebar-menu-item'>"
+        . Html::a("<span class='sidebar-menu-text'>Due this week</span>", ['#'], ['class' => 'sidebar-menu-button'])
+        . "</li>
+                        <li class='sidebar-menu-item'>"
+        . Html::a("<span class='sidebar-menu-text'>Due this week</span>", ['#'], ['class' => 'sidebar-menu-button'])
+        . "</li>
+                        <li class='sidebar-menu-item'>"
+        . Html::a("<span class='sidebar-menu-text'>Paid this week</span>", ['#'], ['class' => 'sidebar-menu-button'])
+        . "</li>
+                        <li class='sidebar-menu-item'>"
+        . Html::a("<span class='sidebar-menu-text'>Paid this month</span>", ['#'], ['class' => 'sidebar-menu-button'])
+        . "</li>
+                        <li class='sidebar-menu-item'>"
+        . Html::a("<span class='sidebar-menu-text'>Defective loans</span>", ['#'], ['class' => 'sidebar-menu-button'])
+        . "</li>
+                        <li class='sidebar-menu-item'>"
+        . Html::a("<span class='sidebar-menu-text'>Fully paid loans</span>", ['#'], ['class' => 'sidebar-menu-button'])
+        . "</li>
+                </ul>
+            </li>",
+       
+            //"<div class='sidebar-heading' style='margin-top:20px;'>ACCOUNT BOOK</div>",
+            // [
+            //     'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">account_balance_wallet</i> <span class="sidebar-menu-text">Income</span>',
+            //     'url' => ['#'],
+            //     'linkOptions' => ['class' => 'sidebar-menu-button'],
+            //     'encode' => false
+            //  ],
+            //  [
+            //     'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">apps</i> <span class="sidebar-menu-text">Capital</span>',
+            //     'url' => ['#'],
+            //     'linkOptions' => ['class' => 'sidebar-menu-button'],
+            //     'encode' => false
+            //  ],
+            //  [
+            //     'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">featured_video</i> <span class="sidebar-menu-text">Liabilities</span>',
+            //     'url' => ['#'],
+            //     'linkOptions' => ['class' => 'sidebar-menu-button'],
+            //     'encode' => false
+            //  ],
+            //  [
+            //     'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">date_range</i> <span class="sidebar-menu-text">Expenses</span>',
+            //     'url' => ['#'],
+            //     'linkOptions' => ['class' => 'sidebar-menu-button'],
+            //     'encode' => false
+            //  ],
         ];
     }
 

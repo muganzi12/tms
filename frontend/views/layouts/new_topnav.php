@@ -36,6 +36,11 @@ use yii\helpers\Url;
 
                 <ul class="nav navbar-nav ml-auto d-none d-md-flex">
                     <li class="nav-item dropdown">
+                    <a href="<?= Url::to(['site/admin']);?>"
+                           class="nav-link"
+                           data-caret="false">
+                            <i class="material-icons nav-icon">settings</i>
+                        </a>
                         <a href="#notifications_menu"
                            class="nav-link dropdown-toggle"
                            data-toggle="dropdown"
