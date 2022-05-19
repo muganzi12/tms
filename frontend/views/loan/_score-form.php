@@ -6,152 +6,55 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use common\models\client\LoanProduct;
 use yii\jui\DatePicker;
-
+$update_link="loan/rate-client";
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model common\models\client\Loan */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="loan-form">
-    <?php $form = ActiveForm::begin(); ?>
+     <?php $form = ActiveForm::begin(['action'=>Url::to([($activity=="update_record")?($update_link):($new_link),'id'=>$model->loan_id])]); ?>
+  
     <table class="table">
         <tr>
-            <td style="width:33%"> 
-                <?= $form->field($model, 'amount_approved')->textInput(['maxlength' => true, 'required' => true]) ?>
-            </td>
-            <td style="width:34%"> 
-                <?php
-                echo $form->field($model, 'amortization_method')->widget(Select2::classname(), [
+   
+           <td colspan="6"> 
+                
+                 <?php
+                echo $form->field($model, 'guadge_score_id')->widget(Select2::classname(), [
                     'value' => '',
                     'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map($method, 'id', 'name'),
+                    'data' => ArrayHelper::map(\common\models\loan\Guadge::find()->all(), 'id', 'name'),
                     'options' => [
-                        'placeholder' => 'Select Amortization Method',
+                        'placeholder' => 'Select Rate',
                         'class' => 'form-control',
-                        'multiple' => false,
-                        'required' => true
-                    ],
+                        //'id' => 'user-outlet-id',
+                        'multiple' => false
+                    ]
                 ]);
                 ?>
             </td>
-            <td>
-                <?=
-                $form->field($model, 'installment_payment_start_date')->widget(
-                        DatePicker::class,
-                        [
-                            'dateFormat' => 'yyyy-MM-dd',
-                            'clientOptions' => [
-                                'changeMonth' => false,
-                                'changeYear' => true,
-                                'minDate' => '0y',
-                                //'maxDate' => '0',
-                                'showButtonPanel' => false,
-                                'todayHighlight' => false,
-                                'format' => 'Y-m-d',
-                            //'yearRange' => '1990:2020'
-                            ],
-                            'options' => ['class' => 'form-control','required' => true]
-                ])
-                ?>
-
-            </td>
+    
         </tr>
-        <tr>
-            <td>
-                <?=
-                $form->field($model, 'installment_payment_last_date')->widget(
-                        DatePicker::class,
-                        [
-                            'dateFormat' => 'yyyy-MM-dd',
-                            'clientOptions' => [
-                                'changeMonth' => false,
-                                'changeYear' => true,
-                                'minDate' => '0y',
-                                // 'maxDate' => '0',
-                                'showButtonPanel' => false,
-                                'todayHighlight' => false,
-                                'format' => 'Y-m-d',
-                            //'yearRange' => '1990:2020'
-                            ],
-                            'options' => ['class' => 'form-control', 'required' => true]
-                ])
-                ?>
 
-            </td>
-            <td>
-                <?=
-                $form->field($model, 'interest_payment_start_date')->widget(
-                        DatePicker::class,
-                        [
-                            'dateFormat' => 'yyyy-MM-dd',
-                            'clientOptions' => [
-                                'changeMonth' => false,
-                                'changeYear' => true,
-                                'minDate' => '0y',
-                                //'maxDate' => '0',
-                                'showButtonPanel' => false,
-                                'todayHighlight' => false,
-                                'format' => 'Y-m-d',
-                            //'yearRange' => '1990:2020'
-                            ],
-                            'options' => ['class' => 'form-control', 'required' => true]
-                ])
-                ?>
-            </td>
-            <td>
-                <?=
-                $form->field($model, 'interest_payment_last_date')->widget(
-                        DatePicker::class,
-                        [
-                            'dateFormat' => 'yyyy-MM-dd',
-                            'clientOptions' => [
-                                'changeMonth' => false,
-                                'changeYear' => true,
-                                'minDate' => '0y',
-                                //'maxDate' => '0',
-                                'showButtonPanel' => false,
-                                'todayHighlight' => false,
-                                'format' => 'Y-m-d',
-                            //'yearRange' => '1990:2020'
-                            ],
-                            'options' => ['class' => 'form-control','required' => true]
-                ])
-                ?>
-            </td>
-        </tr>
         <tr>
-            <td>
-                <?=
-                $form->field($model, 'payment_installment_amount')->dropDownList([]) ?>
-            </td> 
+            
+        
             <td colspan="6"> 
-                <?= $form->field($model, 'activity_remarks')
+                <?= $form->field($model, 'reason')
                 ->textArea(['maxlength' => true, 'required' => true])
-                ->label('Approval Remarks') ?>
+                ->label('Reason') ?>
             </td>
         </tr>
         <tr>
             <td>
-                <?= Html::submitButton(($model->id > 0) ? ('Approve') : ('Submit'), ['class' => ($model->id > 0) ? ('btn btn-success') : ('btn btn-primary'), 'style' => 'margin-top:30px;']) ?>
+                <?= Html::submitButton(($model->id > 0) ? ('Score') : ('Submit'), ['class' => ($model->id > 0) ? ('btn btn-success') : ('btn btn-primary'), 'style' => 'margin-top:30px;']) ?>
             </td>
             <td colspan="2">
-                <?= $form->field($model, 'created_by')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'created_at')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'updated_at')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'approved_at')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'approved_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'client_id')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'status')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'loan_type')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'reference_number')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'amount_applied_for')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'interest_rate')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'interest_frequency')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'application_date')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'installment_frequency')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'loan_period')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'loan_id')->hiddenInput()->label(false) ?>
+                 <?= $form->field($model,'rate_item_id')->hiddenInput()->label(false) ?>
             </td>
         </tr>
     </table>
@@ -159,24 +62,37 @@ use yii\jui\DatePicker;
 
 </div>
 <?php
-$script = <<< JS
-// here you right all your javascript stuff
-$(document).on("change", '#loan-amount_approved',function(){
-   var e = document.getElementById('loan-amount_approved');
-        //alert(e);
-   var amount = e.value; 
-        //alert(quant);
-   var princ = amount/3;
-       // alert(princ);
-       var tot='';
-       tot += '<option >'+princ+'</option>';
-       $('#loan-payment_installment_amount').html(tot); 
+$script = <<<EOD
+$(function() {
+     $('#loan-balance').keyup(function() {  
+        updateTotal();
+    });
+
+    $('#loan-top_up_amount').keyup(function() {  
+        updateTotal();
+    });
+
+    var updateTotal = function () {
+      var input1 = parseInt($('#score-rate_item_id-container').val());
+      var input2 = parseInt($('#score-guadge_score_id-container').val());
+    $('#score-mark').val(input1 + input2);
+    };
         
-  
-   });
-        
-JS;
+   var updateTotal = function () {
+    var doctorFee = parseInt($('#loan-balance').val());
+    var discount = parseInt($('#loan-top_up_amount').val());
+    var totalAmount = doctorFee + discount;
+
+    if (isNaN(totalAmount) || totalAmount < 0) {
+        totalAmount = '';
+    }
+
+    $('#loan-amount_applied_for').val(totalAmount);
+};
+
+ });
+
+EOD;
 $this->registerJs($script);
 ?>
-
 

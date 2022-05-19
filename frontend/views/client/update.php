@@ -28,7 +28,12 @@ $this->params['client_id'] = $model->id;
         'model' => $model,
         'ident' => $ident,
         'sex' => $sex,
-        'marital' => $marital
+        'marital' => $marital,
+        'client' => $client,
+        'office' => $office,
+        'address' => $address,
+        'classification' => $classification,
+        'member' => $member,
     ])
     ?>
     </div>

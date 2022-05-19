@@ -5,44 +5,6 @@
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-:root {
-  --blue: #007bff;
-  --indigo: #6610f2;
-  --purple: #6f42c1;
-  --pink: #e83e8c;
-  --red: #dc3545;
-  --orange: #fd7e14;
-  --yellow: #ffc107;
-  --green: #28a745;
-  --teal: #20c997;
-  --cyan: #17a2b8;
-  --white: #fff;
-  --gray: #6c757d;
-  --gray-dark: #343a40;
-  --primary: #6774DF;
-  --secondary: #6c757d;
-  --success: #7DC668;
-  --info: #5dd2bc;
-  --warning: #F5B666;
-  --danger: #ff7076;
-  --light: #FAFBFE;
-  --dark: #1C2260;
-  --blue: #4a90e2;
-  --teal: #16BA71;
-  --purple: #5163C5;
-  --dark-gray: #939FAD;
-  --light-gray: #ECEEF0;
-  --muted-light: #DBDFE4;
-  --facebook: #3b5998;
-  --twitter: #00aced;
-  --breakpoint-xs: 0;
-  --breakpoint-sm: 576px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 992px;
-  --breakpoint-xl: 1200px;
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
 
 *,
 *::before,
@@ -60,6 +22,13 @@ html {
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;
 }
+
+    .app-settings app-fab--absolute{
+        display: none;
+    }
+     .app-settings-dd__BV_toggle_{
+        display: none;
+    }
 
 body {
   font-family: "Roboto", sans-serif;
@@ -9248,15 +9217,15 @@ a.close.disabled {
 }
 
 [dir] a.bg-light:hover, [dir] a.bg-light:focus, [dir] button.bg-light:hover, [dir] button.bg-light:focus {
-  background-color: #d0d9f6 !important;
+  background-color: #1261AO !important;
 }
 
 [dir] .bg-dark {
-  background-color: #1C2260 !important;
+  background-color: #ECECEC !important;
 }
 
 [dir] a.bg-dark:hover, [dir] a.bg-dark:focus, [dir] button.bg-dark:hover, [dir] button.bg-dark:focus {
-  background-color: #101439 !important;
+  background-color: #1261AO !important;
 }
 
 [dir] .bg-blue {
@@ -9324,7 +9293,7 @@ a.close.disabled {
 }
 
 [dir] .bg-white {
-  background-color: #fff !important;
+  background-color: #E2E8EE !important;
 }
 
 [dir] .bg-transparent {
@@ -15530,7 +15499,7 @@ body {
 }
 
 [dir] .sidebar-light {
-  background: #FAFBFE;
+  background: #E2E8EE;
 }
 [dir=ltr] .sidebar-light.sidebar-left {
   border-right-width: 1px;
@@ -15698,22 +15667,22 @@ body {
 [dir=ltr] .sidebar-dark.sidebar-left {
   border-right-width: 1px;
   border-right-style: solid;
-  border-right-color: #1C2260;
+  border-right-color: #E2E8EE;
 }
 [dir=rtl] .sidebar-dark.sidebar-left {
   border-left-width: 1px;
   border-left-style: solid;
-  border-left-color: #1C2260;
+  border-left-color: #E2E8EE;
 }
 [dir=ltr] .sidebar-dark.sidebar-right {
   border-left-width: 1px;
   border-left-style: solid;
-  border-left-color: #1C2260;
+  border-left-color: #E2E8EE;
 }
 [dir=rtl] .sidebar-dark.sidebar-right {
   border-right-width: 1px;
   border-right-style: solid;
-  border-right-color: #1C2260;
+  border-right-color: #E2E8EE;
 }
 .sidebar-dark .sidebar-link {
   color: #fff;
@@ -16055,7 +16024,7 @@ body {
 }
 
 [dir] .sidebar-light .sidebar-account {
-  background-color: #FAFBFE;
+  background-color: #E2E8EE;
 }
 
 .sidebar-dark .text-body {

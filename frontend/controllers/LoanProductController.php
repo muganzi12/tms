@@ -8,7 +8,7 @@ use common\models\client\LoanProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\client\MasterData;
+use common\models\client\ClientMasterData;
 use common\models\client\LoanProductRequiredDocuments;
 use common\models\client\LoanProductRequiredDocumentsSearch;
 use yii\helpers\Json;
@@ -36,6 +36,17 @@ class LoanProductController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+       if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $searchModel = new LoanProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -47,6 +58,17 @@ class LoanProductController extends Controller {
 
 // Get Required Document for the specific Loan Product
     public function actionRequiredDocuments($id) {
+       if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $client = $this->findModel($id);
         $searchModel = new LoanProductRequiredDocumentsSearch();
         $searchModel->loan_product_id = $id;
@@ -66,6 +88,17 @@ class LoanProductController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         return $this->render('view', [
                     'model' => $this->findModel($id),
         ]);
@@ -77,6 +110,17 @@ class LoanProductController extends Controller {
      * @return mixed
      */
     public function actionAddNewLoanProduct($stat = 1) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $model = new LoanProduct();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -85,7 +129,7 @@ class LoanProductController extends Controller {
             $model->created_at = time();
             $model->created_by = Yii::$app->member->id;
             $model->status = $stat;
-            $currency = MasterData::findAll(['reference_table' => 'currency']);
+            $currency = ClientMasterData::findAll(['reference_table' => 'currency']);
             return $this->render('add-new-loan-product', [
                         'model' => $model,
                         'currency' => $currency,
@@ -95,10 +139,21 @@ class LoanProductController extends Controller {
 
     // Specify the required documents
     public function actionSpecifyDocumentRequired($id) {
+      if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $model = new LoanProductRequiredDocuments();
         $client = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['required-documents', 'id' => $client->id]);
+            return $this->redirect(['loan-product/view', 'id' => $client->id]);
         } else {
             $model->created_at = time();
             $model->created_by = Yii::$app->member->id;
@@ -116,6 +171,13 @@ class LoanProductController extends Controller {
         $location = LoanProduct::findOne($prodId);
         echo Json::encode($location);
     }
+    
+    // Get Loan Product
+//    public function actionGetInterestRate($prodId) {
+//        // find the loan product id from the loan_product table 
+//        $location = LoanProduct::findOne($prodId);
+//        return Json::encode($location);
+//    }
 
     /**
      * Updates an existing LoanProduct model.
@@ -125,6 +187,17 @@ class LoanProductController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id) {
+      if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -132,7 +205,7 @@ class LoanProductController extends Controller {
         } else {
             $model->updated_at = time();
             $model->updated_by = Yii::$app->member->id;
-            $currency = MasterData::findAll(['reference_table' => 'currency']);
+            $currency = ClientMasterData::findAll(['reference_table' => 'currency']);
             return $this->render('update', [
                         'model' => $model,
                         'currency' => $currency,

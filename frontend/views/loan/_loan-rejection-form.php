@@ -31,6 +31,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'category')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'loan_id')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'client_id')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'remarks_status')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
 

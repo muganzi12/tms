@@ -6,7 +6,7 @@ use yii\bootstrap\Nav;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\NewAsset;
 use yii\helpers\Url;
-use frontend\models\LeftNavigation;
+use frontend\models\LeftNavigationOfficer;
 use yii\helpers\ArrayHelper;
 
 NewAsset::register($this);
@@ -31,9 +31,9 @@ Yii::$app->assetManager->forceCopy = true;
         </style>
     </head>
 
-    <body class="layout-default">    
+    <body>    
         <?php $this->beginBody() ?> 
-        <div class="preloader"></div>
+        <div class="preloader bg-white"></div>
         <!-- Header Layout -->
         <div class="mdk-header-layout js-mdk-header-layout">
             <!-- Header -->
@@ -63,7 +63,7 @@ Yii::$app->assetManager->forceCopy = true;
 
                     </div>
                     <!-- // END drawer-layout__content -->
-                    <?= $this->render('new_leftnav'); ?>
+                    <?= $this->render('officer_leftnav'); ?>
                 </div>
                 <!-- // END drawer-layout -->
 
@@ -74,7 +74,10 @@ Yii::$app->assetManager->forceCopy = true;
         <!-- // END header-layout -->
 
         <!-- App Settings FAB -->
-        <div id="app-settings">
+         <div id="app-settings" style="display: none;">
+            <app-settings layout-active="default">    
+            </app-settings>
+        </div>  <div id="app-settings">
             <app-settings layout-active="default">    
             </app-settings>
         </div>

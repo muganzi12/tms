@@ -63,18 +63,23 @@ class MasterDataController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionAddNewRecord($tbl)
     {
         $model = new MasterData();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['site/admin']);
+        }else {
+            $model->created_at = time();
+            $model->reference_table = $tbl;
+            $model->created_by = Yii::$app->member->id;
+            return $this->render('add-new-record', [
+                        'model' => $model,
+                    
+            ]);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
+
 
     /**
      * Updates an existing MasterData model.

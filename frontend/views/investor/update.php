@@ -13,9 +13,14 @@ $this->params['investor_id'] = $investorId;
 ?>
 <div class="investor-update">
 
-    <?= $this->render('_form', [
+    <?=
+    $this->render('_form', [
         'model' => $model,
         'ident' => $ident,
-    ]) ?>
+        'ident' => $ident,
+        'invest'=>$invest,
+        'sex' => $sex
+    ])
+    ?>
 
 </div>

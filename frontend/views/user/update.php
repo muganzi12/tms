@@ -11,6 +11,8 @@ $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' 
 $this->params['breadcrumbs'][] = 'Update';
 //Page descrition
 $this->params['page_description'] = '';
+//Pass CLientID to the layout 
+$this->params['user_id'] = $userId;
 ?>
 <div class="user-update">
 

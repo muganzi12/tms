@@ -8,26 +8,43 @@ use yii\helpers\ArrayHelper;
 ?>
 
     <?php $form = ActiveForm::begin(['options'=>['style'=>'width:100%;']]); ?>
+
+<?= $form->errorSummary($model);?>
     <table class="table">
         <tr>
             <td>
                 <?= $form->field($model, 'account_number')->textInput(['readonly' => true]) ?> 
             </td>
             <td>
+                <?= $form->field($model, 'external_id')->textInput(['maxlength' => true,'required'=>true]) ?>
+
+            </td>
+            
+               <td>
                 <?= $form->field($model, 'firstname')->textInput(['maxlength' => true,'required'=>true]) ?>
 
             </td>
-            <td>
-                <?= $form->field($model, 'lastname')->textInput(['maxlength' => true,'required'=>true]) ?>
-
-            </td>
+        
         </tr>
 
         <tr>
+                <td>
+                <?= $form->field($model, 'lastname')->textInput(['maxlength' => true,'required'=>true]) ?>
+
+            </td>
             <td>
                 <?= $form->field($model, 'othername')->textInput(['maxlength' => true]) ?>
             </td>
-            <td>
+                     <td>
+                <?= $form->field($model, 'nin')->textInput(['maxlength' => true,'required'=>true]) ?>
+            </td>
+        
+            
+         
+        </tr>
+
+        <tr>
+                <td>
                 <?php
                 echo $form->field($model, 'identification_type')->widget(Select2::classname(), [
                     'value' => '',
@@ -43,18 +60,21 @@ use yii\helpers\ArrayHelper;
                 ?>
             </td>
             <td>
-                <?= $form->field($model, 'identification_number')->textInput(['maxlength' => true,'required'=>true]) ?>
+                <?= $form->field($model, 'identification_number')->textInput(['maxlength' => true]) ?>
             </td>
+                      <td>
+                <?= $form->field($model, 'telephone')->textInput(['maxlength' => true,'required'=>true,'placeholder' => "e.g 07...."]) ?>
+            </td>
+     
+         
+          
+          
         </tr>
-
         <tr>
-            <td>
-                <?= $form->field($model, 'telephone')->textInput(['maxlength' => true,'required'=>true]) ?>
-            </td>
-            <td>
+               <td>
                 <?= $form->field($model, 'alt_telephone')->textInput(['maxlength' => true]) ?>
             </td>
-            <td>
+              <td>
                 <?php
                 echo $form->field($model, 'gender')->widget(Select2::classname(), [
                     'value' => '',
@@ -69,12 +89,16 @@ use yii\helpers\ArrayHelper;
                 ]);
                 ?>
             </td>
-        </tr>
-        <tr>
-            <td >
-                <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+              <td >
+                <?= $form->field($model, 'email')->textInput(['maxlength' => true,'placeholder' => "example@gmail.com"]) ?>
             </td>
-            <td>
+       
+            
+            
+        </tr>
+        
+        <tr>
+                 <td>
                 <?php
                 echo $form->field($model, 'marital_status')->widget(Select2::classname(), [
                     'value' => '',
@@ -94,7 +118,7 @@ use yii\helpers\ArrayHelper;
                 $form->field($model, 'date_of_birth')->widget(
                         DatePicker::class,
                         [
-                            'dateFormat' => 'yyyy-MM-dd',
+                            'dateFormat' => 'dd-MM-yyyy',
                             'clientOptions' => [
                                 'changeMonth' => false,
                                 'changeYear' => true,
@@ -105,8 +129,62 @@ use yii\helpers\ArrayHelper;
                                 'format' => 'Y-m-d',
                             //'yearRange' => '1990:2020'
                             ],
-                            'options' => ['class' => 'form-control', 'readonly' => 'readonly', 'required' => true]
+                            'options' => ['class' => 'form-control', 'Placeholder' => '01-02-2022', 'required' => true]
                 ])
+                ?>
+            </td>
+            
+        
+          
+        </tr>
+        <tr>
+             
+                     <td>
+                <?php
+                echo $form->field($model, 'client_type')->widget(Select2::classname(), [
+                    'value' => '',
+                    'theme' => Select2::THEME_CLASSIC,
+                    'data' => ArrayHelper::map($client, 'id', 'name'),
+                    'options' => [
+                        'placeholder' => 'Select Client Type',
+                        'class' => 'form-control',
+                        'multiple' => false,
+                        'required'=>true
+                    ],
+                ]);
+                ?>
+            </td>
+            
+               <td>
+                <?php
+                echo $form->field($model, 'address_type')->widget(Select2::classname(), [
+                    'value' => '',
+                    'theme' => Select2::THEME_CLASSIC,
+                    'data' => ArrayHelper::map($address, 'id', 'name'),
+                    'options' => [
+                        'placeholder' => 'Select Address Type',
+                        'class' => 'form-control',
+                        'multiple' => false,
+                        'required'=>true
+                    ],
+                ]);
+                ?>
+                </td>
+            
+            
+                <td>
+                <?php
+                echo $form->field($model, 'is_staff_memeber')->widget(Select2::classname(), [
+                    'value' => '',
+                    'theme' => Select2::THEME_CLASSIC,
+                    'data' => ArrayHelper::map($member, 'id', 'name'),
+                    'options' => [
+                        'placeholder' => 'Is Staff a Member?',
+                        'class' => 'form-control',
+                        'multiple' => false,
+                        'required'=>true
+                    ],
+                ]);
                 ?>
             </td>
         </tr>
@@ -124,7 +202,10 @@ use yii\helpers\ArrayHelper;
                 <?= $form->field($model, 'created_at')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'updated_at')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'status')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'client_classification_status')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
+                  <?= $form->field($model, 'office_id')->hiddenInput()->label(false) ?>
+                 <?= $form->field($model, 'next_kin_status')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'person_scenario')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
             </td>

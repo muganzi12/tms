@@ -30,6 +30,8 @@ $this->params['loan_id'] = $model->id;
         $this->render('_form', [
             'model' => $model,
             'currency' => $currency,
+            'amortization' => $amortization,
+             'type' => $type,
         ])
         ?>
 

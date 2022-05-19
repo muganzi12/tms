@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model common\models\client\Member */
 
-$this->title = $model->firstname . ' ' . $model->lastname;
+$this->title = $model->due_date;
 $this->params['breadcrumbs'][] = ['label' => 'Members', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['page_description'] = '';
@@ -16,38 +16,32 @@ $this->params['page_description'] = '';
     <thead>
         <tr class="info">
             <th>S/N</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Identification type</th>
-            <th>Identification Number</th>
-            <th>Relationship</th>
-            <th>Gender</th>
-            <th>Telephone</th>
-            <th>Email</th>
-            <th>Address</th>
+            <th>Ref</th>
+            <th>Amount Paid</th>
+            <th>Payment Date</th>
+            <th>Paid By</th>
+            <th>Receipt</th>
 
         </tr>
     </thead>
     <tbody>
 
-    <tbody>
+        <tbody>
         <?php
         $i = 1;
-        foreach ($model->nextOfKin AS $kin) {
+        foreach ($model->supportingDocuments AS $doc) {
             ?>
             <tr>
-                <td><?= $i++ ?></td>
-                <td><?= $kin->firstname; ?></td>
-                <td><?= $kin->lastname; ?></td>
-                <td><?= $kin->identificationType->name; ?></td>
-                <td><?= $kin->identification_number; ?></td>
-                <td><?= $kin->relationshipType->name; ?></td>
-                <td><?= $kin->genderType->name; ?></td>
-                <td><?= $kin->email; ?></td>
-                <td><?= $kin->telephone; ?></td>
-                <td><?= $kin->address; ?></td>
-
+              <td> <?= $i++ ?></td>
+              <td><?= $doc->reference_no; ?></td>
+              <td><?= $doc->amount_paid; ?></td>
+              <td><?= $doc->payment_date; ?></td>
+              <td><?= $doc->paid_by; ?></td>
+              <td><img src="<?= Url::to('@web/html/payments/'.$doc->proof_attachment);?>" class="card-mg-top" width="100%"></td>
+      
             </tr>
-        <?php } ?>
+<?php } ?>
     </tbody>
 </table>
+
+

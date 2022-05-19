@@ -10,7 +10,9 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 $this->title = $model->reference_number.' - Record payment';
-$this->params['loan_id'] = $model->id;
+
+$this->params['schedule_id'] = $model->id;
+$this->params['id'] = $model->id;
 ?>
 <h3><?= $this->title; ?></h3>
 <table class="table table-striped">
@@ -51,8 +53,8 @@ $this->params['loan_id'] = $model->id;
                             'clientOptions' => [
                                 'changeMonth' => false,
                                 'changeYear' => true,
-                                'minDate' => '0y',
-                                //'maxDate' => '0',
+                                'minDate' => '-100y',
+                                'maxDate' => '0',
                                 'showButtonPanel' => false,
                                 'todayHighlight' => false,
                                 'format' => 'Y-m-d',
@@ -66,25 +68,24 @@ $this->params['loan_id'] = $model->id;
                 <?= $form->field($payment, 'paid_by')->textInput(['maxlength' => true]) ?>
         </td>
         <td> 
-                <?= $form->field($payment, 'amount_paid')->textInput(['maxlength' => true, 'value' => $total]) ?>
+                <?= $form->field($payment, 'amount_paid')->textInput(['maxlength' => true,'readonly' => 'readonly', 'value' => $total]) ?>
         </td>
     </tr>
     <tr>
-        <td>
+          <td style="width:33%">
                  <?= $form->field($payment, 'payment_method')->dropdownList(
                     ArrayHelper::map($payment_methods,'id','name'),
                     ['prompt'=>'Select Method']
                 ) ?> 
         </td>
         <td>
-                <?= $form->field($payment, 'debit_account')->dropdownList(
-                    ArrayHelper::map($pay_accounts,'gl_code','fullAccountName'),
-                    ['prompt'=>'Select Dedit Account']
-                ) ?> 
+          
         </td>
-        <td> 
+        
+               <td> 
                 <?= $form->field($payment, 'proof_attachment')->fileInput() ?>
         </td>
+ 
     </tr>
     <tr>
         <td colspan="3">
@@ -95,9 +96,10 @@ $this->params['loan_id'] = $model->id;
         <td>
             <?= Html::submitButton('Record Payment', ['class' => 'btn btn-success btn-block', 'style' => 'margin-top:30px;']) ?>
         </td>
-        <td colspan="2">
-            <?= $form->field($payment, 'ledgers')->hiddenInput(['value'=>$pay_ledgers]); ?>  
-            <?= $form->field($payment, 'bill_total')->hiddenInput(['value'=>$total]); ?>  
+          <td colspan="2">
+             <?= $form->field($payment, 'loan_id')->hiddenInput()->label(false) ?> 
+                <?= $form->field($payment, 'transaction_type')->hiddenInput()->label(false) ?> 
+               <?= $form->field($payment, 'debit_account')->hiddenInput()->label(false) ?> 
         </td>
     </tr>
     </table>

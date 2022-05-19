@@ -33,9 +33,23 @@ class BranchController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+          if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } 
+        elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        }
+          elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        }
+        else {
+           $this->layout = "main";
+        }
         $searchModel = new BranchSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider->sort = ['defaultOrder' => ['created_at' => 'SORT_DESC']];
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,

@@ -34,96 +34,12 @@ use yii\jui\DatePicker;
                 ]);
                 ?>
             </td>
-            <td>
-                <?=
-                $form->field($model, 'installment_payment_start_date')->widget(
-                        DatePicker::class,
-                        [
-                            'dateFormat' => 'yyyy-MM-dd',
-                            'clientOptions' => [
-                                'changeMonth' => false,
-                                'changeYear' => true,
-                                'minDate' => '0y',
-                                //'maxDate' => '0',
-                                'showButtonPanel' => false,
-                                'todayHighlight' => false,
-                                'format' => 'Y-m-d',
-                            //'yearRange' => '1990:2020'
-                            ],
-                            'options' => ['class' => 'form-control','required' => true]
-                ])
-                ?>
 
-            </td>
         </tr>
-        <tr>
-            <td>
-                <?=
-                $form->field($model, 'installment_payment_last_date')->widget(
-                        DatePicker::class,
-                        [
-                            'dateFormat' => 'yyyy-MM-dd',
-                            'clientOptions' => [
-                                'changeMonth' => false,
-                                'changeYear' => true,
-                                'minDate' => '0y',
-                                // 'maxDate' => '0',
-                                'showButtonPanel' => false,
-                                'todayHighlight' => false,
-                                'format' => 'Y-m-d',
-                            //'yearRange' => '1990:2020'
-                            ],
-                            'options' => ['class' => 'form-control', 'required' => true]
-                ])
-                ?>
 
-            </td>
-            <td>
-                <?=
-                $form->field($model, 'interest_payment_start_date')->widget(
-                        DatePicker::class,
-                        [
-                            'dateFormat' => 'yyyy-MM-dd',
-                            'clientOptions' => [
-                                'changeMonth' => false,
-                                'changeYear' => true,
-                                'minDate' => '0y',
-                                //'maxDate' => '0',
-                                'showButtonPanel' => false,
-                                'todayHighlight' => false,
-                                'format' => 'Y-m-d',
-                            //'yearRange' => '1990:2020'
-                            ],
-                            'options' => ['class' => 'form-control', 'required' => true]
-                ])
-                ?>
-            </td>
-            <td>
-                <?=
-                $form->field($model, 'interest_payment_last_date')->widget(
-                        DatePicker::class,
-                        [
-                            'dateFormat' => 'yyyy-MM-dd',
-                            'clientOptions' => [
-                                'changeMonth' => false,
-                                'changeYear' => true,
-                                'minDate' => '0y',
-                                //'maxDate' => '0',
-                                'showButtonPanel' => false,
-                                'todayHighlight' => false,
-                                'format' => 'Y-m-d',
-                            //'yearRange' => '1990:2020'
-                            ],
-                            'options' => ['class' => 'form-control','required' => true]
-                ])
-                ?>
-            </td>
-        </tr>
         <tr>
-            <td>
-                <?=
-                $form->field($model, 'payment_installment_amount')->dropDownList([]) ?>
-            </td> 
+            
+        
             <td colspan="6"> 
                 <?= $form->field($model, 'activity_remarks')
                 ->textArea(['maxlength' => true, 'required' => true])
@@ -136,11 +52,11 @@ use yii\jui\DatePicker;
             </td>
             <td colspan="2">
                 <?= $form->field($model, 'created_by')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'approved_at')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'approved_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'created_at')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'updated_at')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'approved_at')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'approved_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'client_id')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'status')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'loan_type')->hiddenInput()->label(false) ?>
@@ -148,7 +64,6 @@ use yii\jui\DatePicker;
                 <?= $form->field($model, 'amount_applied_for')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'interest_rate')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'interest_frequency')->hiddenInput()->label(false) ?>
-                <?= $form->field($model, 'application_date')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'installment_frequency')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'loan_period')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>

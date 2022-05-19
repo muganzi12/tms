@@ -41,7 +41,7 @@ $this->params['page_description'] = '';
                     [
                         'attribute' => 'identification_type',
                         'value' => function($data) {
-                            return $data->identificationType->name;
+                            return @$data->identificationType->name;
                         },
                         'format' => 'raw'
                     ],
@@ -49,7 +49,7 @@ $this->params['page_description'] = '';
                     [
                         'attribute' => 'relationship',
                         'value' => function($data) {
-                            return $data->relationshipType->name;
+                            return @$data->relationshipType->name;
                         },
                         'format' => 'raw'
                     ],
@@ -58,7 +58,7 @@ $this->params['page_description'] = '';
                     [
                         'attribute' => 'gender',
                         'value' => function($data) {
-                            return $data->genderType->name;
+                            return @$data->genderType->name;
                         },
                         'format' => 'raw'
                     ],

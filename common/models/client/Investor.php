@@ -3,7 +3,9 @@
 namespace common\models\client;
 
 use Yii;
-use common\models\client\MasterData;
+use common\models\client\ClientMasterData;
+use yii\helpers\Html;
+use yii\helpers\Url;
 /**
  * This is the model class for table "investor".
  *
@@ -41,16 +43,22 @@ class Investor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['firstname', 'lastname', 'identification_type', 'identfication_number','gender', 'telephone', 'physical_address', 'date_of_birth', 'created_at', 'created_by'], 'required'],
+              [['firstname', 'lastname', 'identification_type','nin','investor_type','reference_number', 'identfication_number','gender', 'telephone', 'physical_address', 'date_of_birth', 'created_at', 'created_by'], 'required'],
             [['identification_type', 'status', 'gender','created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['date_of_birth'], 'safe'],
             [['firstname', 'lastname', 'othername', 'email'], 'string', 'max' => 100],
-            [['identfication_number', 'telephone', 'alt_telephone'], 'string', 'max' => 14],
-            [['physical_address', 'profile_pic'], 'string', 'max' => 255],
+            [['identfication_number', 'telephone','nin', 'alt_telephone'], 'string', 'max' => 14],
+            [['physical_address', 'profile_pic','reference_number'], 'string', 'max' => 255],
             [['identfication_number'], 'unique'],
+            [['telephone'], 'match', 'pattern' => '/^(\D*)?(\d{3})(\D*)?(\d{3})(\D*)?(\d{4})$/', 'message' => 'Invalid Telephone number format'],
+            [['identfication_number','firstname','lastname','othername'], 'match', 'pattern' => "/^[A-Za-z0-9_]+$/u", 'message' => 'File Number does not contain special characters '],
+            [['firstname','lastname','othername'], 'match', 'pattern' => "/^[a-zA-Z\s]+$/", 'message' => 'Contains only letters'],
+            [['identfication_number'], 'string', 'min' => 14, 'message' => 'You must enter minimum 20 characters'],
             [['telephone'], 'unique'],
         ];
     }
+    
+    
 
     /**
      * {@inheritdoc}
@@ -68,6 +76,8 @@ class Investor extends \yii\db\ActiveRecord
             'physical_address' => 'Physical Address',
             'alt_telephone' => 'Alt Telephone',
             'email' => 'Email',
+            'nin'=>'NIN',
+            'investor_type'=>'Investor Type',
             'date_of_birth' => 'Date Of Birth',
             'status' => 'Status',
             'profile_pic' => 'Profile Pic',
@@ -85,6 +95,18 @@ class Investor extends \yii\db\ActiveRecord
             return Yii::getAlias('@web/html') . "/passport/default.jpeg";
         }
     }
+       /**
+     * 
+     * Show Client Classification Status
+     */
+    public function getProfile() {
+        $url = $this->passportPhoto;
+        return Html::img($url, ['alt' => 'avatar', 'width' => '50', 'height' => '50']);
+    }
+    
+       public function getFullNames() {
+        return $this->firstname . ' ' . $this->lastname;
+    }
     
         /**
      * The age of this Investor
@@ -96,7 +118,57 @@ class Investor extends \yii\db\ActiveRecord
             ->y;
     }
     
-        public function getIdentificationType() {
-        return $this->hasOne(MasterData::class, ['id' => 'identification_type']);
+       /**
+     * Get Client Link
+     */
+    public function getAccountNumber() {
+        return '<b><a href="' . Url::to(['investor/view', 'id' => $this->id]) . '">' . $this->reference_number . "</a></b>";
     }
+
+    
+   public function getGenderType() {
+        return $this->hasOne(ClientMasterData::class, ['id' => 'gender']);
+    }
+    
+       /**
+     * 
+     * Show Client Classification Status
+     */
+    public function getClientGender() {
+        return $this->genderType->name;
+    }
+
+    public function getIdentificationType() {
+        return $this->hasOne(ClientMasterData::class, ['id' => 'identification_type']);
+    }
+    
+        /**
+     * Show Identification Type 
+     */
+    public function getIdentification() {
+        return $this->identificationType->name;
+    }
+
+    public function getClientType() {
+        return $this->hasOne(ClientMasterData::class, ['id' => 'client_type']);
+    }
+
+    public function getClassificationStatus() {
+        return $this->hasOne(ClientMasterData::class, ['id' => 'client_classification_status']);
+    }
+
+    public function getMaritalStatus() {
+        return $this->hasOne(ClientMasterData::class, ['id' => 'marital_status']);
+    }
+        public function getMemberStatus() {
+        return $this->hasOne(ClientMasterData::class, ['id' => 'status']);
+    }
+    
+      /**
+     * Show Status Button 
+     */
+    public function getStatusButton() {
+        return "<badge class='badge badge-{$this->memberStatus->css_class}'>" . $this->memberStatus->name . '</badge>';
+    }
+
 }

@@ -24,7 +24,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'email'],
             ['email', 'exist',
                 'targetClass' => '\common\models\User',
-                'filter' => ['status' => User::STATUS_ACTIVE],
+               // 'filter' => ['status' => User::STATUS_ACTIVE],
                 'message' => 'There is no user with this email address.'
             ],
         ];
@@ -35,13 +35,10 @@ class PasswordResetRequestForm extends Model
      *
      * @return bool whether the email was send
      */
-    public function sendEmail()
+    public function sendEmail($email)
     {
         /* @var $user User */
-        $user = User::findOne([
-            'status' => User::STATUS_ACTIVE,
-            'email' => $this->email,
-        ]);
+        $user = User::findbyEmail($email);
 
         if (!$user) {
             return false;
@@ -60,9 +57,10 @@ class PasswordResetRequestForm extends Model
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
                 ['user' => $user]
             )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($this->email)
-            ->setSubject('Password reset for ' . Yii::$app->name)
+            ->setFrom(['kumusoftcreditscore@gmail.com'=> 'LMS-RESET PASSWORD'])
+            ->setTo($user->email)
+            ->setSubject('PASSWORD RESET REQUEST FOR LMS-RESET PASSWORD')
             ->send();
+            
     }
 }

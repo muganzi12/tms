@@ -16,21 +16,55 @@ use yii\helpers\ArrayHelper;
 
     <table class="table">
         <tr>
-            <td>
-                <?php
-                echo $form->field($model, 'type_of_collateral')->widget(Select2::classname(), [
-                    'value' => '',
-                    'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map($type, 'id', 'name'),
-                    'options' => [
-                        'placeholder' => 'Select Type of Collateral',
-                        'class' => 'form-control',
-                        'multiple' => false,
-                        'required' => true
-                    ],
-                ]);
-                ?>
-            </td>
+
+            <?php if ($loan->client->client_type == 60): ?>
+                <td>
+                    <?php
+                    echo $form->field($model, 'type_of_collateral')->widget(Select2::classname(), [
+                        'value' => '',
+                        'theme' => Select2::THEME_CLASSIC,
+                        'data' => ArrayHelper::map($type2, 'id', 'name'),
+                        'options' => [
+                            'placeholder' => 'Select Type of Collateral',
+                            'class' => 'form-control',
+                            'multiple' => false,
+                            'required' => true
+                        ],
+                    ]);
+                    ?>
+                </td>
+            <?php else: ?>
+                 <td>
+                    <?php
+                    echo $form->field($model, 'type_of_collateral')->widget(Select2::classname(), [
+                        'value' => '',
+                        'theme' => Select2::THEME_CLASSIC,
+                        'data' => ArrayHelper::map($type, 'id', 'name'),
+                        'options' => [
+                            'placeholder' => 'Select Type of Collateral',
+                            'class' => 'form-control',
+                            'multiple' => false,
+                            'required' => true
+                        ],
+                    ]);
+                    ?>
+                </td>
+            <?php endif; ?>
+         <td>
+                    <?php
+                    echo $form->field($model, 'price_type')->widget(Select2::classname(), [
+                        'value' => '',
+                        'theme' => Select2::THEME_CLASSIC,
+                        'data' => ArrayHelper::map($price, 'id', 'name'),
+                        'options' => [
+                            'placeholder' => 'Select Price Type',
+                            'class' => 'form-control',
+                            'multiple' => false,
+                            'required' => true
+                        ],
+                    ]);
+                    ?>
+                </td>
             <td>
                 <?= $form->field($model, 'estimated_price')->textInput(['maxlength' => true, 'required' => true]) ?>
 
@@ -52,7 +86,7 @@ use yii\helpers\ArrayHelper;
             </td>
         </tr>
         <tr>
-              <td>
+            <td>
                 <?php
                 echo $form->field($model, 'type_of_ownership')->widget(Select2::classname(), [
                     'value' => '',
@@ -93,3 +127,7 @@ use yii\helpers\ArrayHelper;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<pre>
+    <?php print_r($loan->client->client_type); ?>
+</pre>

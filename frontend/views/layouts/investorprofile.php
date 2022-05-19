@@ -10,11 +10,12 @@ $investor_id = $this->params['investor_id'];
 $investor = Investor::findOne($investor_id);
 ?>
 <?php $this->beginContent('@frontend/views/layouts/main-blank.php'); ?>
+
 <div class="mdk-header-layout__content">
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
         <div class="mdk-drawer-layout__content page">
             <div style="padding-bottom: calc(5.125rem / 2); position: relative; margin-bottom: 1.5rem;">
-                <div class="bg-dark" style="min-height: 150px;  background: linear-gradient(to right, #1C7CE0, #150051) !important;">
+                  <div class="bg-dark" style="min-height: 40px;  background: linear-gradient(to right, #8dbef2, #77c6ed) !important;">
                     <div class="d-flex align-items-end container-fluid page__container" style="position: absolute; left: 0; right: 0; bottom: 0;">
                         <div class="avatar avatar-xl">
                             <img src="<?= $investor->passportPhoto; ?>" alt="avatar" class="avatar-img rounded-circle">
@@ -25,11 +26,16 @@ $investor = Investor::findOne($investor_id);
                             <?= Html::a('Profits', ['investor/view', 'id' => $investor_id], ['class' => '']); ?>
                             <?= Html::a('Payment History', ['client/view', 'id' => $investor_id], ['class' => '']); ?>       
                         </div>
+                     
                     </div>
                 </div>
             </div>
             <div class="container-fluid page__container">
                 <div class="row">
+
+                    <div class="col-lg-9">
+                        <?= $content; ?>
+                    </div>
                     <div class="col-lg-3" style="border-right:1px solid #eee;">
                         <h1 class="h4 mb-1"><?= $investor->firstname . ' ' . $investor->lastname; ?></h1>
                         <div class="text-muted d-flex align-items-center">
@@ -65,9 +71,6 @@ $investor = Investor::findOne($investor_id);
 
                         </ul>
 
-                    </div>
-                    <div class="col-lg-9">
-                        <?= $content; ?>
                     </div>
                 </div>
             </div>

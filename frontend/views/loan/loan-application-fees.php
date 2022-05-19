@@ -2,62 +2,73 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\helpers\url;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
+use nullref\datatable\DataTable;
+use yii\helpers\Url;
 
-$this->title = "Loan Guarantors";
+$this->title = "Expected Payments";
 //Page descrition
-$this->params['page_description'] = 'Loan Gurantors';
+$this->params['page_description'] = 'Expected Payments';
 //Pass LoanID to the layout 
 $this->params['loan_id'] = $loanId;
+//Top Right button
+$this->params['topright_button'] = true;
+$this->params['topright_button_label'] = 'Download';
+$this->params['topright_button_link'] = ['loan/download-payment-history','id'=>$model->id];
+$this->params['topright_button_class'] = 'btn-primary pull-right';
 ?>
-<style>
-    .profile-section{}
-    .profile-section h5{
-        border-bottom: 3px solid #3C8BE5;
-        color:#135095;
-        font-weight: bold !important;
+
+<p>
+    <?= Html::button('Record Payment', ['class' => 'pull-right btn btn-primary','onclick'=>'makePayment()']) ?>
+</p>
+
+    <?php
+    echo DataTable::widget([
+        'data' => $model->ledgerEntries,
+        'tableOptions' => ['class' => 'table table-striped', 'style' => 'width: 100%'],
+        'id' => 'payment_history',
+        'columns' => [
+            ['attribute' => 'checkboxField', 'title' => ''],
+            ['attribute' => 'entry_reference', 'title' => 'REF'],
+            ['attribute' => 'description', 'title' => 'Description'],
+            ['attribute' => 'due_date', 'title' => 'Due Date',],
+            ['attribute' => 'transactionDate', 'title' => 'Recorded At',],
+            ['attribute' => 'transactionAmount', 'title' => 'Amount'],
+            ['attribute' => 'statusButton', 'title' => 'Status'],
+            ['attribute' => 'interestButton', 'title' => 'Option']
+        ],
+    ]);
+    ?>
+    <script>
+    function getSelectedRows() {
+        return $('input:checked').map(function () {
+            return this.value;
+        }).get();
     }
-</style>
-<section class="sheet padding-10mm" style="padding:0 7px 0 7px;">
+    
+    //Selected Records
+    function getSelectedRecords(_keys) {
+        let selected_values = [];
+        for (i = 0; i < _keys.length; i++) {
+            var _value = $('#row' + _keys[i]).val();
+            selected_values.push(_value);
+        }
+        return selected_values;
+    }
 
-      <div class="profile-section" style="margin-top:20px;">
-
-        <div class="col-lg-12" style="padding:0px;">
-
-
-        <?=
-        GridView::widget([
-            'dataProvider' => $dataProvider,
-            //'filterModel' => $searchModel,
-            'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
-                //'loan_id',
-                'firstname',
-                'lastname',
-               // 'othername',
-                [
-                    'attribute' => 'identification_type',
-                    'value' => function($data) {
-                        return $data->identificationType->name;
-                    },
-                    'format' => 'raw'
-                ],
-                'identification_number',
-                'telephone_primary',
-                //'telephone_alternative',
-                //'employer_name',
-                'source_of_income',
-                'physical_address',
-            //'created_at',
-            //'created_by',
-            //'updated_at',
-            //'updated_by',
-            //['class' => 'yii\grid\ActionColumn'],
-            ],
-        ]);
-        ?>
-    </div>
-
-</div>
+    /**
+    * Make payment
+    */
+    function makePayment() {
+        var keys = getSelectedRows();
+        if (keys.length > 0) {
+            var id = getSelectedRecords(keys);
+            };
+            //Remove null values
+            var filteredKeys = id.filter(function (el) {
+                return el != null;
+            });
+           return  location.href="<?= Url::to(['loan/pay','id'=>$model->id]); ?>&ledger="+filteredKeys;
+    }
+    </script>

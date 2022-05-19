@@ -3,7 +3,7 @@
 namespace common\models\client;
 
 use Yii;
-use common\models\client\MasterData;
+use common\models\client\ClientMasterData;
 use common\models\client\ChartOfAccounts;
 /**
  * This is the model class for table "chart_of_accounts".
@@ -77,7 +77,7 @@ class ChartOfAccounts extends \yii\db\ActiveRecord {
     }
     
       public function getType() {
-        return $this->hasOne(MasterData::class, ['id' => 'account_type']);
+        return $this->hasOne(ClientMasterData::class, ['id' => 'account_type']);
     }
 
     public function getFullAccountName(){

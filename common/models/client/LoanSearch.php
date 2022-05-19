@@ -17,9 +17,9 @@ class LoanSearch extends Loan
     public function rules()
     {
         return [
-            [['id', 'client_id', 'loan_type', 'status', 'loan_period', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['reference_number', 'application_date', 'disbursment_date', 'interest_frequency', 'installment_frequency', 'installment_payment_start_date', 'installment_payment_last_date', 'interest_payment_start_date', 'interest_payment_last_date'], 'safe'],
-            [['amount_applied_for', 'amount_approved', 'interest_rate', 'payment_installment_amount'], 'number'],
+            [['id', 'client_id', 'loan_type','loan_product','status', 'loan_period', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['reference_number', 'interest_frequency', 'installment_frequency'], 'safe'],
+            [['amount_applied_for', 'amount_approved', 'interest_rate'], 'number'],
         ];
     }
 
@@ -48,6 +48,11 @@ class LoanSearch extends Loan
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        
+        
+    $dataProvider->sort->attributes['id'] = [
+        'desc' => ['id' => SORT_DESC],
+    ];
 
         $this->load($params);
 
@@ -62,17 +67,11 @@ class LoanSearch extends Loan
             'id' => $this->id,
             'client_id' => $this->client_id,
             'loan_type' => $this->loan_type,
+            'loan_product' => $this->loan_product,
             'amount_applied_for' => $this->amount_applied_for,
             'amount_approved' => $this->amount_approved,
-            'application_date' => $this->application_date,
-            'disbursment_date' => $this->disbursment_date,
             'status' => $this->status,
             'interest_rate' => $this->interest_rate,
-            'payment_installment_amount' => $this->payment_installment_amount,
-            'installment_payment_start_date' => $this->installment_payment_start_date,
-            'installment_payment_last_date' => $this->installment_payment_last_date,
-            'interest_payment_start_date' => $this->interest_payment_start_date,
-            'interest_payment_last_date' => $this->interest_payment_last_date,
             'loan_period' => $this->loan_period,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,

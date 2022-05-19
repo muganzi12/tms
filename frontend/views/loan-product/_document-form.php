@@ -30,7 +30,7 @@ use yii\widgets\ActiveForm;
         <tr>
 
             <td colspan="6">
-                <?= $form->field($model, 'description')->textArea(['maxlength' => 300, 'rows' => 4, 'cols' => 50, 'required' => true]) ?>
+                <?= $form->field($model, 'description')->textArea(['maxlength' => 400, 'rows' => 4, 'cols' => 50, 'required' => true]) ?>
             </td>
         </tr>
         <tr>

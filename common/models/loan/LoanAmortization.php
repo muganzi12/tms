@@ -38,7 +38,7 @@ namespace common\models\loan;
     
     public function setInterestRate(float $interestRate): LoanAmortization
     {
-        $this->interestRate = $interestRate;
+        $this->interestRate = 8;
         return $this;
     }
     
@@ -152,6 +152,8 @@ namespace common\models\loan;
         $nominator = $interestRatePerMonth * ((1 + $interestRatePerMonth) ** $months);
         $denominator = ((1 + $interestRatePerMonth) ** $months) - 1;
         return round($principal * ($nominator / $denominator), 2);
+        
+        
     }
     
     /**

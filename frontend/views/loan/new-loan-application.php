@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-
+use common\models\loan\RatedItem;
 /* @var $this yii\web\View */
 /* @var $model common\models\client\Loan */
 
@@ -10,6 +10,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Loans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 //Pass CLientID to the layout 
 $this->params['client_id'] = $clientId;
+   $schedule = RatedItem::find()->all();
 ?>
 <style>
     .profile-section{}
@@ -30,10 +31,14 @@ $this->params['client_id'] = $clientId;
             $this->render('_form', [
                 'model' => $model,
                 'client' => $client,
-                'currency' => $currency,
+                'type' => $type,
             ])
             ?>
 
         </div>
 
     </div>
+    
+    <pre>
+        <?php   print_r($schedule);?>
+    </pre>

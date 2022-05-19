@@ -5,7 +5,8 @@ use yii\grid\GridView;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use common\models\client\Branch;
-use yii\helpers\url;
+use yii\helpers\Url;
+use nullref\datatable\DataTable;
 
 $this->title = 'System Users';
 //Top Right button
@@ -18,77 +19,60 @@ $this->title = 'System Users';
 $this->params['breadcrumbs'][] = $this->title;
 //Page descrition
 $this->params['page_description'] = '';
+$data = $dataProvider->getModels();
 ?>
+
+<style>
+
+
+    input[type="search"] {
+        width:500px;
+        border:1px solid green;
+        padding:3px;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 <div class="user-index">
 
-    <?=
-    GridView::widget([
-        'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            // 'id',
-            'username',
-            'firstname',
-            'lastname',
-            'othername',
-            'telephone',
-            'email',
-            //'auth_key',
-            //'password_hash',
-            //'password_status',
-            //'password_reset_token',
-            //'email:email',
-            [
-                'attribute' => 'status',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return '<a href="#" class="badge badge-block badge-' . $data->userStatus->css_class . '">' . $data->userStatus->name . '</a>';
-                },
-                'format' => 'raw'
-            ],
-            //'client_id',
-            // 'branch_id',
-            [
-                'attribute' => 'branch_id',
-                'value' => function($data) {
-                    return '<b><a href="' . Url::to(['branch/view', 'id' => $data->branch->id]) . '">' . $data->branch->name . "</a></b>";
-                },
-                'filter' => Select2::widget([
-                    'model' => $searchModel,
-                    'attribute' => 'branch_id',
-                    'theme' => Select2::THEME_BOOTSTRAP,
-                    'data' => ArrayHelper::map(Branch::find()->select(['id', 'name'])->all(), 'id', 'name'),
-                    'options' => ['placeholder' => 'Select a Branch ...'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]),
-                'format' => 'raw'
-            ],
-            //'created_at',
-            //'updated_at',
-            //'verification_token',
-            //'profile_pic',
-            //'office_id',
-            //'is_admin',
-            //'app_module',
-            //'telephone',
-            //'login_at',
-            //'passwrd_reset_at',
-            //'created_by',
-            //'updated_by',
-            [
-                'format' => 'raw',
-                'value' => function($data) {
-                    return
-                    Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update', 'id' => $data['id']], ['title' => 'edit', 'class' => 'btn btn-info']);
-                },
-                'header' => 'OPTIONS'
-            ],
-        ],
-    ]);
-    ?>
-
-
 </div>
+
+<table id="example" class="display" style="width:100%">
+    <thead>
+   
+        <tr>
+            <th>Profile Picture</th>
+            <th>Username</th>
+            <th>First Name</th>
+             <th>Last Name</th>
+            <th>Telephobe Number</th>
+            <th>Email</th>
+             <th>Office</th>
+            <th>Status</th>
+             <th>Option</th>
+        </tr>
+  
+    </thead>
+    <tbody>
+               <?php foreach ($data AS $lg) { ?>
+        <tr>
+            <td><?=$lg['profile'];?></td>
+            <td><?=$lg['userNames'];?></td>
+            <td><?=$lg['firstname'];?></td>
+            <td><?=$lg['lastname'];?></td>
+            <td><?=$lg['telephone'];?></td>
+            <td><?=@$lg['email'];?></td>
+              <td><?=@$lg['officeHeld'];?></td>
+            <td><?=$lg['statusButton'];?></td>
+             <td><?=$lg['updateButton'];?></td>
+        </tr>
+          <?php } ?>
+ 
+     
+        
+    </tbody>
+
+</table>
+    <pre>
+        <?php  print_r($data);?>
+    </pre>

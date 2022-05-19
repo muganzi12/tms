@@ -31,13 +31,13 @@ Yii::$app->assetManager->forceCopy = true;
         </style>
     </head>
 
-    <body class="layout-default">    
+    <body>    
         <?php $this->beginBody() ?> 
-        <div class="preloader"></div>
+        <div class="preloader bg-white"></div>
         <!-- Header Layout -->
         <div class="mdk-header-layout js-mdk-header-layout">
             <!-- Header -->
-            <?= $this->render('new_topnav'); ?>
+            <?= $this->render('new_topnav_admin'); ?>
             <!-- // END Header -->
 
             <!-- Header Layout Content -->
@@ -63,7 +63,7 @@ Yii::$app->assetManager->forceCopy = true;
 
                     </div>
                     <!-- // END drawer-layout__content -->
-                    <?= $this->render('new_leftnav'); ?>
+                    <?= $this->render('admin_leftnav'); ?>
                 </div>
                 <!-- // END drawer-layout -->
 
@@ -74,7 +74,7 @@ Yii::$app->assetManager->forceCopy = true;
         <!-- // END header-layout -->
 
         <!-- App Settings FAB -->
-        <div id="app-settings">
+        <div id="app-settings" style="display: none;">
             <app-settings layout-active="default">    
             </app-settings>
         </div>

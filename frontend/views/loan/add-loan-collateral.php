@@ -33,6 +33,8 @@ $this->params['loan_id'] = $loanId;
             'model' => $model,
             'loan' => $loan,
             'type' => $type,
+            'price' => $price,
+            'type2' => $type2,
              'ownership' => $ownership,
         ])
         ?>

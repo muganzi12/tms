@@ -34,7 +34,7 @@ use common\models\client\ChartOfAccounts;
 
         </tr>
         <tr>
-            <td> <?= $form->field($model, 'processing_loan_fees')->textInput(['maxlength' => true, 'required' => true]) ?>
+   
             </td>
             <td>    <?= $form->field($model, 'minimum_amount')->textInput(['maxlength' => true, 'required' => true, 'required' => true]) ?>
             </td>
@@ -43,54 +43,20 @@ use common\models\client\ChartOfAccounts;
             <td>  
                 <?= $form->field($model, 'principal_installment_frequency')->dropDownList(['Monthly' => 'Monthly'], ['prompt' => 'Monthly']) ?>
             </td>
-
+     <td> 
+                <?= $form->field($model, 'interest_frequency')->dropDownList(['Weekly' => 'Weekly'], ['prompt' => 'Weekly']) ?>
+            </td>
           
         </tr>
 
         <tr> 
-              <td> 
-                <?= $form->field($model, 'interest_frequency')->dropDownList(['Weekly' => 'Weekly'], ['prompt' => 'Weekly']) ?>
-            </td>
+         
 
             <td>
                 <?= $form->field($model, 'penalty')->textInput(['maxlength' => true, 'required' => true]) ?>
             </td>
 
-            <td>   
-                <?php
-                $inst = 'DETAIL';
-                echo $form->field($model, 'account_to_credit')->widget(Select2::classname(), [
-                    'value' => '',
-                    'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map(ChartOfAccounts::find()->select(['id', 'account_name'])->where(['category' => $inst])->all(), 'id', 'account_name'),
-                    'options' => [
-                        'placeholder' => 'Select an Account ',
-                        'class' => 'form-control',
-                        //'id' => 'user-outlet-id',
-                        'multiple' => false,
-                        'required' => true
-                    ]
-                ]);
-                ?>
-
-            </td>
-            <td>
-                <?php
-                $inst = 'DETAIL';
-                echo $form->field($model, 'account_to_debit')->widget(Select2::classname(), [
-                    'value' => '',
-                    'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map(ChartOfAccounts::find()->select(['id', 'account_name'])->where(['category' => $inst])->all(), 'id', 'account_name'),
-                    'options' => [
-                        'placeholder' => 'Select an Account ',
-                        'class' => 'form-control',
-                        //'id' => 'user-outlet-id',
-                        'multiple' => false,
-                        'required' => true
-                    ]
-                ]);
-                ?>
-            </td>
+        
 
         </tr>
 

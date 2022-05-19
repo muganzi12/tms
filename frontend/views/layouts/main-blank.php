@@ -42,7 +42,7 @@ Yii::$app->assetManager->forceCopy = true;
         <!-- // END header-layout -->
 
         <!-- App Settings FAB -->
-        <div id="app-settings">
+        <div id="app-settings" style="display: none;">
             <app-settings layout-active="default">    
             </app-settings>
         </div>

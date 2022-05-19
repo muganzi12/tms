@@ -20,40 +20,26 @@ use common\models\client\LoanProduct;
             <td> <?= $form->field($model, 'amount_to_invest')->textInput(['maxlength' => true, 'required' => true]) ?>
             </td>
             <td>  
-                <?= $form->field($model, 'duration_type')->dropDownList(['Weekly' => 'Weekly','Monthly' => 'Monthly','Annually' => 'Annually'], ['prompt' => 'Select.....']) ?>
+                <?= $form->field($model, 'payment_frequency')->dropDownList(['WEEKLY' => 'WEEKLY', 'MONTHLY' => 'MONTHLY', 'ANNUALLY' => 'ANNUALLY'], ['prompt' => 'Select.....']) ?>
             </td>
+
+
+        </tr>
+
+        <tr>
             <td><?= $form->field($model, 'investment_duration')->textInput(['maxlength' => true, 'required' => true]) ?>
             </td>
             <td><?= $form->field($model, 'interest_rate')->textInput(['maxlength' => true, 'required' => true]) ?>
             </td>
 
         </tr>
-
+        
         <tr>
-            <td> 
-                <?php
-                echo $form->field($model, 'loan_product')->widget(Select2::classname(), [
-                    'value' => '',
-                    'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map(LoanProduct::find()->select(['id', 'name'])->all(), 'id', 'name'),
-                    'options' => [
-                        'placeholder' => 'Select a Header ', 'id' => 'productId',
-                        'class' => 'form-control',
-                        //'id' => 'user-outlet-id',
-                        'multiple' => false,
-                        'required' => true
-                    ]
-                ]);
-                ?> 
-
-            </td>
-
-            <td> <?= $form->field($model, 'total_interest')->textInput(['maxlength' => true, 'required' => true]) ?>
-            </td>
-            <td colspan="4"> <?= $form->field($model, 'expected_total_amount')->textInput(['maxlength' => true, 'required' => true]) ?></td>
-            <td></td>
-
+            <td colspan="6"> 
+                <?= $form->field($model, 'proof_of_investment')->fileInput() ?>
+        </td>
         </tr>
+
 
 
         <tr>
@@ -67,6 +53,9 @@ use common\models\client\LoanProduct;
                 <?= $form->field($model, 'updated_at')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'investor_id')->hiddenInput()->label(false) ?>
+                 <?= $form->field($model, 'loan_type')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'reference_number')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'status')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
 
 

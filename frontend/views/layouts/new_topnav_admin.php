@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Url;
 ?>
 <div id="header"
@@ -6,7 +7,7 @@ use yii\helpers\Url;
      data-fixed>
     <div class="mdk-header__content">
 
-        <div class="navbar navbar-expand-sm navbar-main navbar-dark bg-dark  pr-0"
+        <div class="navbar navbar-expand-sm navbar-main navbar-dark bg-dark"
              id="navbar"
              data-primary>
             <div class="container-fluid p-0">
@@ -18,12 +19,16 @@ use yii\helpers\Url;
                         data-toggle="sidebar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
+                <a>
+            <img src="<?= Yii::getAlias('@web/html'); ?>/images/demos.png" style="height: 60px;margin-left:20px;"/>
+          
+        </a>
+        
                 <!-- Navbar Brand -->
                 <a href="<?= Url::base(true); ?>" class="navbar-brand ">
-                    <img src="<?= Url::base(true); ?>/img/logo-small.jpeg" alt="" class="light-logo">
-                        <span>LOAN MANAGER</span>
+                         <h4> <span> Loan Management System</span></h4>
                 </a>
+
 
                 <form class="search-form d-none d-sm-flex flex"
                       action="index.html">
@@ -36,7 +41,7 @@ use yii\helpers\Url;
 
                 <ul class="nav navbar-nav ml-auto d-none d-md-flex">
                     <li class="nav-item dropdown">
-                    <a href="<?= Url::to(['site/admin']);?>"
+                        <a href="<?= Url::to(['site/admin']); ?>"
                            class="nav-link"
                            data-caret="false">
                             <i class="material-icons nav-icon">settings</i>
@@ -69,7 +74,7 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="flex">
                                             <a href="">A.Demian</a> left a comment on <a href="">FlowDash</a><br>
-                                                <small class="text-muted">1 minute ago</small>
+                                            <small class="text-muted">1 minute ago</small>
                                         </div>
                                     </div>
                                     <div class="dropdown-item d-flex">
@@ -83,7 +88,7 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="flex">
                                             New user <a href="#">Peter Parker</a> signed up.<br>
-                                                <small class="text-muted">1 hour ago</small>
+                                            <small class="text-muted">1 hour ago</small>
                                         </div>
                                     </div>
                                     <div class="dropdown-item d-flex">
@@ -97,8 +102,8 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="flex">
                                             <a href="#">Big Joe</a> <small class="text-muted">wrote:</small><br>
-                                                <div>Hey, how are you? What about our next meeting</div>
-                                                <small class="text-muted">2 minutes ago</small>
+                                            <div>Hey, how are you? What about our next meeting</div>
+                                            <small class="text-muted">2 minutes ago</small>
                                         </div>
                                     </div>
 
@@ -113,7 +118,7 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="flex">
                                             <a href="">A.Demian</a> left a comment on <a href="">FlowDash</a><br>
-                                                <small class="text-muted">1 minute ago</small>
+                                            <small class="text-muted">1 minute ago</small>
                                         </div>
                                     </div>
                                     <div class="dropdown-item d-flex">
@@ -127,7 +132,7 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="flex">
                                             New user <a href="#">Peter Parker</a> signed up.<br>
-                                                <small class="text-muted">1 hour ago</small>
+                                            <small class="text-muted">1 hour ago</small>
                                         </div>
                                     </div>
                                     <div class="dropdown-item d-flex">
@@ -141,8 +146,8 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="flex">
                                             <a href="#">Big Joe</a> <small class="text-muted">wrote:</small><br>
-                                                <div>Hey, how are you? What about our next meeting</div>
-                                                <small class="text-muted">2 minutes ago</small>
+                                            <div>Hey, how are you? What about our next meeting</div>
+                                            <small class="text-muted">2 minutes ago</small>
                                         </div>
                                     </div>
 
@@ -157,7 +162,7 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="flex">
                                             <a href="">A.Demian</a> left a comment on <a href="">FlowDash</a><br>
-                                                <small class="text-muted">1 minute ago</small>
+                                            <small class="text-muted">1 minute ago</small>
                                         </div>
                                     </div>
                                     <div class="dropdown-item d-flex">
@@ -171,7 +176,7 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="flex">
                                             New user <a href="#">Peter Parker</a> signed up.<br>
-                                                <small class="text-muted">1 hour ago</small>
+                                            <small class="text-muted">1 hour ago</small>
                                         </div>
                                     </div>
                                     <div class="dropdown-item d-flex">
@@ -185,8 +190,8 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="flex">
                                             <a href="#">Big Joe</a> <small class="text-muted">wrote:</small><br>
-                                                <div>Hey, how are you? What about our next meeting</div>
-                                                <small class="text-muted">2 minutes ago</small>
+                                            <div>Hey, how are you? What about our next meeting</div>
+                                            <small class="text-muted">2 minutes ago</small>
                                         </div>
                                     </div>
 
@@ -205,7 +210,10 @@ use yii\helpers\Url;
                            data-toggle="dropdown"
                            data-caret="false">
                             <span class="mr-1 d-flex-inline">
-                                <span class="text-light"><?= Yii::$app->member->firstname;?></span>
+                                <span class="text-light"><?= Yii::$app->member->firstname; ?> <?= Yii::$app->member->lastname; ?></span>
+                            </span><br>
+                                <span class="mr-1 d-flex-inline">
+                                <span class="text-light"><?= Yii::$app->member->officeHeld; ?></span>
                             </span>
                             <img src="<?= Yii::$app->member->profilePicture; ?>"
                                  class="rounded-circle"
@@ -222,9 +230,11 @@ use yii\helpers\Url;
                             <a class="dropdown-item"
                                href="<?= Url::home(); ?>"><i class="material-icons">dvr</i> Dashboard</a>
                             <a class="dropdown-item"
-                               href="profile.html"><i class="material-icons">account_circle</i> My profile</a>
+                               href="<?= Url::to(['profile/index','id' => Yii::$app->member->id]); ?>"><i class="material-icons">account_circle</i> My profile</a>
                             <a class="dropdown-item"
-                               href="edit-account.html"><i class="material-icons">edit</i> Edit account</a>
+                               href="<?= Url::to(['user/update','id' => Yii::$app->member->id]); ?>"><i class="material-icons">edit</i> Edit account</a>
+                                <a class="dropdown-item"
+                               href="<?= Url::to(['site/change-mypasswd','id' => Yii::$app->member->id]); ?>"><i class="material-icons">lock</i> Change Password</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
                                href="<?= Url::to(['site/logout']); ?>"><i class="material-icons">exit_to_app</i> Logout</a>

@@ -1,27 +1,8 @@
 <?php
-
-/* @var $this yii\web\View */
-/* @var $name string */
-/* @var $message string */
-/* @var $exception Exception */
-
-use yii\helpers\Html;
-
-$this->title = $name;
+/*
+ * Page Under construction
+ */
+$this->title = "Page Under Construction";
 ?>
-<div class="site-error">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
-    </div>
-
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
-
-</div>
+<h2 class="text-center" style="font-size:150px;margin-top:100px;color:#fc0;text-shadow:2px 5px 5px #612570;">Page Under Construction</h2>

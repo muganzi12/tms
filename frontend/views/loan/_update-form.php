@@ -16,68 +16,60 @@ $update_link = "user/update";
     <table class="table">
         <tr>
 
-            <td>
-                <?= $form->field($model, 'firstname')->textInput() ?>  
+            <td colspan="6">
+                <?= $form->field($model, 'amount')->textInput(['maxlength' => true]) ?> 
             </td>
-            <td><?= $form->field($model, 'lastname')->textInput() ?>
-            </td>
-            <td>
-                <?= $form->field($model, 'username')->textInput() ?>  
-            </td>
-
-        </tr>
-        <tr>
-            <td><?= $form->field($model, 'othername')->textInput() ?></td>
-            <td><?= $form->field($model, 'email')->textInput() ?></td>
-            <td><?= $form->field($model, 'telephone')->textInput() ?></td>
 
 
         </tr>
+        
+        
+             <tr>
 
-
-        <tr>
-
-            <td >
-                <?php
-                echo $form->field($model, 'branch_id')->widget(Select2::classname(), [
-                    'value' => '',
-                    'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map(Branch::find()->select(['id', 'name'])->all(), 'id', 'name'),
-                    'options' => [
-                        'placeholder' => 'Select Branch',
-                        'class' => 'form-control',
-                        //'id' => 'user-outlet-id',
-                        'multiple' => false
-                    ]
-                ]);
-                ?>
+              <td colspan="12">
+                <?= $form->field($model, 'cancel_interest_reason')->textArea(['maxlength' => 300, 'rows' => 6, 'cols' => 50, 'required' => true]) ?>
             </td>
-            
-                        <td>
-                <?=
-                $form->field($model, 'status')->radioList(
-                        [1 => 'Active', 2 => 'De-activated']
-                )
-                ?>
-            </td>
+
+
         </tr>
+
 
 
         <tr>
 
             <td></td><td></td>
             <td>
-                 <?= $form->field($model, 'id')->hiddenInput()->label(false); ?> 
-                <?= $form->field($model, 'created_at')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'created_by')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'is_admin')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'app_module')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'password_hash')->hiddenInput()->label(false); ?>
-                 <?= $form->field($model, 'client_id')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'password_status')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'updated_at')->hiddenInput()->label(false); ?>
-                <?= $form->field($model, 'auth_key')->hiddenInput()->label(false); ?>
-               
+                <?= $form->field($model, 'id')->hiddenInput()->label(false); ?> 
+                <?= $form->field($model, 'description')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'entry_reference')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'debit_account')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'credit_account')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'due_date')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'entry_type')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'entry_reference_id')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'created_at')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'created_by')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'member_account')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'entry_period')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'updated_at')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'ledger_status')->hiddenInput()->label(false) ?>
+
+                <?= $form->field($model, 'interest_status')->hiddenInput()->label(false) ?>
+
 
             </td>
         </tr>

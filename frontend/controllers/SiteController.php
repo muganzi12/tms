@@ -74,6 +74,18 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $report = new Reports();
         $searchModel = new LoanSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -85,6 +97,18 @@ class SiteController extends Controller {
                     'released_loans' => Reports::getDisbursedLoan(),
                     'pending_clients' => Reports::getPendingClients(),
                     'approved_clients' => Reports::getApprovedClients(),
+                    'released_loans' => Reports::getDisbursedLoan(),
+                    'total_loan_amount' => Reports::getTotalLoanAmount(),
+                    'total_interest_amount' => Reports::getTotalInterestAmount(),
+                    'total_principal_amount' => Reports::getTotalPrincipalAmount(),
+                    'principal_amount_paid' => Reports::getTotalPrincipalAmountPaid(),
+                    'principal_amount_paid' => Reports::getTotalPrincipalAmountPaid(),
+                    'loan_amount_paid' => Reports::getLoanAmountPaid(),
+                    'suspended_amount_paid' => Reports::getSuspendedAmount(),
+                     'loan_penalty_amount' => Reports::getPenalizedAmount(),
+                    'loan_interest_not_paid' => Reports::getLoanAmountNotPaid(),
+                    'total_loan_balance' => Reports::getTotalLoanBalance(),
+                    'ledger_entries' => Reports::getLedgerEntries(),
                     'report' => $report,
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
@@ -92,13 +116,25 @@ class SiteController extends Controller {
     }
 
     /**
-    * Cashbook Dashboard
-    */
-    public function actionCashbook(){
+     * Cashbook Dashboard
+     */
+    public function actionCashbook() {
         return $this->render('cashbook');
     }
 
-    public function actionAdmin(){
+    public function actionAdmin() {
+
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         return $this->render('admin');
     }
 
@@ -166,6 +202,26 @@ class SiteController extends Controller {
     public function actionAbout() {
         return $this->render('about');
     }
+    
+     /**
+     * Displays about page.
+     *
+     * @return mixed
+     */
+    public function actionError() {
+          if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main_admin";
+        }
+        return $this->render('error');
+    }
 
     /**
      * Signs user up.
@@ -190,9 +246,14 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionRequestPasswordReset() {
+        $this->layout = "reset_password";
         $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
+
+        //  if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if (Yii::$app->request->isPost) {
+            //Email Sent
+            $email = $_POST['PasswordResetRequestForm']['email'];
+            if ($model->sendEmail($email)) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
 
                 return $this->goHome();
@@ -214,6 +275,7 @@ class SiteController extends Controller {
      * @throws BadRequestHttpException
      */
     public function actionResetPassword($token) {
+        $this->layout = "reset_password";
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidArgumentException $e) {
@@ -273,6 +335,72 @@ class SiteController extends Controller {
         return $this->render('resendVerificationEmail', [
                     'model' => $model
         ]);
+    }
+
+    /**
+     * Reset password for firt time logged-in Users
+     */
+    public function actionResetMypasswd() {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "userprofile_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "userprofile_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "userprofile_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "userprofile_officer";
+        } else {
+            $this->layout = "main";
+        }
+        //1. Generate & Save Password reset token
+        $member = Yii::$app->member;
+        $member->generatePasswordResetToken();
+        $member->update(false);
+        //2. Get the same user with a valid password reset topken
+        $model = new ResetPasswordForm($member->password_reset_token);
+
+        if (Yii::$app->request->isPost) {
+            if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+                Yii::$app->session->setFlash('success', 'New password saved.');
+                return $this->redirect(['profile/upload-signature']);
+                //return $this->goHome();
+            }
+        } else {
+            return $this->render('reset-mypasswd', ['model' => $model]);
+        }
+    }
+
+    /**
+     * Reset password for logged-in Users
+     */
+    public function actionChangeMypasswd($id) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "userprofile_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "userprofile_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "userprofile_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "userprofile_officer";
+        } else {
+            $this->layout = "main";
+        }
+        //1. Generate & Save Password reset token
+        $member = Yii::$app->member;
+        $member->generatePasswordResetToken();
+        $member->update(false);
+        //2. Get the same user with a valid password reset topken
+        $model = new ResetPasswordForm($member->password_reset_token);
+
+        if (Yii::$app->request->isPost) {
+            if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+                Yii::$app->session->setFlash('success', 'New password saved.');
+
+                return $this->goHome();
+            }
+        } else {
+            return $this->render('change-mypasswd', ['model' => $model, 'userId' => $id]);
+        }
     }
 
 }

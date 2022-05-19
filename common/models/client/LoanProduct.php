@@ -3,9 +3,10 @@
 namespace common\models\client;
 
 use Yii;
-use common\models\client\MasterData;
+use common\models\client\ClientMasterData;
 use common\models\client\ChartOfAccounts;
 use common\models\loan\LedgerTransactionConfig;
+use common\models\User;
 /**
  * This is the model class for table "loan_product".
  *
@@ -58,7 +59,7 @@ class LoanProduct extends \yii\db\ActiveRecord {
             'name' => 'Name',
             'product_code' => 'Product Code',
             'description' => 'Description',
-            'interest_rate' => 'Interest Rate',
+            'interest_rate' => 'Interest Rate(%)',
             'principal_installment_frequency' => 'Principal Installment Frequency',
             'interest_frequency' => 'Interest Frequency',
             'minimum_amount' => 'Minimum Amount',
@@ -74,7 +75,7 @@ class LoanProduct extends \yii\db\ActiveRecord {
     }
 
     public function getProductStatus() {
-        return $this->hasOne(MasterData::class, ['id' => 'status']);
+        return $this->hasOne(ClientMasterData::class, ['id' => 'status']);
     }
 
     /**
@@ -89,6 +90,13 @@ class LoanProduct extends \yii\db\ActiveRecord {
      */
     public function getRequiredDocuments(){
         return $this->hasMany(LoanProductRequiredDocuments::class,['loan_product_id'=>'id']);
+    }
+    
+    /**
+     * The system user who created a loan product
+     */
+    public function getCreatedBy(){
+        return $this->hasOne(User::class,['id'=>'created_by']);
     }
 
 }

@@ -5,6 +5,7 @@ namespace common\models\loan;
 use Yii;
 use common\models\client\ChartOfAccounts;
 use common\models\client\LoanProduct;
+use common\models\client\ClientMasterData;
 /**
  * This is the model class for table "ledger_transaction_config".
  *
@@ -41,10 +42,10 @@ class LedgerTransactionConfig extends \yii\db\ActiveRecord
     {
         return [
             [['transaction_name', 'debit_account', 'credit_account', 'amount_rule', 'parent_id', 'created_at', 'created_by','product_id'], 'required'],
-            [['debit_account', 'credit_account', 'is_primary', 'parent_id', 'created_at', 'created_by', 'updated_by', 'updated_at','product_id'], 'integer'],
+            [['debit_account', 'credit_account', 'is_primary', 'parent_id', 'created_at', 'created_by', 'updated_by', 'updated_at','product_id','label_id','attracts_penalty'], 'integer'],
             [['amount'], 'number'],
             [['amount_rule','product_type'], 'string'],
-            [['transaction_name'], 'string', 'max' => 255],
+            [['transaction_name','tags'], 'string', 'max' => 255],
         ];
     }
 
@@ -62,6 +63,9 @@ class LedgerTransactionConfig extends \yii\db\ActiveRecord
             'amount_rule' => 'Amount Calculation Method',
             'is_primary' => 'Is Primary Transaction',
             'parent_id' => 'Parent Transaction',
+            'tags'=>'What is Transaction Stage?',
+            'label_id'=>'Label',
+            'attracts_penalty'=>'Attracts Penalty?',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
@@ -104,6 +108,27 @@ class LedgerTransactionConfig extends \yii\db\ActiveRecord
         return LedgerTransactionConfig::find()
                 ->where(['product_type'=>$product,'product_id'=>$product_id,'tags'=>$tag])
                 ->all();
+    }
+    
+    
+    /**
+     * Get the config rules for a loan product by Tag
+     */
+    public static function transactionTypeByTag($product_id,$tag,$product='INVESTMENT'){
+        return LedgerTransactionConfig::find()
+                ->where(['product_type'=>$product,'product_id'=>$product_id,'tags'=>$tag])
+                ->all();
+    }
+    
+    /**
+     * Get application label
+     */
+    
+    public  function getTransactionLabel(){
+        
+        //return $this->hasOne(MasterData::class,['id'=>'label_id']);
+        
+        return ClientMasterData::findOne($this->label_id);
     }
 
 }

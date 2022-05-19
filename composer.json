@@ -28,7 +28,7 @@
         "miloschuman/yii2-highcharts-widget": "^9.0",
         "kartik-v/yii2-widget-depdrop": "dev-master",
         "yii2tech/activemail": "^1.0",
-        "nullref/yii2-datatables": "~1.0"
+        "nullref/yii2-datatables": "^1.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -45,6 +45,9 @@
         "process-timeout": 1800,
         "fxp-asset": {
             "enabled": false
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
         }
     },
     "repositories": [{

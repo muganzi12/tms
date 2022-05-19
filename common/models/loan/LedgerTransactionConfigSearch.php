@@ -17,8 +17,8 @@ class LedgerTransactionConfigSearch extends LedgerTransactionConfig
     public function rules()
     {
         return [
-            [['id', 'debit_account', 'credit_account', 'is_primary', 'parent_id', 'created_at', 'created_by', 'updated_by', 'updated_at'], 'integer'],
-            [['transaction_name', 'amount_rule','description'], 'safe'],
+            [['id', 'debit_account', 'credit_account', 'is_primary', 'parent_id','product_id', 'created_at', 'created_by', 'updated_by', 'updated_at'], 'integer'],
+            [['transaction_name', 'amount_rule','description','tags'], 'safe'],
             [['amount'], 'number'],
         ];
     }
@@ -65,6 +65,7 @@ class LedgerTransactionConfigSearch extends LedgerTransactionConfig
             'amount' => $this->amount,
             'is_primary' => $this->is_primary,
             'parent_id' => $this->parent_id,
+            'product_id' => $this->product_id,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
@@ -73,6 +74,7 @@ class LedgerTransactionConfigSearch extends LedgerTransactionConfig
 
         $query->andFilterWhere(['like', 'description', $this->description])
         ->andFilterWhere(['like', 'transaction_name', $this->transaction_name])
+                   ->andFilterWhere(['like', 'tags', $this->tags])
             ->andFilterWhere(['like', 'amount_rule', $this->amount_rule]);
 
         return $dataProvider;

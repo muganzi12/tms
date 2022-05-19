@@ -39,6 +39,8 @@ class LedgerPayment extends \yii\db\ActiveRecord
      */
     public $advance_payment;
 
+    
+     public $file;
     /**
      * {@inheritdoc}
      */
@@ -53,11 +55,11 @@ class LedgerPayment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'reference_no', 'paid_by', 'payment_method', 'amount_paid', 'payment_date', 'debit_account', 'created_at', 'created_by'], 'required'],
-            [['id', 'reference_no', 'payment_method', 'debit_account', 'created_at', 'created_by', 'updated_by', 'updated_at'], 'integer'],
+            [['id', 'reference_no','paid_by','transaction_type', 'payment_method', 'amount_paid', 'payment_date', 'created_at', 'created_by'], 'required'],
+            [['id', 'reference_no','debit_account','loan_id','schedule_id','investment_id', 'payment_method','created_at', 'created_by', 'updated_by', 'updated_at'], 'integer'],
             [['amount_paid','bill_total','advance_payment'], 'number'],
             [['payment_date'], 'safe'],
-            [['description','ledgers'], 'string'],
+            [['description','ledgers','transaction_type'], 'string'],
             [['paid_by', 'proof_attachment'], 'string', 'max' => 255],
             [['id'], 'unique'],
         ];
@@ -75,7 +77,6 @@ class LedgerPayment extends \yii\db\ActiveRecord
             'payment_method' => 'Payment Method',
             'amount_paid' => 'Amount Paid',
             'payment_date' => 'Payment Date',
-            'debit_account' => 'Debit Account',
             'description' => 'Description',
             'proof_attachment' => 'Proof of attachment',
             'created_at' => 'Created At',
@@ -97,5 +98,13 @@ class LedgerPayment extends \yii\db\ActiveRecord
             $this->updated_by = Yii::$app->member->id;
         }
     return parent::beforeSave($insert);
+    }
+    
+        // Get Uploaded Loan Collateral
+
+    public function getProofOfPayment() {
+        if (!empty($this->proof_of_ownership)) {
+            return Yii::getAlias('@web/html') . "/payments/" . $this->proof_of_ownership;
+        }
     }
 }

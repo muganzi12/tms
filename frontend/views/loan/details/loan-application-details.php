@@ -14,8 +14,9 @@
                     <b>Loan Product Name</b><br/>
                     <?= $model->loanType->name; ?>
                 </td>
+             
                 <td>
-                    <b>Amount Applied For</b><br/>
+                    <b>Amount Applied</b><br/>
                     <?= $model->amount_applied_for; ?>
                 </td>
                 <td>

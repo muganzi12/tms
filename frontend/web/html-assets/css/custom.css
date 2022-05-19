@@ -13,7 +13,7 @@ html {
     padding-bottom: 10px;
 }
 
-form div.required label.control-label:after {
+.control-label:after {
     content:" *";
     color:red;
     font-weight: bold;

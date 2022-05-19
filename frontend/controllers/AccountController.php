@@ -8,7 +8,7 @@ use common\models\client\ChartOfAccountsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\client\MasterData;
+use common\models\client\ClientMasterData;
 use common\models\Reports;
 /**
  * AccountController implements the CRUD actions for ChartOfAccounts model.
@@ -34,6 +34,17 @@ class AccountController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+       if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $searchModel = new ChartOfAccountsSearch();
         $searchModel->category = 'HEADER';
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -46,6 +57,17 @@ class AccountController extends Controller {
     }
 
     public function actionAccounts($id) {
+             if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $account = $this->findAccountModel($id);
         $searchModel = new ChartOfAccountsSearch();
         $searchModel->parent_id = $id;
@@ -65,6 +87,17 @@ class AccountController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
+             if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         return $this->render('view', [
                     'model' => $this->findModel($id),
         ]);
@@ -76,6 +109,17 @@ class AccountController extends Controller {
      * @return mixed
      */
     public function actionAddNewAccount($cat = 'DETAIL') {
+             if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $model = new ChartOfAccounts();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -91,7 +135,7 @@ class AccountController extends Controller {
             $no_option->account_name="NONE";
 
             array_unshift($chartofaccounts,$no_option);
-            $type = MasterData::findAll(['reference_table' => 'account_type']);
+            $type = ClientMasterData::findAll(['reference_table' => 'account_type']);
             return $this->render('add-new-account', [
                         'model' => $model,
                         'type' => $type,
@@ -108,12 +152,23 @@ class AccountController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id) {
+             if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
-        $type = MasterData::findAll(['reference_table' => 'account_type']);
+        $type = ClientMasterData::findAll(['reference_table' => 'account_type']);
         $chartofaccounts=Reports::getChartOfAccounts(false);
             
         return $this->render('update', [

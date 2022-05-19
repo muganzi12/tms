@@ -3,60 +3,68 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
-/* @var $this yii\web\View */
-/* @var $searchModel common\models\client\InvestorSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+use sergmoro1\modal\controllers\ModalController;
 
-$this->title = 'Investors';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = "Investors";
+//Page descrition
+$this->params['page_description'] = 'Investors';
+
+//Top Right button
+$this->params['topright_button'] = true;
+$this->params['topright_button_label'] = 'New Investor';
+$this->params['topright_button_link'] = ['investor/add-new-investor'];
+$this->params['topright_button_class'] = 'btn-success pull-right';
+$data = $dataProvider->getModels();
 ?>
-<div class="investor-index">
-    <p>
-        <?= Html::a('New Investor', ['add-new-investor'], ['class' => 'btn btn-success']) ?>
-    </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<style>
 
-    <?=
-    GridView::widget([
-        'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            //'id',
-            [
-                'attribute' => 'profile_pic',
-                'label' => 'Passport',
-                'format' => 'raw',
-                'value' => function ($data) {
-                    $url = $data->profile_pic;
-                    return Html::img($url, ['alt' => 'table-img', 'width' => '50', 'height' => '50']);
-                },
-                'format' => 'raw'
-            ],
-            [
-                'attribute' => 'firstname',
-                'value' => function($data) {
-                    return '<b><a href="' . Url::to(['investor/view', 'id' => $data->id]) . '">' . $data->firstname . '' . $data->lastname . "</a></b>";
-                },
-                'format' => 'raw'
-            ],
-           // 'othername',
-            //'identification_type',
-            'identfication_number',
-            'telephone',
-            'physical_address',
-            //'alt_telephone',
-            'email:email',
-            //'created_at',
-            //'status',
-            //'created_by',
-            //'updated_at',
-            //'updated_by',
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]);
-    ?>
+   
+    input[type="search"] {
+        width:500px;
+        border:1px solid green;
+        padding:3px;
+    }
+</style>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 
 
-</div>
+
+<table id="example" class="display" style="width:100%">
+    <thead>
+   
+        <tr>
+            <th>Passport</th>
+            <th>Account Number</th>
+            <th>Client Name</th>
+            <th>ID Type</th>
+            <th>ID Number</th>
+            <th>Telephone</th>
+             <th>Gender</th>
+            <th>Status</th>
+        </tr>
+  
+    </thead>
+    <tbody>
+               <?php foreach ($data AS $lg) { ?>
+        <tr>
+            <td><?=$lg['profile'];?></td>
+            <td><?=$lg['accountNumber'];?></td>
+            <td><?=$lg['fullNames'];?></td>
+            <td><?=$lg['identification'];?></td>
+            <td><?=$lg['identfication_number'];?></td>
+            <td><?=@$lg['telephone'];?></td>
+              <td><?=@$lg['clientGender'];?></td>
+            <td><?=$lg['statusButton'];?></td>
+        </tr>
+          <?php } ?>
+ 
+     
+    </tbody>
+
+</table>
+    <pre>
+        <?php  print_r($data);?>
+    </pre>

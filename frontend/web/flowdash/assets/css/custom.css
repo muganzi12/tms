@@ -1,12 +1,15 @@
-    [dir] .bg-dark {
+    [dir] .bg-dark1 {
         background-image: linear-gradient(180deg, #020024 0%, #069 75%, #0012C4 100%)!important;
     }
     
     [dir=ltr] .sidebar-heading {
-        color: #fc0 !important;
+        color: #949494 ;
     }
     
     .bg-profile-bg {
-        background: -webkit-gradient(linear, left top, left bottom, from(#1C7CE0), to(#150051)) !important;
-        background: linear-gradient(to bottom, #1C7CE0, #150051) !important;
+        background1: -webkit-gradient(linear, left top, left bottom, from(#1C7CE0), to(#150051)) !important;
+        background1: linear-gradient(to bottom, #1C7CE0, #150051) !important;
+    }
+    .app-settings app-fab--absolute{
+        display: none;
     }

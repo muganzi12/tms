@@ -23,7 +23,7 @@ class MasterData extends \yii\db\ActiveRecord
     
           public static function getDb() {
         parent::getDb();
-        return Yii::$app->masterdb;
+        return Yii::$app->db;
     }
     /**
      * {@inheritdoc}

@@ -1,4 +1,5 @@
 <?php
+
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -8,23 +9,22 @@ use yii\helpers\Url;
 ?>
 <div class="ledger-transaction-config-form">
     <?php $form = ActiveForm::begin(); ?>
-<table class="table">
-    <tr>
-        <td colspan="2">
-        <?php echo $form->field($model, 'transaction_name')->textInput(['maxlength' => true]); ?>
-        </td>
-</tr>
-<tr>
-    <td>
-     <?php echo $form->field($model, 'is_primary')->textInput(); ?>        
-    </td>
-    <td>
-     <?php echo $form->field($model, 'parent_id')->textInput(); ?>        
-    </td>
-</tr>
-<tr>
-    <td>
-    <?php
+    <table class="table">
+        <tr>
+            <td colspan="6">
+                <?php echo $form->field($model, 'transaction_name')->textInput(['maxlength' => true]); ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <?= $form->field($model, 'is_primary')->dropDownList(['1' => 'Yes', '0' => 'No'], ['prompt' => 'Select.....']) ?>
+            </td>
+            <td>
+                <?= $form->field($model, 'parent_id')->dropDownList(['1' => 'Yes', '0' => 'No'], ['prompt' => 'Select.....']) ?>
+            </td>
+
+            <td>
+                <?php
                 echo $form->field($model, 'debit_account')->widget(Select2::classname(), [
                     'value' => '',
                     'theme' => Select2::THEME_CLASSIC,
@@ -37,9 +37,12 @@ use yii\helpers\Url;
                     ],
                 ]);
                 ?>
-</td>
-<td>
-<?php
+            </td>
+        </tr>
+        <tr>
+
+            <td>
+                <?php
                 echo $form->field($model, 'credit_account')->widget(Select2::classname(), [
                     'value' => '',
                     'theme' => Select2::THEME_CLASSIC,
@@ -52,53 +55,77 @@ use yii\helpers\Url;
                     ],
                 ]);
                 ?>
-</td>
-</tr>
-<tr>
-    <td>
- <?php echo $form->field($model, 'product_type')->dropDownList(
-     ['LOAN' => 'Loans',
-      'INVESTMENT' => 'Investments',
-      'ADMIN' => 'Company Administration'
-    ], 
-       ['prompt' => 'Select Product Type','id'=>'config_product_type']); ?>
-   </td>
-    <td>
-        <?php
-        echo $form->field($model, 'product_id')->widget(DepDrop::classname(), [
-           'pluginOptions'=>[
-                'depends'=>['config_product_type'],
-                'placeholder'=>'Select...',
-                'url'=>Url::to(['/ledger-config/products'])
-            ]
-        ]);
-    ?>
-    </td>
-</tr>
-<tr>
-    <td>
-            <?php echo $form->field($model, 'amount_rule')->dropDownList(['FLEXIBLE' => 'FLEXIBLE', 'FIXED' => 'FIXED', 'PERCENTAGE' => 'PERCENTAGE'], ['prompt' => '']); ?>
             </td>
             <td>
-                  <?php echo $form->field($model, 'amount')->textInput(['maxlength' => true]); ?>
+                <?php
+                echo $form->field($model, 'product_type')->dropDownList(
+                        ['LOAN' => 'Loans',
+                            'INVESTMENT' => 'Investments',
+                            'ADMIN' => 'Company Administration'
+                        ],
+                        ['prompt' => 'Select Product Type', 'id' => 'config_product_type']);
+                ?>
             </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
+            <td>
+                <?php
+                echo $form->field($model, 'product_id')->widget(DepDrop::classname(), [
+                    'pluginOptions' => [
+                        'depends' => ['config_product_type'],
+                        'placeholder' => 'Select...',
+                        'url' => Url::to(['/ledger-config/products'])
+                    ]
+                ]);
+                ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <?php echo $form->field($model, 'amount_rule')->dropDownList(['FLEXIBLE' => 'FLEXIBLE', 'FIXED' => 'FIXED', 'PERCENTAGE' => 'PERCENTAGE'], ['prompt' => '']); ?>
+            </td>
+            <td>
+                <?php echo $form->field($model, 'amount')->textInput(['maxlength' => true]); ?>
+            </td>
+            <td>
+                <?php echo $form->field($model, 'tags')->dropDownList(['application' => 'Application', 'insurance' => 'Insurance', 'interest' => 'Interest','disbursement'=>'Disbursement','principal'=>'Principal','penalty'=>'Penalty'], ['prompt' => '']); ?>
+            </td>
+        </tr>
+        <tr>
+                        <td>
+                <?php
+                echo $form->field($model, 'label_id')->widget(Select2::classname(), [
+                    'value' => '',
+                    'theme' => Select2::THEME_CLASSIC,
+                    'data' => ArrayHelper::map($label, 'id', 'name'),
+                    'options' => [
+                        'placeholder' => 'Select Label',
+                        'class' => 'form-control',
+                        'multiple' => false,
+                        'required' => true
+                    ],
+                ]);
+                ?>
+            </td>
+            <td>
+                <?= $form->field($model, 'attracts_penalty')->dropDownList(['1' => 'Yes', '0' => 'No'], ['prompt' => 'Select.....']) ?>
+            </td>
+        </tr>
+        <tr>
+            <td colspan='6'>
                 <?php echo $form->field($model, 'description')->textArea(['rows' => 2]); ?>
-                </td>
-            </tr>
-            <tr>
-                <td>
-    <?php echo Html::submitButton('Save', ['class' => 'btn btn-success btn-block']); ?>
-                </td>
-                <td>
-    <?php echo $form->field($model, 'created_at')->hiddenInput()->label(false); ?>
-    <?php echo $form->field($model, 'created_by')->hiddenInput()->label(false); ?>
-    <?php echo $form->field($model, 'updated_by')->hiddenInput()->label(false); ?>
-    <?php echo $form->field($model, 'updated_at')->hiddenInput()->label(false); ?>
             </td>
-            </tr>
-</table>
+        </tr>
+        <tr>
+            <td>
+                <?php echo Html::submitButton('Save', ['class' => 'btn btn-success btn-block']); ?>
+            </td>
+            <td>
+                <?php echo $form->field($model, 'created_at')->hiddenInput()->label(false); ?>
+                <?php echo $form->field($model, 'created_by')->hiddenInput()->label(false); ?>
+                <?php echo $form->field($model, 'updated_by')->hiddenInput()->label(false); ?>
+                <?php echo $form->field($model, 'updated_at')->hiddenInput()->label(false); ?>
+            </td>
+        </tr>
+    </table>
     <?php ActiveForm::end(); ?>
 </div>

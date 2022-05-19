@@ -44,10 +44,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'raw'
             ],
-            'application_date',
-            //'disbursment_date',
-        
-            'interest_rate',
+             [
+                'attribute' => 'interest_rate',
+                'value' => function($data) {
+                    return number_format($data->interest_rate);
+                },
+                'format' => 'raw'
+            ],
+                'loan_period',
+
             [
                 'attribute' => 'status',
                 'format' => 'raw',

@@ -3,68 +3,42 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
-
+use nullref\datatable\DataTable;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\client\LoanSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Loan Applications';
+$this->title = 'Returned Loan Applications for works';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<style>
+
+   
+    input[type="search"] {
+        width:500px;
+        border:1px solid green;
+        padding:3px;
+    }
+</style>
 <div class="loan-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
-
-    <?=
-    GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            // 'id',
-            [
-                'attribute' => 'reference_number',
-                'value' => function($data) {
-                    return '<b><a href="' . Url::to(['loan/view', 'id' => $data->id]) . '">' . $data->reference_number . "</a></b>";
-                },
-                'format' => 'raw'
-            ],
-            [
-                'attribute' => 'client_id',
-                'value' => function($data) {
-                    return $data->client->fullNames;
-                },
-                'format' => 'raw'
-            ],
-            //'loan_type',
-            [
-                'attribute' => 'amount_applied_for',
-                'value' => function($data) {
-                    return number_format($data->amount_applied_for);
-                },
-                'format' => 'raw'
-            ],
-            [
-                'attribute' => 'amount_approved',
-                'value' => function($data) {
-                    return number_format($data->amount_approved);
-                },
-                'format' => 'raw'
-            ],
-            'application_date',
-            //'disbursment_date',
-            'interest_rate',
-            [
-                'attribute' => 'status',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return '<a href="#" class="badge badge-block badge-' . $data->loanStatus->css_class . '">' . $data->loanStatus->name . '</a>';
-                },
-                'format' => 'raw'
-            ],
-        ],
-    ]);
-    ?>
 
 
 </div>
+ <?php
+    echo DataTable::widget([
+        'data' => $dataProvider->getModels(),
+        'tableOptions' => ['class' => 'table table-striped', 'style' => 'width: 100%'],
+        'id' => 'index',
+        'columns' => [
+            ['attribute' => 'id', 'title' => 'S/N'],
+            ['attribute' => 'referenceNumber', 'title' => 'Reference Number'],
+            ['attribute' => 'fullNames', 'title' => 'Client'],
+            ['attribute' => 'amountApplied', 'title' => 'Amount Applied For'],
+            ['attribute' => 'loan_period', 'title' => 'Loan Period'],
+            ['attribute' => 'interest_rate', 'title' => 'Interest Rate',],
+            ['attribute' => 'statusButton', 'title' => 'Status']
+        ],
+    ]);
+    ?>

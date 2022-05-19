@@ -6,11 +6,11 @@ use yii\helpers\url;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 
-$this->title = "Loan Collateral";
+$this->title = "Proof of Payment";
 //Page descrition
 $this->params['page_description'] = 'Chart of Accounts';
 //Pass LoanID to the layout 
-$this->params['loan_id'] = $loanId;
+$this->params['schedule_id'] = $scheduleId;
 ?>
 <style>
     .profile-section{}
@@ -35,27 +35,30 @@ $this->params['loan_id'] = $loanId;
                 ['class' => 'yii\grid\SerialColumn'],
                 //'type_of_collateral',
                 [
-                    'attribute' => 'type_of_collateral',
+                    'attribute' => 'reference_no',
                     'value' => function($data) {
-                        return $data->collateralType->name;
+                        return $data->reference_no;
                     },
                     'format' => 'raw'
                 ],
-                'description',
+
                 [
-                    'attribute' => 'estimated_price',
+                    'attribute' => 'amount_paid',
                     'value' => function($data) {
-                        return number_format($data->estimated_price);
+                        return number_format($data->amount_paid);
                     },
                     'format' => 'raw'
                 ],
-                'location',
+                'payment_date',
+                // 'debit_account',
+                 'paid_by',
+                  'description',
                 [
-                    'attribute' => 'proof_of_ownership',
-                    'label' => 'Proof of Ownership',
+                    'attribute' => 'proof_attachment',
+                    'label' => 'Proof of Payment',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        $url = Yii::getAlias('@web/html/collateral/') . $data->proof_of_ownership;
+                        $url = Yii::getAlias('@web/html/payments/') . $data->proof_attachment;
                         return Html::img($url, ['alt' => '', 'width' => '200', 'height' => '100']);
                     },
                     'headerOptions' => ['style' => 'width:200px;color:#ffffff;'],

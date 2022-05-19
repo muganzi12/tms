@@ -44,13 +44,13 @@ class AmortizedMonth implements JsonSerializable
     public function __construct(DateTime $date, float $principalDue = 0.0, float $interestDue = 0.0)
     {
         $this->date = $date;
-        $this->principalDue = round($principalDue, 2);
-        $this->interestDue = round($interestDue, 2);
+        $this->principalDue = $principalDue;
+        $this->interestDue = $interestDue;
     }
     
     public function getTotalAmountDue(): float
     {
-        return round($this->principalDue + $this->interestDue, 2);
+        return $this->principalDue + $this->interestDue;
     }
     
     /**
@@ -124,14 +124,14 @@ class AmortizedMonth implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'totalPayment'=>round(($this->interestDue+$this->principalDue),2),
-            'totalPaymentRounded'=>$this->roundNearestHundredUp($this->interestDue+$this->principalDue),
-            'interestDue' => round($this->interestDue, 2),
-            'interestRounded'=>$this->roundNearestHundredUp($this->interestDue),
-            'principalDue' => round($this->principalDue, 2),
-            'principalRounded'=>$this->roundNearestHundredUp($this->principalDue),
-            'openingBalance' => round($this->openingBalance, 2),
-            'closingBalance' => round($this->closingBalance, 2),
+            'totalPayment'=>$this->interestDue+$this->principalDue,
+            'totalPaymentRounded'=>$this->interestDue+$this->principalDue,
+            'interestDue' => $this->interestDue,
+            'interestRounded'=>$this->interestDue,
+            'principalDue' => $this->principalDue,
+            'principalRounded'=>$this->principalDue,
+            'openingBalance' => $this->openingBalance,
+            'closingBalance' => $this->closingBalance,
             'overpayments'   => $this->overpayments,
             'date' => $this->date->format('Y-m-d'),
         ];

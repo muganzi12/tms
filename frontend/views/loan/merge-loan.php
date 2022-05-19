@@ -5,11 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\client\Loan */
 
-$this->title = 'New  Loan Application';
+$this->title = 'Merge Loan';
 $this->params['breadcrumbs'][] = ['label' => 'Loans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 //Pass CLientID to the layout 
-$this->params['client_id'] = $clientId;
+$this->params['loan_id'] = $loanId;
 ?>
 <style>
     .profile-section{}
@@ -27,10 +27,10 @@ $this->params['client_id'] = $clientId;
 
 
             <?=
-            $this->render('_form', [
+            $this->render('_merge-loan-form', [
                 'model' => $model,
-                'client' => $client,
-                'currency' => $currency,
+                'loan' => $loan,
+                'type' => $type,
             ])
             ?>
 

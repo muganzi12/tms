@@ -18,6 +18,11 @@ $this->params['page_description'] = '';
         'ident' => $ident,
         'sex' => $sex,
         'marital' => $marital,
+        'client' => $client,
+        'office' => $office,
+        'address' => $address,
+        'classification' => $classification,
+         'member' => $member,
     ])
     ?>
 

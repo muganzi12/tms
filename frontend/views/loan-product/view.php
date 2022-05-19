@@ -12,27 +12,30 @@ $this->title = $model->name;
     <div class="col-lg-12" style="padding:0px;">
     <table class="table">
         <tr>
-            <td style='width:50%;'>
+            <td>
             <b>Name</b><br/>
             <?= $model->name; ?>
+            </th>
+              <td>
+                <b>Product Code</b><br/>
+                <?= $model->product_code; ?>
             </th>
             <td>
                 <b>Description</b><br/>
                 <?= $model->description; ?>
             </th>
-        </tr>
-        <tr>
-            <td>
+               <td>
                 <b>Interest Rate</b><br/>
                 <?= Yii::$app->formatter->asPercent($model->interest_rate/100); ?>
             </td>
+        </tr>
+        <tr>
+         
             <td>
                 <b>Minimum Amount</b><br/>
                 <?= Yii::$app->formatter->asCurrency($model->minimum_amount,'UGX'); ?>
             </td>
-        </tr>
-         <tr>
-            <td>
+               <td>
                 <b>Maximum Amount</b><br/>
                 <?= Yii::$app->formatter->asCurrency($model->maximum_amount,'UGX'); ?>
             </td>
@@ -40,35 +43,43 @@ $this->title = $model->name;
                 <b>Maximum Repayment Period</b><br/>
                 <?= $model->maximum_repayment_period; ?> Months
             </td>
-        </tr>
-        <tr>
-            <td>
-                <b>Status</b><br/>
-                <?= $model->status; ?>
-            </td>
-            <td>
-                <b>Late Payment Fees</b><br/>
+                <td>
+                <b>Late Payment Penalty</b><br/>
                 <?= Yii::$app->formatter->asCurrency($model->penalty,'UGX'); ?>
             </td>
         </tr>
+        
+
+      
         <tr>
             <td>
+                <b>Principal Installment Frequency</b><br/>
+                <?= $model->principal_installment_frequency; ?>
+            </th>
+               <td>
+                <b>Interest Frequency</b><br/>
+                <?= $model->interest_frequency; ?>
+            </th>
+        
+                 <td>
                 <b>Date Registered</b><br/>
                 <?= Yii::$app->formatter->asDate($model->created_at); ?>
             </td>
             <td>
                 <b>Recorded by</b><br/>
-                <?= $model->created_by; ?>
+                <?= $model->createdBy->fullnames; ?>
             </td>
         </tr>
+    
     </table>
 
+
 <h2>Required Documents
-        <a href="#" class="btn btn-info" style="float:right;"> <i class="material-icons">add</i> New Document</a>
+        <a href="<?= Url::to(['loan-product/specify-document-required','id'=>$model->id]); ?>" class="btn btn-info" style="float:right;"> <i class="material-icons">add</i> New Document</a>
 </h2>
 <?= Html::ul(ArrayHelper::map($model->requiredDocuments,'id','name'), ['class' => 'list-group', 'itemOptions' => ['class' => 'list-group-item']]) ?>
 <h2 style="margin-top:20px;">Ledger Transactions
-    <a href="<?= Url::to(['ledger-config/create']); ?>" class="btn btn-info"  style="float:right;"> <i class="material-icons">add</i> New Transaction</a>
+    <a href="<?= Url::to(['ledger-config/add-new-transaction','id'=>$model->id]); ?>" class="btn btn-info"  style="float:right;"> <i class="material-icons">add</i> New Transaction</a>
 </h2>
         <table class="table">
             <thead>

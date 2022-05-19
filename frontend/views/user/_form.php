@@ -5,12 +5,16 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Institution;
 use yii\helpers\Url;
-use common\models\client\Branch;
+use yii\rbac\DbManager;
+use common\models\OfficeHeld;
 use kartik\select2\Select2;
+$auth = new DbManager();
 ?>
 
-<div class="user-form">
     <?php $form = ActiveForm::begin(); ?>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="user-form">
     <table class="table">
         <tr>
 
@@ -34,12 +38,12 @@ use kartik\select2\Select2;
         <td colspan="6">
             <?php
       
-            echo $form->field($model, 'branch_id')->widget(Select2::classname(), [
+            echo $form->field($model, 'office_id')->widget(Select2::classname(), [
                 'value' => '',
                 'theme' => Select2::THEME_CLASSIC,
-                'data' => ArrayHelper::map(Branch::find()->select(['id', 'name'])->all(), 'id', 'name'),
+                'data' => ArrayHelper::map(OfficeHeld::find()->select(['id', 'name'])->all(), 'id', 'name'),
                 'options' => [
-                    'placeholder' => 'Select Branch',
+                    'placeholder' => 'Select Office Held',
                     'class' => 'form-control',
                     //'id' => 'user-outlet-id',
                     'multiple' => false,
@@ -48,7 +52,11 @@ use kartik\select2\Select2;
             ]);
             ?>
         </td>
-
+        <tr>
+            <td colspan="6">
+                    <?= $form->field($model, 'user_groups')->checkboxList(ArrayHelper::map($auth->getRoles(), 'name', 'description')); ?>
+           </td>
+        </tr>
 
         <tr>
 
@@ -76,12 +84,8 @@ use kartik\select2\Select2;
             <td colspan="3"></td>
         </tr>
     </table>
-
-
-    <div class="form-group">
-
+        </div>
     </div>
 
-    <?php ActiveForm::end(); ?>
-
 </div>
+<?php ActiveForm::end(); ?>

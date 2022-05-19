@@ -18,7 +18,7 @@ use Yii;
  * @property int|null $parent_id
  * @property string|null $css_class
  */
-class MasterData extends \yii\db\ActiveRecord
+class ClientMasterData extends \yii\db\ActiveRecord
 {
     
   

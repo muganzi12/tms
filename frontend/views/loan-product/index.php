@@ -28,8 +28,20 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
             'interest_rate',
             //'currency',
             //'processing_loan_fees',
-            'minimum_amount',
-            'maximum_amount',
+            [
+                'attribute' => 'minimum_amount',
+                'value' => function($data) {
+                    return number_format($data->minimum_amount);
+                },
+                'format' => 'raw'
+            ],
+            [
+                'attribute' => 'maximum_amount',
+                'value' => function($data) {
+                    return number_format($data->maximum_amount);
+                },
+                'format' => 'raw'
+            ],
             'principal_installment_frequency',
             'interest_frequency',
             [
@@ -49,17 +61,17 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
             //'updated_at',
             //'updated_by',
             ['class' => 'yii\grid\ActionColumn',
-            'contentOptions' => ['style' => 'width: 110px'],
-            'template'=>'{update} {details}',
-              'buttons'=>[
-                'details'=>function ($url, $model) {
-                   return Html::a('<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">library_books</i>', ['loan-product/view','id'=>$model->id]);
-                },
-                'update'=>function ($url, $model) {
-                   return Html::a('<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">edit</i>', ['loan-product/update','id'=>$model->id]);
-                },
-              ],
-        ],
+                'contentOptions' => ['style' => 'width: 110px'],
+                'template' => '{update} {details}',
+                'buttons' => [
+                    'details' => function ($url, $model) {
+                        return Html::a('<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">library_books</i>', ['loan-product/view', 'id' => $model->id]);
+                    },
+                    'update' => function ($url, $model) {
+                        return Html::a('<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">edit</i>', ['loan-product/update', 'id' => $model->id]);
+                    },
+                ],
+            ],
         ],
     ]);
     ?>

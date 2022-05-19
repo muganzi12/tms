@@ -7,9 +7,9 @@
 
     <div class="col-lg-12">
         <table class="table">
-            <tr>
-                <td><b>Account Number</b><br/>
-                    <?= $model->account_number; ?></td>
+            <tr style="border-top:0px solid #eee;">
+                <td><b>External ID</b><br/>
+                    <?= $model->external_id; ?></td>
                 <td>
                     <b>First Name</b><br/>
                     <?= $model->firstname; ?>
@@ -24,12 +24,32 @@
                 </td>
             </tr>
             <tr>
-                <td><b>Identification Type</b><br/>
-                    <?= $model->identificationType->name; ?></td>
+
+
                 <td>
-                    <b>Identification Number</b><br/>
+                    <b>Client Type</b><br/>
+                    <?= $model->clientType->name; ?>
+                </td>
+                
+                    <td>
+                    <b>Classification</b><br/>
+                    <?= @$model->classificationStatus->name; ?>
+                </td>
+
+            
+                 <td>
+                    <b>ID Type</b><br/>
+                    <?= @$model->identificationType->name; ?>
+                </td>
+                       <td>
+                    <b>ID Number</b><br/>
                     <?= $model->identification_number; ?>
                 </td>
+            
+             
+
+            </tr>
+            <tr>
                 <td>
                     <b>Telephone</b><br/>
                     <?= $model->telephone; ?>
@@ -38,29 +58,29 @@
                     <b>Alt Telephone</b><br/>
                     <?= $model->telephone; ?>
                 </td>
-            </tr>
-            <tr>
-                <td><b>Gender</b><br/>
-                    <?= $model->genderType->name; ?></td>
-                <td>
-                    <b>Marital Status</b><br/>
-                    <?= $model->maritalStatus->name; ?>
-                </td>
-                <td>
-                    <b>Date of Birth</b><br/>
-                    <?= $model->date_of_birth; ?>
-                </td>
-                <td>
+                      <td>
                     <b>Email</b><br/>
                     <?= $model->email; ?>
                 </td>
-            </tr>
-
-            <tr>
-                <td>
+                         <td>
                     <b>Address</b><br/>
                     <?= $model->address; ?>
                 </td>
+    
+            </tr>
+
+            <tr>
+                 <td>
+                    <b>Account Number</b><br/>
+                    <?= $model->account_number; ?>
+                </td>
+                <td></td>
+                            <td>
+                    <b>Date of Birth</b><br/>
+                    <?= $model->date_of_birth; ?>
+                </td>
+          
+       
                 <td>
                     <b>Date recorded</b><br/>
                     <?= Yii::$app->formatter->asDate($model->created_at); ?>

@@ -10,12 +10,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Members', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 $this->params['page_description'] = '';
+$this->params['client_id'] = $clientId;
 ?>
-<?= $this->render('registration/reg-steps-top-nav',['model'=>$client,'active'=>'kin']); ?>
+
 
 <div class="row">
     
-    <div class="col-lg-10" style="padding:0px;">
+    <div class="col-lg-12" style="padding:0px;">
  
     <?=
     $this->render('_next-of-kin-form', [
@@ -29,7 +30,4 @@ $this->params['page_description'] = '';
 
 
 </div>
-   <div class="col-lg-2" style="padding:12px;">
-        <?= $this->render('registration/left-navigation', ['model' => $client, 'active' => 'summary']); ?>            
-    </div>
 </div>

@@ -15,8 +15,9 @@ return [
         ],
         'user' => [
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'enableAutoLogin' => false,
+            //'authTimeout' => 600,
+        // You inserted it here
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -42,6 +43,7 @@ return [
             return common\models\User::findLoggedInUser();
         },
         'errorHandler' => [
+            
             'errorAction' => 'site/error',
         ],
         /*

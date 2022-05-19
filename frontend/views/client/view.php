@@ -12,6 +12,7 @@ $this->params['hide_page_title'] = true;
 //Pass CLientID to the layout 
 $this->params['client_id'] = $clientId;
 ?>
+
 <style>
     .profile-section{}
     .profile-section h5{
@@ -30,6 +31,11 @@ $this->params['client_id'] = $clientId;
     <div class="profile-section">
         <h5>Next of Kin Details</h5>
                 <?= $this->render('details/kin-details', ['model' => $model]); ?>
+    </div>
+    
+        <div class="profile-section">
+        <h5>Identification Documents</h5>
+                <?= $this->render('details/supporting-documents', ['model' => $model]); ?>
     </div>
  
 </section>

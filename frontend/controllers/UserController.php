@@ -8,6 +8,15 @@ use common\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\rbac\DbManager;
+use common\models\rbac\AuthItem;
+use common\models\rbac\AuthItemChild;
+use common\models\rbac\AuthAssignment;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
+use common\models\rbac\AuthItemSearch;
+use yii\helpers\ArrayHelper;
+use yii\filters\AccessControl;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -19,10 +28,21 @@ class UserController extends Controller {
      */
     public function behaviors() {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['download'],
+                'rules' => [
+                    [
+                        'actions' => ['download', 'view', 'delete', 'upate'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -33,10 +53,21 @@ class UserController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-         $loggedIn = Yii::$app->member;
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
+        $loggedIn = Yii::$app->member;
         $searchModel = new UserSearch();
-        $searchModel->app_module=2;
-       $searchModel->client_id = $loggedIn->client_id;
+        $searchModel->app_module = 2;
+        $searchModel->client_id = $loggedIn->client_id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -52,8 +83,20 @@ class UserController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "userprofile_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "userprofile_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "userprofile_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "userprofile_officer";
+        } else {
+            $this->layout = "main";
+        }
         return $this->render('view', [
                     'model' => $this->findModel($id),
+                    'userId' => $id
         ]);
     }
 
@@ -63,7 +106,19 @@ class UserController extends Controller {
      * @return mixed
      */
     public function actionAddNewSystemUser($stat = 1, $admin = 0, $app = 2, $pwst = 0) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
         $model = new User();
+        $auth = new DbManager();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'The account has been created successfully');
             //Send Emails to notify a new user that an account has been created
@@ -74,6 +129,14 @@ class UserController extends Controller {
                     ->setTo($model->email)
                     ->setSubject(strtoupper($model->firstname) . ', YOUR  ACCOUNT  HAS BEEN CREATED')
                     ->send();
+            //Assign roles
+            foreach ($_POST['User']['user_groups'] AS $group) {
+                $role = $auth->getRole($group);
+                //Check if this role is not yet assigned
+                if (is_null($auth->getAssignment($group, $model->id))) {
+                    $auth->assign($role, $model->id);
+                }
+            }
             return $this->redirect(['index', 'id' => $model->client_id]);
         } else {
             //Create random password
@@ -86,7 +149,7 @@ class UserController extends Controller {
             $model->is_admin = $admin;
             $model->app_module = $app;
             $model->created_by = Yii::$app->member->id;
-             $model->client_id = Yii::$app->member->client_id;
+            $model->client_id = Yii::$app->member->client_id;
             $model->password_hash = Yii::$app->getSecurity()->generatePasswordHash($passwd);
             return $this->render('add-new-system-user', [
                         'model' => $model,
@@ -102,15 +165,55 @@ class UserController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id) {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-             return $this->redirect(['index', 'id' => $model->client_id]);
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "userprofile_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "userprofile_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "userprofile_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "userprofile_officer";
+        } else {
+            $this->layout = "main";
         }
-
-        return $this->render('update', [
-                    'model' => $model,
-        ]);
+        $model = $this->findModel($id);
+        $auth = new DbManager();
+        if (Yii::$app->request->isPost) {
+            //Load
+            $model->load(Yii::$app->request->post());
+            //Try to save
+            $model->save(false);
+            //Assign roles
+            Yii::$app->session->setFlash('success', 'The account has been created successfully');
+            //Send Emails to notify a new user that an account has been created
+            Yii::$app->mailer->compose('new-account-created', [
+                        'name' => $model->firstname,
+                        'username' => $model->username
+                    ])->setFrom('kumusoftcreditscore@gmail.com')
+                    ->setTo($model->email)
+                    ->setSubject(strtoupper($model->firstname) . ', YOUR  ACCOUNT  HAS BEEN CREATED')
+                    ->send();
+            foreach ($_POST['User']['user_groups'] AS $group) {
+                $role = $auth->getRole($group);
+                //Check if this role is not yet assigned
+                if (is_null($auth->getAssignment($group, $id))) {
+                    $auth->assign($role, $id);
+                }
+            }
+            Yii::$app->session->setFlash("success", "Account has been successfuly updated");
+            return $this->redirect(['index', 'id' => $model->client_id]);
+        } else {
+            //Create random password
+            $passwd = $model->randomPassword();
+            //Save this password to the currrent session
+            Yii::$app->session->set('default_password', $passwd);
+            $model->password_hash = Yii::$app->getSecurity()->generatePasswordHash($passwd);
+            $model->user_groups = ArrayHelper::getColumn($auth->getRolesByUser($id), 'name');
+            return $this->render('update', [
+                        'model' => $model,
+                        'userId' => $id
+            ]);
+        }
     }
 
     /**
@@ -121,9 +224,309 @@ class UserController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        $this->findPermissionModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionDeletePermission($id) {
+        $this->findPermissionModel($id)->delete();
+
+        return $this->redirect(['user-permission']);
+    }
+
+    /**
+     * User groups/roles
+     * @return type
+     */
+    public function actionUserGroups() {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
+        return $this->render('user-groups');
+    }
+
+    /**
+     * User Permissions
+     * @return type
+     */
+    public function actionUserPermissions() {
+        $searchModel = new AuthItemSearch();
+        $searchModel->type = 2;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('user-permissions', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Displays a single Member model.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionActivityLogs($id) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "userprofile_admin_logs";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "userprofile_manager_logs";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "userprofile_director_logs";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "userprofile_officer_logs";
+        } else {
+            $this->layout = "main";
+        }
+        return $this->render('activity-logs', [
+                    'model' => $this->findModel($id),
+                    'userId' => $id
+        ]);
+    }
+
+    /**
+     * Create New User Group
+     * @return type
+     */
+    public function actionNewGroup() {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
+        $model = new AuthItem();
+        if ($model->load(Yii::$app->request->post())) {
+            $auth = Yii::$app->authManager;
+            $role = $auth->createRole($model->name);
+            $role->description = $model->description;
+            $auth->add($role);
+            return $this->redirect(['user-groups']);
+        } else {
+
+            $model->created_at = time();
+            $model->type = 1;
+
+            return $this->render('new-group', ['model' => $model]);
+        }
+    }
+
+    public function actionNewPermission() {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
+        $model = new AuthItem();
+        if ($model->load(Yii::$app->request->post())) {
+            $auth = Yii::$app->authManager;
+            $role = $auth->createRole($model->name);
+            $role->description = $model->description;
+            $role->type = 2;
+            $auth->add($role);
+            return $this->redirect(['user-permissions']);
+        } else {
+            $model->created_at = time();
+            $model->type = 2;
+
+            return $this->render('new-permission', ['model' => $model]);
+        }
+    }
+
+    /**
+     * Group Details
+     * @param type $id
+     * @return type
+     */
+    public function actionGroupDetails($id) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
+        return $this->render('group-details', ['group' => $id]);
+    }
+
+    /**
+     * Grant Permissions to a given Group
+     * @param string $id
+     */
+    public function actionGrantPermission($id) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
+        $assignments = new AuthItemChild();
+        if (Yii::$app->request->isPost) {
+            //Selected Items
+            $perms = Yii::$app->request->post('AuthItemChild');
+            //Then assign the selected roles
+            User::assignGroupPermissions($perms['parent'], $perms['children']);
+            //Go back to the group details
+            return $this->redirect(Url::to(['group-details', 'id' => $perms['parent']]));
+        } else {
+            $assignments->parent = $id;
+            return $this->render('grant-permission', ['model' => $assignments, 'id' => $id]);
+        }
+    }
+
+    /**
+     * Add a User to a user group(s)
+     * @param string $id
+     */
+    public function actionAssignRole($id) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
+        $assignments = new AuthAssignment();
+        if (Yii::$app->request->isPost) {
+            //Selected Items
+            $perms = Yii::$app->request->post('AuthAssignment');
+            //Then assign the selected roles
+            User::assignRoles($perms['user_id'], $perms['roles']);
+            //Go back to the group details
+            return $this->redirect(Url::to(['view', 'id' => $perms['user_id']]));
+        } else {
+            $assignments->user_id = $id;
+            $assignments->created_at = time();
+            return $this->render('assign-role', ['model' => $assignments, 'id' => $id]);
+        }
+    }
+
+    public function actionAddNewRole($id) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
+        $user = $this->findModel($id);
+        $model = new AuthAssignment();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
+            return $this->redirect(['view', 'id' => $user->id]);
+        } else {
+
+            $model->created_at = time();
+            $model->user_id = $id;
+            return $this->render('add-new-role', [
+                        'model' => $model,
+                        'user'=>$user,
+            ]);
+        }
+    }
+
+    /**
+     * Revoke a permission from a given role
+     * @param string $rl The role for which we revoking this permission
+     * @param string $id The permission we are revoking
+     */
+    public function actionRevokePermission($rl, $id) {
+        User::revokePermission($rl, $id);
+        return $this->redirect(Url::to(['group-details', 'id' => $rl]));
+    }
+
+    /**
+     * Remove a role from a user account
+     * @param Int $id
+     * @param string $rol
+     * @return mixed
+     */
+    public function actionDeleteMember($id) {
+        $item = AuthAssignment::findOne($id);
+
+        if ($item->delete()) {
+            Yii::$app->session->setFlash('success', 'Member successfully deleted');
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            Yii::$app->session->setFlash('danger', 'Sorry, we could not delete that item');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
+
+    /**
+     * Upload a profile picture
+     * @return type
+     */
+    public function actionUploadPic($id) {
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "userprofile_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "userprofile_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "userprofile_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "userprofile_officer";
+        } else {
+            $this->layout = "main";
+        }
+        $model = $this->findUserProfile();
+        if (Yii::$app->request->isPost) {
+            // $id = $posted['User']['id'];
+
+            $pic = UploadedFile::getInstanceByName('User[profile_pic]');
+
+            //try to upload
+
+            $filename = $model->username . '_pic.' . $pic->extension;
+            $dir = Yii::getAlias('@dir_htmlassets');
+            //Try to save
+            $pic->saveAs($dir . "/profile-pics/" . $filename);
+            //Update member details
+            $model->profile_pic = $filename;
+            $model->save(false);
+            //Go back
+            return $this->redirect(Url::to(['view', 'id' => $id]));
+        } else {
+
+            return $this->render('upload-pic', ['model' => $model, 'userId' => $id]);
+        }
     }
 
     /**
@@ -135,6 +538,30 @@ class UserController extends Controller {
      */
     protected function findModel($id) {
         if (($model = User::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function findAssignmentModel($id) {
+        if (($model = AuthAssignment::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function findUserProfile() {
+        if (($model = User::findLoggedInUser()) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested profile does not exist.');
+    }
+
+    protected function findPermissionModel($id) {
+        if (($model = AuthItem::findOne($id)) !== null) {
             return $model;
         }
 

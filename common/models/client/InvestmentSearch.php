@@ -17,8 +17,8 @@ class InvestmentSearch extends Investment
     public function rules()
     {
         return [
-            [['id', 'investor_id', 'loan_product', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['amount_to_invest', 'investment_duration', 'interest_rate', 'total_interest', 'expected_total_amount'], 'number'],
+            [['id', 'investor_id','status','created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['amount_to_invest', 'investment_duration','reference_number', 'interest_rate'], 'number'],
         ];
     }
 
@@ -59,14 +59,13 @@ class InvestmentSearch extends Investment
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'reference_number' => $this->reference_number,
             'investor_id' => $this->investor_id,
-            'loan_product' => $this->loan_product,
             'amount_to_invest' => $this->amount_to_invest,
             'investment_duration' => $this->investment_duration,
             'interest_rate' => $this->interest_rate,
-            'total_interest' => $this->total_interest,
-            'expected_total_amount' => $this->expected_total_amount,
             'created_at' => $this->created_at,
+             'status' => $this->status,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,

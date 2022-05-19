@@ -8,97 +8,167 @@ use yii\widgets\ActiveForm;
 use yii\jui\DatePicker;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use kartik\select2\Select2;
+use common\models\ReferenceHelper;
+$principal = ReferenceHelper::getTotalBalance($_GET['ledger']);
 
-$this->title = $model->reference_number.' - Record payment';
-$this->params['loan_id'] = $model->id;
+$this->title = $model->reference_number.' - Merge';
+//Pass CLientID to the layout 
+$this->params['client_id'] = $clientId;
 ?>
-<h3><?= $this->title; ?></h3>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>REF</th>
-            <th>Desc</th>
-            <th>Due Date</th>
-            <th>Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php foreach($ledgers AS $lg){ ?>
-    <tr>
-        <td><?= $lg->entry_reference; ?></td>
-        <th><?= $lg->description; ?></th>
-        <td><?= $lg->due_date; ?></td>
-        <td><?= $lg->transactionAmount; ?></td>
-    </tr>
-    <?php } ?>
-    </tbody>
-    <tfoot>
-    <tr class="bg-secondary text-white">
-        <td colspan="3">TOTAL</td>
-        <td style="background:#3243C0;font-weight:bold;"><?= Yii::$app->formatter->asCurrency($total,'UGX'); ?></td>
-    </tr>
-    </tfoot>
-</table>
-<?php $form = ActiveForm::begin(); ?>
+
+
+<div class="loan-form">
+
+    <?php $form = ActiveForm::begin(); ?>
     <table class="table">
-    <tr>
-        <td style="width:33%">
-                 <?=
-                $form->field($payment, 'payment_date')->widget(
+        <tr>
+
+            <td>  <?= $form->field($model, 'reference_number')->textInput(['readonly' => true]) ?> </td>
+          
+           <td>  <?= $form->field($model, 'amount_applied_for')->textInput(['required' => true,'readonly' => true]) ?></td>
+                 <td>
+
+                <?php
+                echo $form->field($model, 'installment_frequency')->dropDownList(['MONTHLY' => 'MONTHLY', 'WEEKLY' => 'WEEKLY', 'BI-WEEKLY' => 'BI-WEEKLY'], ['prompt' => 'Select Option', 'required' => true]);
+                ?>
+            </td>
+        </tr>
+ 
+
+        <tr>
+              
+ 
+      
+     
+            <td>
+
+                <?= $form->field($model, 'loan_period')->textInput(['required' => true]) ?>
+
+            </td>
+                  <td> 
+
+                <?= $form->field($model, 'interest_rate')->textInput(['maxlength' => true, 'required' => true]) ?>
+            </td>
+            <td> 
+                <?php
+                echo $form->field($model, 'interest_frequency')->dropDownList(['WEEKLY' => 'WEEKLY', 'BI-WEEKLY' => 'BI-WEEKLY'], ['prompt' => 'Select Option', 'required' => true]);
+                ?>
+
+            </td>
+
+        </tr>
+
+        <tr>
+            
+      
+            <td>
+
+                <?=
+                $form->field($model, 'application_date')->widget(
                         DatePicker::class,
                         [
-                            'dateFormat' => 'yyyy-MM-dd',
+                            'dateFormat' => 'dd-MM-yyyy',
                             'clientOptions' => [
                                 'changeMonth' => false,
                                 'changeYear' => true,
-                                'minDate' => '0y',
-                                //'maxDate' => '0',
+                                'minDate' => '-100y',
+                                'maxDate' => '0',
                                 'showButtonPanel' => false,
                                 'todayHighlight' => false,
                                 'format' => 'Y-m-d',
                             //'yearRange' => '1990:2020'
                             ],
-                            'options' => ['class' => 'form-control', 'readonly' => 'readonly', 'required' => true]
+                            'options' => ['class' => 'form-control', 'placeholder' => '01-01-2022', 'required' => true]
                 ])
                 ?>
-        </td>
-        <td style="width:34%;">
-                <?= $form->field($payment, 'paid_by')->textInput(['maxlength' => true]) ?>
-        </td>
-        <td> 
-                <?= $form->field($payment, 'amount_paid')->textInput(['maxlength' => true, 'value' => $total]) ?>
-        </td>
-    </tr>
-    <tr>
-        <td>
-                 <?= $form->field($payment, 'payment_method')->dropdownList(
-                    ArrayHelper::map($payment_methods,'id','name'),
-                    ['prompt'=>'Select Method']
-                ) ?> 
-        </td>
-        <td>
-                <?= $form->field($payment, 'debit_account')->dropdownList(
-                    ArrayHelper::map($pay_accounts,'gl_code','fullAccountName'),
-                    ['prompt'=>'Select Dedit Account']
-                ) ?> 
-        </td>
-        <td> 
-                <?= $form->field($payment, 'proof_attachment')->fileInput() ?>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-                <?= $form->field($payment, 'description')->textArea(['rows'=>2]) ?>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <?= Html::submitButton('Record Payment', ['class' => 'btn btn-success btn-block', 'style' => 'margin-top:30px;']) ?>
-        </td>
-        <td colspan="2">
-            <?= $form->field($payment, 'ledgers')->hiddenInput(['value'=>$pay_ledgers]); ?>  
-            <?= $form->field($payment, 'bill_total')->hiddenInput(['value'=>$total]); ?>  
-        </td>
-    </tr>
+
+            </td>
+            
+              <td colspan="6">
+
+                <?php
+                echo $form->field($model, 'loan_product')->widget(Select2::classname(), [
+                    'value' => '',
+                    'theme' => Select2::THEME_CLASSIC,
+                    'data' => ArrayHelper::map($type, 'id', 'name'),
+                    'options' => [
+                        'placeholder' => 'Select Loan Type',
+                        'class' => 'form-control',
+                        'multiple' => false,
+                        'required' => true
+                    ],
+                ]);
+                ?>
+            </td>
+
+
+        </tr>
+
+
+
+
+        <tr>
+            <td>
+                <?= Html::submitButton(($model->id > 0) ? ('Update') : ('Submit'), ['class' => ($model->id > 0) ? ('btn btn-success') : ('btn btn-primary'), 'style' => 'margin-top:30px;']) ?>
+            </td>
+            <td colspan="2">
+
+                <?= $form->field($model, 'created_by')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'created_at')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'updated_at')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'client_id')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'status')->hiddenInput()->label(false) ?>
+            <?= $form->field($model, 'amortization_method')->hiddenInput()->label(false) ?>
+                  <?= $form->field($model, 'loan_type')->hiddenInput()->label(false) ?>
+                 <?= $form->field($model, 'currency')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
+
+
+            </td>
+        </tr>
     </table>
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
+
+</div>
+
+
+<?php
+$script = <<<EOD
+$(function() {
+     $('#loan-balance').keyup(function() {  
+        updateTotal();
+    });
+
+    $('#loan-top_up_amount').keyup(function() {  
+        updateTotal();
+    });
+
+    var updateTotal = function () {
+      var input1 = parseInt($('#loan-balance').val());
+      var input2 = parseInt($('#loan-top_up_amount').val());
+    $('#loan-amount_applied_for').val(input1);
+    };
+        
+   var updateTotal = function () {
+    var doctorFee = parseInt($('#loan-balance').val());
+    var discount = parseInt($('#loan-top_up_amount').val());
+    var totalAmount = doctorFee + discount;
+
+    if (isNaN(totalAmount) || totalAmount < 0) {
+        totalAmount = '';
+    }
+
+    $('#loan-amount_applied_for').val(totalAmount);
+};
+
+ });
+
+EOD;
+$this->registerJs($script);
+?>
+
+<pre>
+    <?php print_r($principal); ?>
+</pre>

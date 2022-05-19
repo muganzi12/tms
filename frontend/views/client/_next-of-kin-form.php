@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
 <div class="member-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?= $form->errorSummary($model);?>
     <table class="table">
         <tr>
             <td>
@@ -31,96 +32,40 @@ use yii\helpers\ArrayHelper;
         </tr>
 
         <tr>
-            <td>
-                  <?php
-                echo $form->field($model, 'identification_type')->widget(Select2::classname(), [
-                    'value' => '',
-                    'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map($ident, 'id', 'name'),
-                    'options' => [
-                        'placeholder' => 'Select Identification Type',
-                        'class' => 'form-control',
-                        'multiple' => false,
-                        'required'=>true
-                    ],
-                ]);
-                ?>
+       
+            <td colspan="2">
+                <?= $form->field($model, 'nin')->textInput(['maxlength' => true]) ?>
 
             </td>
-            <td>
-                <?= $form->field($model, 'identification_number')->textInput(['maxlength' => true,'required'=>true]) ?>
-
-            </td>
-            <td>
+            <td colspan="8">
                 <?= $form->field($model, 'telephone')->textInput(['maxlength' => true,'required'=>true]) ?>
 
             </td>
         </tr>
 
-        <tr>
-            <td>
-                <?= $form->field($model, 'alt_telephone')->textInput(['maxlength' => true]) ?>
-
-            </td>
-            <td>
-                <?php
-                echo $form->field($model, 'gender')->widget(Select2::classname(), [
-                    'value' => '',
-                    'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map($sex, 'id', 'name'),
-                    'options' => [
-                        'placeholder' => 'Select Gender',
-                        'class' => 'form-control',
-                        'multiple' => false,
-                        'required'=>true
-                    ],
-                ]);
-                ?>
-
-            </td>
-            <td>
-               
-                <?php
-                echo $form->field($model, 'marital_status')->widget(Select2::classname(), [
-                    'value' => '',
-                    'theme' => Select2::THEME_CLASSIC,
-                    'data' => ArrayHelper::map($marital, 'id', 'name'),
-                    'options' => [
-                        'placeholder' => 'Select Marital Status',
-                        'class' => 'form-control',
-                        'multiple' => false,
-                        'required'=>true
-                    ],
-                ]);
-                ?>
-
-            </td>
-        </tr>
 
 
         <tr>
-            <td>
+           <td colspan="2">
                     <?=
                 $form->field($model, 'date_of_birth')->widget(
                         DatePicker::class,
                         [
+                            'dateFormat' => 'dd-MM-yyyy',
                             'clientOptions' => [
                                 'changeMonth' => false,
                                 'changeYear' => true,
                                 'showButtonPanel' => false,
                                 'todayHighlight' => false,
                                 'format' => 'Y-m-d',
-                            //'yearRange' => '1990:2020'
+                                'yearRange'=>'-110:-18',
                             ],
-                             'options' => ['class' => 'form-control', 'readonly' => 'readonly','required'=>true]
+                             'options' => ['class' => 'form-control', 'placeholder' => '01-01-2022','required'=>true]
                 ])
                 ?>
             </td>
-             <td>
-                 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-
-            </td>
-             <td>
+      
+           <td colspan="8">
             
                  <?php
                 echo $form->field($model, 'relationship')->widget(Select2::classname(), [
@@ -140,7 +85,7 @@ use yii\helpers\ArrayHelper;
 
         <tr>
             <td colspan="6">
-                  <?= $form->field($model, 'address')->textArea(['maxlength' => true,'required'=>true]) ?>
+                  <?= $form->field($model, 'address')->textArea(['maxlength' => true]) ?>
   
             </td>
         </tr>
@@ -155,6 +100,7 @@ use yii\helpers\ArrayHelper;
                 <?= $form->field($model, 'created_at')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'updated_at')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'status')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'account_number')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
                  <?= $form->field($model, 'related_to')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'person_scenario')->hiddenInput()->label(false) ?>

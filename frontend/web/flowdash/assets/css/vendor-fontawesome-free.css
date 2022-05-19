@@ -17,7 +17,9 @@
   text-rendering: auto;
   line-height: 1;
 }
-
+ .app-settings-dd__BV_toggle_{
+        display: none;
+    }
 .fa-lg {
   font-size: 1.3333333333em;
   line-height: 0.75em;

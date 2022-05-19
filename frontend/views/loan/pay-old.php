@@ -51,8 +51,8 @@ $this->params['loan_id'] = $model->id;
                             'clientOptions' => [
                                 'changeMonth' => false,
                                 'changeYear' => true,
-                                'minDate' => '0y',
-                                //'maxDate' => '0',
+                                'minDate' => '-100y',
+                                'maxDate' => '0',
                                 'showButtonPanel' => false,
                                 'todayHighlight' => false,
                                 'format' => 'Y-m-d',
@@ -77,9 +77,9 @@ $this->params['loan_id'] = $model->id;
                 ) ?> 
         </td>
         <td>
-                <?= $form->field($payment, 'debit_account')->dropdownList(
+                <?= $form->field($payment, 'credit_account')->dropdownList(
                     ArrayHelper::map($pay_accounts,'gl_code','fullAccountName'),
-                    ['prompt'=>'Select Dedit Account']
+                    ['prompt'=>'Select Credit Account']
                 ) ?> 
         </td>
         <td> 
@@ -95,9 +95,8 @@ $this->params['loan_id'] = $model->id;
         <td>
             <?= Html::submitButton('Record Payment', ['class' => 'btn btn-success btn-block', 'style' => 'margin-top:30px;']) ?>
         </td>
-        <td colspan="2">
-            <?= $form->field($payment, 'ledgers')->hiddenInput(['value'=>$pay_ledgers]); ?>  
-            <?= $form->field($payment, 'bill_total')->hiddenInput(['value'=>$total]); ?>  
+          <td colspan="2">
+             <?= $form->field($payment, 'loan_id')->hiddenInput()->label(false) ?> 
         </td>
     </tr>
     </table>

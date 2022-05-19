@@ -30,6 +30,8 @@ class LoginForm extends Model
             ['password', 'validatePassword'],
         ];
     }
+    
+
 
     /**
      * Validates the password.

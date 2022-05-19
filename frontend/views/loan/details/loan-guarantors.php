@@ -6,45 +6,38 @@ use yii\helpers\url;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 
-$this->title = "Loan Guarantors";
+$this->title = $model->client->firstname.' '.$model->client->lastname;
 //Page descrition
 $this->params['page_description'] = 'Chart of Accounts';
 ?>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr class="info">
+            <th>S/N</th>
+            <th>Name</th>
+            <th>ID Number</th>
+            <th>Gender</th>
+            <th>Telephone</th>
+            <th>Address</th>
 
-<div class="row">  
-    <div class="col-lg-12" style="padding:0px;"> 
+        </tr>
+    </thead>
+    <tbody>
 
-        <?=
-        GridView::widget([
-            'dataProvider' => $dataProvider,
-            //'filterModel' => $searchModel,
-            'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
-                //'loan_id',
-                'firstname',
-                'lastname',
-                'othername',
-                [
-                    'attribute' => 'identification_type',
-                    'value' => function($data) {
-                        return $data->identificationType->name;
-                    },
-                    'format' => 'raw'
-                ],
-                'identification_number',
-                'telephone_primary',
-                'telephone_alternative',
-                //'employer_name',
-                'source_of_income',
-                'physical_address',
-            //'created_at',
-            //'created_by',
-            //'updated_at',
-            //'updated_by',
-            //['class' => 'yii\grid\ActionColumn'],
-            ],
-        ]);
-        ?>
-    </div>
-  
-</div>
+    <tbody>
+        <?php
+        $i = 1;
+        foreach ($model->loanGuarantor AS $grt) {
+            ?>
+            <tr>
+                <td><?= $i++ ?></td>
+                <td><?= $grt->firstname.' '.$grt->lastname; ?></td>
+                <td><?= $grt->identification_number; ?></td>
+                <td><?= $grt->genderType->name; ?></td>
+                <td><?= $grt->telephone_primary; ?></td>
+                <td><?= $grt->physical_address; ?></td>
+
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>

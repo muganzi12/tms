@@ -40,10 +40,10 @@ Yii::$app->assetManager->forceCopy = true;
                    class="navbar-brand"
                    style="min-width: 0">
                     <img class="navbar-brand-icon"
-                         src="<?= Url::base(true);?>/flowdash/assets/images/stack-logo-blue.svg"
-                         width="25"
+                         src="<?= Url::base(true);?>/img/demos.png"
+                         width="80"
                          alt="Stack">
-                    <span>LOAN MANAGER</span>
+                    <span></span>
                 </a>
             </div>
             

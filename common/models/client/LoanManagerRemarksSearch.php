@@ -16,7 +16,7 @@ class LoanManagerRemarksSearch extends LoanManagerRemarks {
      */
     public function rules() {
         return [
-            [['id', 'loan_id', 'client_id', 'remarks_status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'loan_id', 'client_id','investment_id', 'remarks_status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['category', 'remarks'], 'safe'],
         ];
     }
@@ -58,6 +58,7 @@ class LoanManagerRemarksSearch extends LoanManagerRemarks {
             'id' => $this->id,
             'loan_id' => $this->loan_id,
             'client_id' => $this->client_id,
+            'investment_id' => $this->investment_id,
             'created_at' => $this->created_at,
             'remarks_status' => $this->remarks_status,
             'created_by' => $this->created_by,

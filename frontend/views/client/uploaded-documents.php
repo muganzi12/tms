@@ -39,12 +39,14 @@ $this->params['client_id'] = $clientId;
                     'name',
                     'description',
                     [
-                        'attribute' => 'file_name',
-                        'format' => 'html',
+                        'attribute' => 'name',
+                        'header' => 'File Name',
                         'value' => function($data) {
-                            return
-                            Html::a('Download File', '#' . $data->file_name, ['class' => 'btn btn-secondary btn-sm', 'download' => true]);
-                        }
+                            return "<div class='fa fa-file-pdf-o' style='color:red'><img src='" . "'style='height:80px;'>&nbsp;" .
+                            Html::a($data->name, ['client/pick-document', 'id' => $data->id], ['download' => true]);
+                        },
+                        'headerOptions' => ['style' => 'width:400px;color:#000;'],
+                        'format' => 'raw'
                     ],
                     ['class' => 'yii\grid\ActionColumn',
                         'template' => '{delete} {update}',
@@ -53,14 +55,19 @@ $this->params['client_id'] = $clientId;
                         },
                         'buttons' => [
                             'view' => function ($url, $model, $key) {
-                                return Html::a('<span style="font-size:85%;"><i class="fa fa-delete" style="color:#444;"></i></span><br/>', ['delete', 'id' => $model->id], ['title' => 'Delete']);
+                                $docs = $_GET['id'];
+                                return Html::a('<span style="font-size:85%;"><i class="fa fa-delete" style="color:#444;"></i></span><br/>', ['delete', 'id' => $model->id, 'memb' => $docs], ['title' => 'Delete']);
                             },
                             'update' => function ($url, $model, $key) {
-                                return Html::a('<span style="font-size:85%;"><i class="fa fa-edit" style="color:green;"></i></span>', ['update', 'id' => $model->id], ['title' => 'Update']);
+                                $doc = $_GET['id'];
+                                return Html::a('<span style="font-size:85%;"><i class="fa fa-edit" style="color:green;"></i></span>', ['update-document', 'id' => $model->id, 'memb' => $doc], ['title' => 'Update']);
+                            },
+                            'delete' => function ($url, $model, $key) {
+                                $doc = $_GET['id'];
+                                return Html::a('<span style="font-size:85%;"><i class="fa fa-trash" style="color:red;"></i></span>', ['delete', 'id' => $model->id, 'memb' => $doc], ['title' => 'Update']);
                             },
                         ],
                     ],
-              
                 ],
             ]);
             ?>

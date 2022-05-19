@@ -9,8 +9,11 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use common\models\masterdata\Company;
 use common\models\client\Branch;
+use common\models\OfficeHeld;
 use common\models\masterdata\MasterData;
-
+use yii\helpers\Html;
+use yii\helpers\Url;
+use common\models\client\LoanManagerRemarks;
 /**
  * User model
  *
@@ -32,9 +35,12 @@ class User extends ActiveRecord implements IdentityInterface {
     const STATUS_INACTIVE = 2;
     const STATUS_ACTIVE = 1;
 
+    public $user_groups;
+    public $assigned_request;
+
     public static function getDb() {
         parent::getDb();
-        return Yii::$app->masterdb;
+        return Yii::$app->db;
     }
 
     /**
@@ -61,7 +67,7 @@ class User extends ActiveRecord implements IdentityInterface {
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             ['username', 'trim'],
-            [['app_module', 'client_id', 'is_admin', 'branch_id', 'office_id', 'password_status', 'updated_at', 'updated_by'], 'integer'],
+            [['app_module', 'client_id', 'is_admin', 'branch_id', 'office_id', 'password_status', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['profile_pic', 'signature'], 'string', 'max' => 255],
             ['client_id', 'required', 'message' => 'Fill in your Institution'],
             ['username', 'required', 'message' => 'Provide User Name'],
@@ -77,17 +83,19 @@ class User extends ActiveRecord implements IdentityInterface {
             ['telephone', 'required', 'message' => 'Fill in your Telephone Number'],
             ['created_by', 'required'],
             ['created_at', 'required'],
+            ['user_groups', 'each', 'rule' => ['string']],
             ['app_module', 'required', 'message' => 'Select System Module'],
             [['auth_key'], 'string', 'max' => 32],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
             ['password_hash', 'required'],
             ['password_hash', 'string', 'min' => 6],
+            ['user_groups', 'required', 'message' => 'Please select the role/roles for this system user'],
         ];
     }
 
     public function attributeLabels() {
         return [
-            'username' => 'User Name',
+            'username' => 'Username',
             'institution_id' => 'Bank/SACCO',
             'email' => 'Email',
             'firstname' => 'First Name',
@@ -95,6 +103,7 @@ class User extends ActiveRecord implements IdentityInterface {
             'othername' => 'Other Name',
             'branch_id' => 'Branch',
             'client_id' => 'Client',
+            'user_groups' => 'Roles & Permissions',
             'office_id' => 'Office Held',
             'is_receiving_officer' => 'Is She/He a Receiving Officer?',
             'status' => 'Status',
@@ -117,7 +126,7 @@ class User extends ActiveRecord implements IdentityInterface {
             $this->auth_key = Yii::$app->security->generateRandomString();
         } else {
             $this->updated_at = time();
-            $this->updated_by = Yii::$app->member->id;
+            $this->updated_by = Yii::$app->user->id;
         }
         return parent::beforeSave($insert);
     }
@@ -148,6 +157,10 @@ class User extends ActiveRecord implements IdentityInterface {
                     'status' => self::STATUS_ACTIVE,
                     'app_module' => Yii::$app->app_module
         ]);
+    }
+
+    public static function findByEmail($email) {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -276,9 +289,27 @@ class User extends ActiveRecord implements IdentityInterface {
     public function getBranch() {
         return $this->hasOne(Branch::class, ['id' => 'branch_id']);
     }
+   public function getOffice() {
+        return $this->hasOne(OfficeHeld::class, ['id' => 'office_id']);
+    }
+    
+      public function getOfficeHeld() {
+        return $this->office->name;
+    }
 
     public function getUserStatus() {
         return $this->hasOne(MasterData::class, ['id' => 'status']);
+    }
+    
+        public function getRoles() {
+        return $this->hasMany(rbac\AuthAssignment::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Show Status Button 
+     */
+    public function getStatusButton() {
+        return "<badge class='badge badge-{$this->userStatus->css_class}'>" . $this->userStatus->name . '</badge>';
     }
 
     public function getFullnames() {
@@ -293,9 +324,44 @@ class User extends ActiveRecord implements IdentityInterface {
         }
     }
 
+    /**
+     * 
+     * Show Client Classification Status
+     */
+    public function getProfile() {
+        $url = $this->profilePicture;
+        return Html::img($url, ['alt' => 'avatar', 'width' => '50', 'height' => '50']);
+    }
+
     public function getSignature() {
         if (!empty($this->signature)) {
             return Yii::getAlias('@web/html') . "/signature" . $this->signature;
+        }
+    }
+
+    /**
+     * Get Client Link
+     */
+    public function getUserNames() {
+        return '<b><a href="' . Url::to(['user/view', 'id' => $this->id]) . '">' . $this->username . "</a></b>";
+    }
+
+    /**
+     * Get Branch  Link
+     */
+    public function getBranchName() {
+        return '<b><a href="' . Url::to(['branch/view', 'id' => $this->branch->id]) . '">' . $this->branch->name . "</a></b>";
+        //return $my;
+    }
+
+    /**
+     * Get Update Interest Status  Link
+     */
+    public function getUpdateButton() {
+        $my = $this->status;
+        if ($my == 1) {
+            return '<b><a href="' . Url::to(['user/update', 'id' => $this->id]) . '">' . 'Update' . "</a></b>";
+            //return $my;
         }
     }
 
@@ -331,5 +397,72 @@ class User extends ActiveRecord implements IdentityInterface {
         //shuffle the password string before returning!
         return str_shuffle($password);
     }
+
+    public static function assignGroupPermissions($group, $permissions) {
+        $auth = Yii::$app->authManager;
+        $role = $auth->getRole($group);
+        //Revoke all permissions in this group
+        $auth->removeChildren($role);
+        //Assign new permissions
+        foreach ($permissions AS $perm) {
+            $pmn = $auth->getPermission($perm);
+            $auth->addChild($role, $pmn);
+        }
+        return true;
+    }
+
+    /**
+     * Assign roles to a specified user
+     * @param Int $user_id
+     * @param Array $roles
+     * @return boolean
+     */
+    public static function assignRoles($user_id, $roles) {
+        $auth = Yii::$app->authManager;
+        //Revoke all roles from this person
+        $auth->revokeAll($user_id);
+        //Assign new roles
+        foreach ($roles AS $rl) {
+            $rol = $auth->getRole($rl);
+            $auth->assign($rol, $user_id);
+        }
+        return true;
+    }
+
+    public static function GetLayout() {
+
+        if (Yii::$app->member->office_id === 1) {
+            $this->layout = "main_admin";
+        } elseif (Yii::$app->member->office_id === 2) {
+            $this->layout = "main_manager";
+        } elseif (Yii::$app->member->office_id === 3) {
+            $this->layout = "main_director";
+        } elseif (Yii::$app->member->office_id === 4) {
+            $this->layout = "main_officer";
+        } else {
+            $this->layout = "main";
+        }
+        return true;
+    }
+
+    /**
+     * Remove permission from a specified group
+     * @param string $group User Role/group
+     * @param string $permission Permission
+     * @return Boolean
+     */
+    public static function revokePermission($group, $permission) {
+        $auth = Yii::$app->authManager;
+        $role = $auth->getRole($group);
+        $perm = $auth->getPermission($permission);
+        //Revoke the permission from the group
+        return $auth->removeChild($role, $perm);
+    }
+    
+        
+    public function getClientRemarks() {
+        return $this->hasMany(LoanManagerRemarks::class, ['created_by' => 'id']);
+    }
+    
 
 }

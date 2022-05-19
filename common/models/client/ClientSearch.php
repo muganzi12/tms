@@ -17,8 +17,8 @@ class ClientSearch extends Client
     public function rules()
     {
         return [
-            [['id','identification_type','related_to', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['firstname','account_number', 'lastname', 'othername', 'identification_number', 'telephone', 'alt_telephone', 'gender', 'marital_status', 'date_of_birth', 'address', 'email', 'person_scenario', 'relationship'], 'safe'],
+            [['id','identification_type','office_id','client_classification_status','is_staff_memeber','client_type','address_type','related_to', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['firstname','account_number','external_id', 'lastname', 'othername', 'identification_number', 'telephone', 'alt_telephone', 'gender', 'marital_status', 'date_of_birth', 'address', 'email', 'person_scenario', 'relationship'], 'safe'],
         ];
     }
 
@@ -60,6 +60,10 @@ class ClientSearch extends Client
         $query->andFilterWhere([
             'id' => $this->id,
             'identification_type' => $this->identification_type,
+            'office_id' => $this->office_id,
+            'is_staff_memeber' => $this->is_staff_memeber,
+            'client_type' => $this->client_type,
+            'address_type' => $this->address_type,
             'date_of_birth' => $this->date_of_birth,
             'related_to' => $this->related_to,
             'created_at' => $this->created_at,
@@ -77,6 +81,7 @@ class ClientSearch extends Client
             ->andFilterWhere(['like', 'gender', $this->gender])
             ->andFilterWhere(['like', 'marital_status', $this->marital_status])
             ->andFilterWhere(['like', 'account_number', $this->account_number])
+            ->andFilterWhere(['like', 'external_id', $this->external_id])
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'person_scenario', $this->person_scenario])

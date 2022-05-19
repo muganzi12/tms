@@ -5,31 +5,32 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\client\Loan */
 
-$this->title = 'Approve Loan Application: ' . $model->reference_number;
+$this->title = 'Rate Client: ' . $loan->reference_number;
 //Pass LoanID to the layout 
 $this->params['loan_id'] = $loanId;
 ?>
 
-<div class="row">
-    <div class="card" style="margin-left:10px;">
-        <div class="card-header bg-success d-flex align-items-center justify-content-between">
-            <h4 class="card-header__title mb-0">Loan Application Details</h4>
-        </div>
-        <div class="card-body" style=padding:0px;>
-            <?= $this->render('details/loan-details', ['model' => $model]); ?>
-        </div>
-    </div>
 
-        <div class="card" style="margin-left:10px;">
-        <div class="card-header bg-info d-flex align-items-center justify-content-between">
-            <h4 class="card-header__title mb-0">Approve loan Application</h4>
-        </div>
-        <div class="card-body" style=padding:0px;>
-            <?= $this->render('_approval-form', [
+<style>
+    .profile-section{}
+    .profile-section h5{
+        border-bottom: 3px solid #3C8BE5;
+        color:#135095;
+        font-weight: bold !important;
+    }
+</style>
+<section class="sheet padding-10mm" style="padding:0 7px 0 7px;">
+
+    <div class="profile-section" style="margin-top:20px;">
+
+        <div class="col-lg-12" style="padding:0px;">
+
+
+            <?= $this->render('_score-form', [
                 'model' => $model,
-                'method' => $method,
+                'loan'=>$loan,
             ]) ?>
         </div>
-    </div>
+
 </div>
 

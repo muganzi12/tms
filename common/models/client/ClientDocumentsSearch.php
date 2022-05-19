@@ -41,11 +41,12 @@ class ClientDocumentsSearch extends ClientDocuments
     public function search($params)
     {
         $query = ClientDocuments::find();
-
+        //$name = $query->name;
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+          
         ]);
 
         $this->load($params);

@@ -6,7 +6,11 @@ use Yii;
 use common\models\client\MasterData;
 use common\models\masterdata\Company;
 use yii\db\Query;
-use common\models\client\ClientDocumentsSearch;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use common\models\client\ClientDocuments;
+use common\models\loan\Ledger;
+use common\models\client\LoanManagerRemarks;
 
 /**
  * This is the model class for table "member".
@@ -48,14 +52,19 @@ class Client extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['firstname', 'lastname', 'identification_type', 'identification_number', 'telephone', 'gender', 'marital_status', 'date_of_birth', 'address', 'person_scenario', 'status', 'created_at', 'created_by'], 'required'],
-            [['identification_type', 'gender', 'marital_status', 'status', 'related_to', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['firstname', 'lastname', 'telephone', 'date_of_birth', 'person_scenario', 'status', 'created_at', 'nin','created_by'], 'required'],
+            [['identification_type', 'office_id', 'client_classification_status', 'is_staff_memeber', 'client_type', 'address_type', 'gender', 'marital_status', 'status', 'related_to', 'created_at', 'next_kin_status', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['date_of_birth'], 'safe'],
-            [['account_number', 'passport_photo', 'firstname', 'lastname', 'othername', 'email', 'person_scenario', 'relationship'], 'string', 'max' => 100],
-            [['identification_number', 'telephone', 'alt_telephone'], 'string', 'max' => 14],
+            [['account_number', 'passport_photo', 'external_id', 'firstname', 'lastname', 'othername', 'email', 'person_scenario', 'relationship'], 'string', 'max' => 100],
+            [['identification_number', 'nin', 'telephone', 'alt_telephone'], 'string', 'max' => 14],
             [['address'], 'string', 'max' => 500],
+            ['email', 'email'],
             [['identification_number'], 'unique'],
             [['telephone'], 'unique'],
+            [['telephone'], 'match', 'pattern' => '/^(\D*)?(\d{3})(\D*)?(\d{3})(\D*)?(\d{4})$/', 'message' => 'Invalid Telephone number format'],
+            [['external_id','nin','firstname','lastname','othername'], 'match', 'pattern' => "/^[A-Za-z0-9_]+$/u", 'message' => 'File Number does not contain special characters '],
+            [['firstname','lastname','othername'], 'match', 'pattern' => "/^[a-zA-Z\s]+$/", 'message' => 'Contains only letters'],
+            [['nin'], 'string', 'min' => 14, 'message' => 'You must enter minimum 20 characters'],
             [['email'], 'unique'],
         ];
     }
@@ -74,6 +83,12 @@ class Client extends \yii\db\ActiveRecord {
             'telephone' => 'Telephone',
             'alt_telephone' => 'Alt Telephone',
             'gender' => 'Gender',
+            'office_id' => 'Office Name',
+            'client_type' => 'Client Type',
+            'nin' => 'NIN',
+            'external_id' => 'File Number',
+            'is_staff_memeber' => 'Is Staff a Member?',
+            'address_type' => 'Address Type',
             'marital_status' => 'Marital Status',
             'date_of_birth' => 'Date Of Birth',
             'address' => 'Physical Address',
@@ -86,32 +101,42 @@ class Client extends \yii\db\ActiveRecord {
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
-            'account_number'=>'File Number'
+            'account_number' => 'System ID'
         ];
     }
 
+    
+    
     public function getGenderType() {
-        return $this->hasOne(MasterData::class, ['id' => 'gender']);
+        return $this->hasOne(ClientMasterData::class, ['id' => 'gender']);
     }
 
     public function getIdentificationType() {
-        return $this->hasOne(MasterData::class, ['id' => 'identification_type']);
+        return $this->hasOne(ClientMasterData::class, ['id' => 'identification_type']);
+    }
+
+    public function getClientType() {
+        return $this->hasOne(ClientMasterData::class, ['id' => 'client_type']);
+    }
+
+    public function getClassificationStatus() {
+        return $this->hasOne(ClientMasterData::class, ['id' => 'client_classification_status']);
     }
 
     public function getMaritalStatus() {
-        return $this->hasOne(MasterData::class, ['id' => 'marital_status']);
+        return $this->hasOne(ClientMasterData::class, ['id' => 'marital_status']);
     }
 
     public function getMemberStatus() {
-        return $this->hasOne(MasterData::class, ['id' => 'status']);
+        return $this->hasOne(ClientMasterData::class, ['id' => 'status']);
     }
 
     public function getRelationshipType() {
-        return $this->hasOne(MasterData::class, ['id' => 'relationship']);
+        return $this->hasOne(ClientMasterData::class, ['id' => 'relationship']);
     }
 
     public function getMembershipType() {
-        return $this->hasOne(MasterData::class, ['id' => 'membership_type']);
+        return $this->hasOne(ClientMasterData::class, ['id' => 'membership_type']);
     }
 
     public function getClient() {
@@ -135,16 +160,17 @@ class Client extends \yii\db\ActiveRecord {
     /**
      * The age of this client
      */
-    public function getAge(){
-        $tz  = new \DateTimeZone('Africa/Kampala');
-        if(defined($this->date_of_birth)){
-            return \DateTime::createFromFormat('Y-m-d', $this->date_of_birth, $tz)
-                ->diff(new \DateTime('now', $tz))
-                ->y;
-         }else{
+    public function getAge() {
+        $tz = new \DateTimeZone('Africa/Kampala');
+        if (defined($this->date_of_birth)) {
+            return \DateTime::createFromFormat('d-m-Y', $this->date_of_birth, $tz)
+                            ->diff(new \DateTime('now', $tz))
+                    ->y;
+        } else {
             return '-';
         }
     }
+
     /**
      * Generate Request Reference  Number
      */
@@ -166,11 +192,8 @@ class Client extends \yii\db\ActiveRecord {
      * Registration Documents presented by this client
      * @return CompanyDocument
      */
-    public function getDocuments() {
-        $searchModel = new ClientDocumentsSearch();
-        $searchModel->client_id = $this->id;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $dataProvider;
+    public function getSupportingDocuments() {
+        return $this->hasMany(ClientDocuments::className(), ['client_id' => 'id']);
     }
 
     /**
@@ -181,7 +204,7 @@ class Client extends \yii\db\ActiveRecord {
         $searchModel = new LoanManagerRemarksSearch();
         $searchModel->client_id = $this->id;
         $searchModel->category = "CLIENT";
-         $searchModel->remarks_status = $status;
+        $searchModel->remarks_status = $status;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $dataProvider;
     }
@@ -198,5 +221,65 @@ class Client extends \yii\db\ActiveRecord {
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $dataProvider;
     }
+
+    /**
+     * Show Identification Type 
+     */
+    public function getIdentification() {
+        return $this->identificationType->name;
+    }
+
+    /**
+     * 
+     * Show Client Types
+     */
+    public function getClientTypes() {
+        return $this->clientType->name;
+    }
+
+    /**
+     * 
+     * Show Client Classification Status
+     */
+    public function getClientClassificationStatus() {
+        return $this->classificationStatus->name;
+    }
+
+    /**
+     * 
+     * Show Client Classification Status
+     */
+    public function getProfile() {
+        $url = $this->passportPhoto;
+        return Html::img($url, ['alt' => 'avatar', 'width' => '50', 'height' => '50']);
+    }
+
+    /**
+     * Show Status Button 
+     */
+    public function getStatusButton() {
+        return "<badge class='badge badge-{$this->memberStatus->css_class}'>" . $this->memberStatus->name . '</badge>';
+    }
+
+    /**
+     * Get Client Link
+     */
+    public function getAccountNumber() {
+        return '<b><a href="' . Url::to(['client/view', 'id' => $this->id]) . '">' . $this->account_number . "</a></b>";
+    }
+
+       
+     public function getLoanEntries() {
+         return $this->hasMany(Loan::class, ['client_id' => 'id']);
+         
+
+    }
+    
+    
+    public function getClientRemarks() {
+        return $this->hasMany(LoanManagerRemarks::class, ['client_id' => 'id']);
+    }
+    
+
 
 }

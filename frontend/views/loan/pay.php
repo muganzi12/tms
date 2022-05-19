@@ -9,36 +9,38 @@ use yii\jui\DatePicker;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
-$this->title = $model->reference_number.' - Record payment';
-$this->params['loan_id'] = $model->id;
+$this->title = $model->id.' - Record payment';
+$this->params['schedule_id'] = $model->id;
+use common\models\client\Loan;
+
+$balances =$newPaidPrincipal = Yii::$app->db->createCommand('SELECT principal_amount from loan_payment_schedule  WHERE id =' . $model->loan->id)->queryOne();
+
 ?>
-<h3><?= $this->title; ?></h3>
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>REF</th>
-            <th>Desc</th>
             <th>Due Date</th>
+            <th>Principal</th>
+            <th>Interest</th>
             <th>Amount</th>
         </tr>
     </thead>
     <tbody>
-    <?php foreach($ledgers AS $lg){ ?>
     <tr>
-        <td><?= $lg->entry_reference; ?></td>
-        <th><?= $lg->description; ?></th>
-        <td><?= $lg->due_date; ?></td>
-        <td><?= $lg->transactionAmount; ?></td>
+        <td><?= $model->due_date; ?></td>
+        <th><?= number_format($model->principal_amount-$model->principal_paid); ?></th>
+        <td><?= number_format($model->interest_amount-$model->interest_paid); ?></td>
+        <td><?= number_format(($model->principal_amount+$model->interest_amount)-($model->principal_paid+$model->interest_paid)); ?></td>
     </tr>
-    <?php } ?>
     </tbody>
     <tfoot>
     <tr class="bg-secondary text-white">
         <td colspan="3">TOTAL</td>
-        <td style="background:#3243C0;font-weight:bold;"><?= Yii::$app->formatter->asCurrency($total,'UGX'); ?></td>
+        <td style="background:#3243C0;font-weight:bold;"><?= Yii::$app->formatter->asCurrency(($model->principal_amount+$model->interest_amount)-($model->principal_paid+$model->interest_paid),'UGX'); ?></td>
     </tr>
     </tfoot>
 </table>
+
 <?php $form = ActiveForm::begin(); ?>
     <table class="table">
     <tr>
@@ -51,8 +53,8 @@ $this->params['loan_id'] = $model->id;
                             'clientOptions' => [
                                 'changeMonth' => false,
                                 'changeYear' => true,
-                                'minDate' => '0y',
-                                //'maxDate' => '0',
+                                'minDate' => '-100y',
+                                'maxDate' => '0',
                                 'showButtonPanel' => false,
                                 'todayHighlight' => false,
                                 'format' => 'Y-m-d',
@@ -66,25 +68,24 @@ $this->params['loan_id'] = $model->id;
                 <?= $form->field($payment, 'paid_by')->textInput(['maxlength' => true]) ?>
         </td>
         <td> 
-                <?= $form->field($payment, 'amount_paid')->textInput(['maxlength' => true, 'value' => $total]) ?>
+                <?= $form->field($payment, 'amount_paid')->textInput(['maxlength' => true]) ?>
         </td>
     </tr>
     <tr>
-        <td>
+          <td style="width:33%">
                  <?= $form->field($payment, 'payment_method')->dropdownList(
                     ArrayHelper::map($payment_methods,'id','name'),
                     ['prompt'=>'Select Method']
                 ) ?> 
         </td>
         <td>
-                <?= $form->field($payment, 'debit_account')->dropdownList(
-                    ArrayHelper::map($pay_accounts,'gl_code','fullAccountName'),
-                    ['prompt'=>'Select Dedit Account']
-                ) ?> 
+          
         </td>
-        <td> 
+        
+               <td> 
                 <?= $form->field($payment, 'proof_attachment')->fileInput() ?>
         </td>
+ 
     </tr>
     <tr>
         <td colspan="3">
@@ -95,10 +96,13 @@ $this->params['loan_id'] = $model->id;
         <td>
             <?= Html::submitButton('Record Payment', ['class' => 'btn btn-success btn-block', 'style' => 'margin-top:30px;']) ?>
         </td>
-        <td colspan="2">
-            <?= $form->field($payment, 'ledgers')->hiddenInput(['value'=>$pay_ledgers]); ?>  
-            <?= $form->field($payment, 'bill_total')->hiddenInput(['value'=>$total]); ?>  
+          <td colspan="2">
+             <?= $form->field($payment, 'loan_id')->hiddenInput()->label(false) ?> 
+               <?= $form->field($payment, 'schedule_id')->hiddenInput()->label(false) ?> 
+             <?= $form->field($payment, 'transaction_type')->hiddenInput()->label(false) ?> 
+             <?= $form->field($payment, 'debit_account')->hiddenInput()->label(false) ?> 
         </td>
     </tr>
     </table>
 <?php ActiveForm::end(); ?>
+

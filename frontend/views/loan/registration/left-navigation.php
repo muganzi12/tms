@@ -34,7 +34,7 @@ use yii\helpers\Url;
     if ($model->status == 20) {
         ?>
         <li>
-            <a href="<?= Url::to(['loan/disburse-loan', 'id' => $model->id]); ?>"><i class="fa fa-paint-brush"></i> Disburse Loan</a>
+            <a href="<?= Url::to(['loan/disburse-loan', 'id' => $model->id,'stage'=>$stage]); ?>"><i class="fa fa-paint-brush"></i> Disburse Loan</a>
         </li>
     <?php } ?>
 

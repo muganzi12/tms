@@ -2,17 +2,17 @@
 
 use yii\helpers\Url;
 use yii\bootstrap\Nav;
-use frontend\models\LeftNavigation;
+use frontend\models\LeftNavigationOfficer;
 ?>
 <div class="mdk-drawer  js-mdk-drawer"
      id="default-drawer"
      data-align="start">
     <div class="mdk-drawer__content">
-        <div class="sidebar sidebar-light sidebar-left sidebar-p-t"
-             data-perfect-scrollbar>
+        <div class="sidebar sidebar-light sidebar-p-t"
+             data-perfect-scrollbar style="background-color: #e5e5e5">
             <?=
             Nav::widget([
-                'items' => LeftNavigation::getNavItems(),
+                'items' => LeftNavigationOfficer::getNavItems(),
                 'options' => [
                     'class' => ['widget' => 'sidebar-menu'],
                     'id' => 'left_nav_menu'

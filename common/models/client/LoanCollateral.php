@@ -3,7 +3,7 @@
 namespace common\models\client;
 
 use Yii;
-use common\models\client\MasterData;
+use common\models\client\ClientMasterData;
 
 /**
  * This is the model class for table "loan_collateral".
@@ -36,8 +36,8 @@ class LoanCollateral extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['loan_id', 'name', 'description', 'type_of_collateral', 'estimated_price', 'created_at', 'created_by'], 'required'],
-            [['loan_id', 'type_of_collateral','type_of_ownership', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['loan_id', 'name', 'description','price_type', 'type_of_collateral', 'estimated_price', 'created_at', 'created_by'], 'required'],
+            [['loan_id', 'type_of_collateral','price_type','type_of_ownership', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['estimated_price'], 'number'],
             [['description', 'proof_of_ownership', 'location'], 'string', 'max' => 255],
         ];
@@ -71,7 +71,7 @@ class LoanCollateral extends \yii\db\ActiveRecord {
     }
 
     public function getCollateralType() {
-        return $this->hasOne(MasterData::class, ['id' => 'type_of_collateral']);
+        return $this->hasOne(ClientMasterData::class, ['id' => 'type_of_collateral']);
     }
 
 }

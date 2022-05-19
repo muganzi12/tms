@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 ?>
 
-<p>Dear <?= $loan->loan->client->firstname; ?>,</p></br>
-<p> This email is in reference to your loan application dated [<?= $loan->loan->application_date; ?>]. After going through your application, we are sorry to inform you that your application was rejected due to [<?= $loan->remarks; ?>].
-    Thank you for considering us. You can reapply the loan after meeting the set conditions.</p>
-
+<p>Dear <?= $model->submittedTo->firstname; ?>,</p></br>
+<p> <?= $model->createdBy->fullNames; ?> has assigned  a task to you to perform action on <?= $model->loan->reference_number; ?> Loan application.</p></br>
+<p><?= $model->remarks; ?>.</p></br>
+<p>Click here <a href='http://localhost:8888/elms/frontend/web/index.php?r=site%2Flogin'> to login to the system </a></p>

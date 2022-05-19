@@ -23,6 +23,9 @@ use yii\jui\DatePicker;
             </td>
             <td>   <?= $form->field($model, 'othername')->textInput(['maxlength' => true]) ?>
             </td>
+            
+              <td>   <?= $form->field($model, 'nin')->textInput(['maxlength' => true]) ?>
+            </td>
         </tr>
 
         <tr>
@@ -61,10 +64,27 @@ use yii\jui\DatePicker;
                 ]);
                 ?>
             </td>
+              <td>
+                <?php
+                echo $form->field($model, 'investor_type')->widget(Select2::classname(), [
+                    'value' => '',
+                    'theme' => Select2::THEME_CLASSIC,
+                    'data' => ArrayHelper::map($invest, 'id', 'name'),
+                    'options' => [
+                        'placeholder' => 'Select Gender',
+                        'class' => 'form-control',
+                        'multiple' => false,
+                        'required' => true
+                    ],
+                ]);
+                ?>
+            </td>
+          
         </tr>
         <tr>
-            <td>    <?= $form->field($model, 'telephone')->textInput(['maxlength' => true, 'required' => true]) ?>
+                <td>    <?= $form->field($model, 'telephone')->textInput(['maxlength' => true, 'required' => true]) ?>
             </td>
+          
             <td>   <?= $form->field($model, 'alt_telephone')->textInput(['maxlength' => true]) ?>
             </td>
             <td>                       
@@ -80,18 +100,19 @@ use yii\jui\DatePicker;
                                 'maxDate' => '0',
                                 'showButtonPanel' => false,
                                 'todayHighlight' => false,
-                                'format' => 'Y-m-d',
+                               'format' => 'd-m-Y',
                             //'yearRange' => '1990:2020'
                             ],
-                            'options' => ['class' => 'form-control', 'readonly' => 'readonly', 'required' => true]
+                            'options' => ['class' => 'form-control', 'placeholder' => '01-01-2022', 'required' => true]
                 ])
                 ?>
+            </td>
+                <td>   <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
             </td>
 
         </tr>
         <tr>
-            <td>   <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-            </td>
+        
             <td colspan="6">
                 <?= $form->field($model, 'physical_address')->textArea(['rows' => 2, 'required' => true]) ?>
             </td>
@@ -109,6 +130,7 @@ use yii\jui\DatePicker;
                 <?= $form->field($model, 'updated_at')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'updated_by')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'status')->hiddenInput()->label(false) ?>
+                 <?= $form->field($model, 'reference_number')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
 
 

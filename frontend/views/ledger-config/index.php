@@ -42,6 +42,7 @@ $this->params['topright_button_class'] = 'btn btn-success my-2 my-sm-0';
                 },
                 'format'=>'raw'
             ],
+              'tags',
             //'is_primary',
             //'parent_id',
             //'created_at',

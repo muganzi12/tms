@@ -8,8 +8,8 @@ use frontend\models\LeftNavigation;
      id="default-drawer"
      data-align="start">
     <div class="mdk-drawer__content">
-        <div class="sidebar sidebar-light sidebar-left sidebar-p-t"
-             data-perfect-scrollbar>
+        <div class="sidebar sidebar-light sidebar-p-t"
+             data-perfect-scrollbar style="background-color: #949494">
             <?=
             Nav::widget([
                 'items' => LeftNavigation::getNavItems(),

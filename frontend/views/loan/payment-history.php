@@ -6,13 +6,19 @@ use common\models\loan\LedgerHelper;
 use nullref\datatable\DataTable;
 use yii\helpers\Url;
 
-$this->title = $model->reference_number.' payment history';
+$this->title = 'Loan Ref: '.$model->reference_number;
 $this->params['loan_id'] = $model->id;
+//Top Right button
+$this->params['topright_button'] = true;
+$this->params['topright_button_label'] = 'Download';
+$this->params['topright_button_link'] = ['loan/download-payment-history','id'=>$model->id];
+$this->params['topright_button_class'] = 'btn-primary pull-right';
 ?>
-<h3><?= $this->title; ?></h3>
+
 <p>
     <?= Html::button('Record Payment', ['class' => 'pull-right btn btn-primary','onclick'=>'makePayment()']) ?>
 </p>
+
     <?php
     echo DataTable::widget([
         'data' => $model->ledgerEntries,
@@ -25,7 +31,8 @@ $this->params['loan_id'] = $model->id;
             ['attribute' => 'due_date', 'title' => 'Due Date',],
             ['attribute' => 'transactionDate', 'title' => 'Recorded At',],
             ['attribute' => 'transactionAmount', 'title' => 'Amount'],
-            ['attribute' => 'statusButton', 'title' => 'Status']
+            ['attribute' => 'statusButton', 'title' => 'Status'],
+            ['attribute' => 'interestButton', 'title' => 'Option']
         ],
     ]);
     ?>

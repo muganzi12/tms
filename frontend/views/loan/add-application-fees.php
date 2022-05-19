@@ -29,11 +29,10 @@ $this->params['loan_id'] = $loanId;
 
 
         <?=
-        $this->render('_loan-collateral-form', [
+        $this->render('_application-fees-form', [
             'model' => $model,
             'loan' => $loan,
-            'type' => $type,
-             'ownership' => $ownership,
+            'payment_methods' => $payment_methods
         ])
         ?>
 

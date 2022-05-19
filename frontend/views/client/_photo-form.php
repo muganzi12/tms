@@ -25,7 +25,7 @@ $this->title = "Upload profile picture";
                     </div>
                     <div class="col-lg-12">
                         <?= $form->field($model, 'id')->hiddenInput()->label(false); ?>
-                        <?= $form->field($model, 'reference_number')->hiddenInput()->label(false); ?>
+                        <?= $form->field($model, 'account_number')->hiddenInput()->label(false); ?>
                         <?= $form->field($model, 'firstname')->hiddenInput()->label(false); ?>
                         <?= $form->field($model, 'lastname')->hiddenInput()->label(false); ?>
                         <?= $form->field($model, 'othername')->hiddenInput()->label(false); ?>
