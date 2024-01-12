@@ -2,18 +2,19 @@
 
 namespace common\models;
 
+use common\models\client\Branch;
+use common\models\client\LoanManagerRemarks;
+use common\models\masterdata\Company;
+use common\models\masterdata\MasterData;
+use common\models\OfficeHeld;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
-use common\models\masterdata\Company;
-use common\models\client\Branch;
-use common\models\OfficeHeld;
-use common\models\masterdata\MasterData;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use common\models\client\LoanManagerRemarks;
+use yii\web\IdentityInterface;
+
 /**
  * User model
  *
@@ -29,7 +30,8 @@ use common\models\client\LoanManagerRemarks;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-class User extends ActiveRecord implements IdentityInterface {
+class User extends ActiveRecord implements IdentityInterface
+{
 
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 2;
@@ -38,7 +40,8 @@ class User extends ActiveRecord implements IdentityInterface {
     public $user_groups;
     public $assigned_request;
 
-    public static function getDb() {
+    public static function getDb()
+    {
         parent::getDb();
         return Yii::$app->db;
     }
@@ -46,14 +49,16 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * {@inheritdoc}
      */
-    public static function tableName() {
+    public static function tableName()
+    {
         return '{{%user}}';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             TimestampBehavior::className(),
         ];
@@ -62,7 +67,8 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * {@inheritdoc}
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
@@ -93,7 +99,8 @@ class User extends ActiveRecord implements IdentityInterface {
         ];
     }
 
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'username' => 'Username',
             'institution_id' => 'Bank/SACCO',
@@ -107,11 +114,12 @@ class User extends ActiveRecord implements IdentityInterface {
             'office_id' => 'Office Held',
             'is_receiving_officer' => 'Is She/He a Receiving Officer?',
             'status' => 'Status',
-            'password_hash' => 'Password'
+            'password_hash' => 'Password',
         ];
     }
 
-    public function beforeSave($insert) {
+    public function beforeSave($insert)
+    {
         parent::beforeSave($insert);
         if ($this->isNewRecord) {
             $this->created_at = time();
@@ -134,14 +142,16 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id) {
+    public static function findIdentity($id)
+    {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null) {
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
 
@@ -151,15 +161,17 @@ class User extends ActiveRecord implements IdentityInterface {
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username) {
+    public static function findByUsername($username)
+    {
         return static::findOne([
-                    'username' => $username,
-                    'status' => self::STATUS_ACTIVE,
-                    'app_module' => Yii::$app->app_module
+            'username' => $username,
+            'status' => self::STATUS_ACTIVE,
+            'app_module' => Yii::$app->app_module,
         ]);
     }
 
-    public static function findByEmail($email) {
+    public static function findByEmail($email)
+    {
         return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
 
@@ -169,14 +181,15 @@ class User extends ActiveRecord implements IdentityInterface {
      * @param string $token password reset token
      * @return static|null
      */
-    public static function findByPasswordResetToken($token) {
+    public static function findByPasswordResetToken($token)
+    {
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
         }
 
         return static::findOne([
-                    'password_reset_token' => $token,
-                    'status' => self::STATUS_ACTIVE,
+            'password_reset_token' => $token,
+            'status' => self::STATUS_ACTIVE,
         ]);
     }
 
@@ -186,10 +199,11 @@ class User extends ActiveRecord implements IdentityInterface {
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
-                    'verification_token' => $token,
-                    'status' => self::STATUS_INACTIVE
+            'verification_token' => $token,
+            'status' => self::STATUS_INACTIVE,
         ]);
     }
 
@@ -199,7 +213,8 @@ class User extends ActiveRecord implements IdentityInterface {
      * @param string $token password reset token
      * @return bool
      */
-    public static function isPasswordResetTokenValid($token) {
+    public static function isPasswordResetTokenValid($token)
+    {
         if (empty($token)) {
             return false;
         }
@@ -212,21 +227,24 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * {@inheritdoc}
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->getPrimaryKey();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAuthKey() {
+    public function getAuthKey()
+    {
         return $this->auth_key;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function validateAuthKey($authKey) {
+    public function validateAuthKey($authKey)
+    {
         return $this->getAuthKey() === $authKey;
     }
 
@@ -236,7 +254,8 @@ class User extends ActiveRecord implements IdentityInterface {
      * @param string $password password to validate
      * @return bool if password provided is valid for current user
      */
-    public function validatePassword($password) {
+    public function validatePassword($password)
+    {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
@@ -245,32 +264,37 @@ class User extends ActiveRecord implements IdentityInterface {
      *
      * @param string $password
      */
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
 
     /**
      * Generates "remember me" authentication key
      */
-    public function generateAuthKey() {
+    public function generateAuthKey()
+    {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
     /**
      * Generates new password reset token
      */
-    public function generatePasswordResetToken() {
+    public function generatePasswordResetToken()
+    {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
-    public function generateEmailVerificationToken() {
+    public function generateEmailVerificationToken()
+    {
         $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
     /**
      * Removes password reset token
      */
-    public function removePasswordResetToken() {
+    public function removePasswordResetToken()
+    {
         $this->password_reset_token = null;
     }
 
@@ -278,45 +302,55 @@ class User extends ActiveRecord implements IdentityInterface {
      * Details of the currently logged in User
      * @return \common\models\User
      */
-    public static function findLoggedInUser() {
+    public static function findLoggedInUser()
+    {
         return self::findOne(Yii::$app->user->id);
     }
 
-    public function getClient() {
+    public function getClient()
+    {
         return $this->hasOne(Company::class, ['id' => 'client_id']);
     }
 
-    public function getBranch() {
+    public function getBranch()
+    {
         return $this->hasOne(Branch::class, ['id' => 'branch_id']);
     }
-   public function getOffice() {
+    public function getOffice()
+    {
         return $this->hasOne(OfficeHeld::class, ['id' => 'office_id']);
     }
-    
-      public function getOfficeHeld() {
+
+    public function getOfficeHeld()
+    {
         return $this->office->name;
     }
 
-    public function getUserStatus() {
+    public function getUserStatus()
+    {
         return $this->hasOne(MasterData::class, ['id' => 'status']);
     }
-    
-        public function getRoles() {
+
+    public function getRoles()
+    {
         return $this->hasMany(rbac\AuthAssignment::class, ['user_id' => 'id']);
     }
 
     /**
-     * Show Status Button 
+     * Show Status Button
      */
-    public function getStatusButton() {
-        return "<badge class='badge badge-{$this->userStatus->css_class}'>" . $this->userStatus->name . '</badge>';
+    public function getStatusButton()
+    {
+        return "<badge class='badge badge-{@$this->userStatus->css_class}'>" . @$this->userStatus->name . '</badge>';
     }
 
-    public function getFullnames() {
+    public function getFullnames()
+    {
         return $this->firstname . ' ' . $this->lastname;
     }
 
-    public function getProfilePicture() {
+    public function getProfilePicture()
+    {
         if (!empty($this->profile_pic)) {
             return Yii::getAlias('@web/html') . "/profile-pics/" . $this->profile_pic;
         } else {
@@ -325,15 +359,17 @@ class User extends ActiveRecord implements IdentityInterface {
     }
 
     /**
-     * 
+     *
      * Show Client Classification Status
      */
-    public function getProfile() {
+    public function getProfile()
+    {
         $url = $this->profilePicture;
         return Html::img($url, ['alt' => 'avatar', 'width' => '50', 'height' => '50']);
     }
 
-    public function getSignature() {
+    public function getSignature()
+    {
         if (!empty($this->signature)) {
             return Yii::getAlias('@web/html') . "/signature" . $this->signature;
         }
@@ -342,14 +378,16 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * Get Client Link
      */
-    public function getUserNames() {
+    public function getUserNames()
+    {
         return '<b><a href="' . Url::to(['user/view', 'id' => $this->id]) . '">' . $this->username . "</a></b>";
     }
 
     /**
      * Get Branch  Link
      */
-    public function getBranchName() {
+    public function getBranchName()
+    {
         return '<b><a href="' . Url::to(['branch/view', 'id' => $this->branch->id]) . '">' . $this->branch->name . "</a></b>";
         //return $my;
     }
@@ -357,7 +395,8 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * Get Update Interest Status  Link
      */
-    public function getUpdateButton() {
+    public function getUpdateButton()
+    {
         $my = $this->status;
         if ($my == 1) {
             return '<b><a href="' . Url::to(['user/update', 'id' => $this->id]) . '">' . 'Update' . "</a></b>";
@@ -365,11 +404,13 @@ class User extends ActiveRecord implements IdentityInterface {
         }
     }
 
-    function randomPassword($len = 11) {
+    public function randomPassword($len = 11)
+    {
 
         //enforce min length 8
-        if ($len < 11)
+        if ($len < 11) {
             $len = 11;
+        }
 
         //define character libraries - remove ambiguous characters like iIl|1 0oO
         $sets = array();
@@ -398,13 +439,14 @@ class User extends ActiveRecord implements IdentityInterface {
         return str_shuffle($password);
     }
 
-    public static function assignGroupPermissions($group, $permissions) {
+    public static function assignGroupPermissions($group, $permissions)
+    {
         $auth = Yii::$app->authManager;
         $role = $auth->getRole($group);
         //Revoke all permissions in this group
         $auth->removeChildren($role);
         //Assign new permissions
-        foreach ($permissions AS $perm) {
+        foreach ($permissions as $perm) {
             $pmn = $auth->getPermission($perm);
             $auth->addChild($role, $pmn);
         }
@@ -417,19 +459,21 @@ class User extends ActiveRecord implements IdentityInterface {
      * @param Array $roles
      * @return boolean
      */
-    public static function assignRoles($user_id, $roles) {
+    public static function assignRoles($user_id, $roles)
+    {
         $auth = Yii::$app->authManager;
         //Revoke all roles from this person
         $auth->revokeAll($user_id);
         //Assign new roles
-        foreach ($roles AS $rl) {
+        foreach ($roles as $rl) {
             $rol = $auth->getRole($rl);
             $auth->assign($rol, $user_id);
         }
         return true;
     }
 
-    public static function GetLayout() {
+    public static function GetLayout()
+    {
 
         if (Yii::$app->member->office_id === 1) {
             $this->layout = "main_admin";
@@ -451,18 +495,17 @@ class User extends ActiveRecord implements IdentityInterface {
      * @param string $permission Permission
      * @return Boolean
      */
-    public static function revokePermission($group, $permission) {
+    public static function revokePermission($group, $permission)
+    {
         $auth = Yii::$app->authManager;
         $role = $auth->getRole($group);
         $perm = $auth->getPermission($permission);
         //Revoke the permission from the group
         return $auth->removeChild($role, $perm);
     }
-    
-        
-    public function getClientRemarks() {
+
+    public function getClientRemarks()
+    {
         return $this->hasMany(LoanManagerRemarks::class, ['created_by' => 'id']);
     }
-    
-
 }

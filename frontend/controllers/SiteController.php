@@ -15,8 +15,6 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-use common\models\Reports;
-use common\models\client\LoanSearch;
 
 /**
  * Site controller
@@ -74,44 +72,8 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-
-        if (Yii::$app->member->office_id === 1) {
-            $this->layout = "main_admin";
-        } elseif (Yii::$app->member->office_id === 2) {
-            $this->layout = "main_manager";
-        } elseif (Yii::$app->member->office_id === 3) {
-            $this->layout = "main_director";
-        } elseif (Yii::$app->member->office_id === 4) {
-            $this->layout = "main_officer";
-        } else {
-            $this->layout = "main";
-        }
-        $report = new Reports();
-        $searchModel = new LoanSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize = 5;
+        $this->layout = "main";
         return $this->render('index', [
-                    'approved_loans' => Reports::getApprovedLoanApplications(),
-                    'pending_loans' => Reports::getPendingLoanApplications(),
-                    'rejected_loans' => Reports::getRejectedLoanApplications(),
-                    'released_loans' => Reports::getDisbursedLoan(),
-                    'pending_clients' => Reports::getPendingClients(),
-                    'approved_clients' => Reports::getApprovedClients(),
-                    'released_loans' => Reports::getDisbursedLoan(),
-                    'total_loan_amount' => Reports::getTotalLoanAmount(),
-                    'total_interest_amount' => Reports::getTotalInterestAmount(),
-                    'total_principal_amount' => Reports::getTotalPrincipalAmount(),
-                    'principal_amount_paid' => Reports::getTotalPrincipalAmountPaid(),
-                    'principal_amount_paid' => Reports::getTotalPrincipalAmountPaid(),
-                    'loan_amount_paid' => Reports::getLoanAmountPaid(),
-                    'suspended_amount_paid' => Reports::getSuspendedAmount(),
-                     'loan_penalty_amount' => Reports::getPenalizedAmount(),
-                    'loan_interest_not_paid' => Reports::getLoanAmountNotPaid(),
-                    'total_loan_balance' => Reports::getTotalLoanBalance(),
-                    'ledger_entries' => Reports::getLedgerEntries(),
-                    'report' => $report,
-                    'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -124,17 +86,7 @@ class SiteController extends Controller {
 
     public function actionAdmin() {
 
-        if (Yii::$app->member->office_id === 1) {
-            $this->layout = "main_admin";
-        } elseif (Yii::$app->member->office_id === 2) {
-            $this->layout = "main_manager";
-        } elseif (Yii::$app->member->office_id === 3) {
-            $this->layout = "main_director";
-        } elseif (Yii::$app->member->office_id === 4) {
-            $this->layout = "main_officer";
-        } else {
-            $this->layout = "main";
-        }
+        $this->layout = "main";
         return $this->render('admin');
     }
 
@@ -209,17 +161,7 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionError() {
-          if (Yii::$app->member->office_id === 1) {
-            $this->layout = "main_admin";
-        } elseif (Yii::$app->member->office_id === 2) {
-            $this->layout = "main_manager";
-        } elseif (Yii::$app->member->office_id === 3) {
-            $this->layout = "main_director";
-        } elseif (Yii::$app->member->office_id === 4) {
-            $this->layout = "main_officer";
-        } else {
-            $this->layout = "main_admin";
-        }
+        $this->layout = "main";
         return $this->render('error');
     }
 
@@ -341,17 +283,7 @@ class SiteController extends Controller {
      * Reset password for firt time logged-in Users
      */
     public function actionResetMypasswd() {
-        if (Yii::$app->member->office_id === 1) {
-            $this->layout = "userprofile_admin";
-        } elseif (Yii::$app->member->office_id === 2) {
-            $this->layout = "userprofile_manager";
-        } elseif (Yii::$app->member->office_id === 3) {
-            $this->layout = "userprofile_director";
-        } elseif (Yii::$app->member->office_id === 4) {
-            $this->layout = "userprofile_officer";
-        } else {
-            $this->layout = "main";
-        }
+        $this->layout = "main";
         //1. Generate & Save Password reset token
         $member = Yii::$app->member;
         $member->generatePasswordResetToken();
@@ -374,17 +306,7 @@ class SiteController extends Controller {
      * Reset password for logged-in Users
      */
     public function actionChangeMypasswd($id) {
-        if (Yii::$app->member->office_id === 1) {
-            $this->layout = "userprofile_admin";
-        } elseif (Yii::$app->member->office_id === 2) {
-            $this->layout = "userprofile_manager";
-        } elseif (Yii::$app->member->office_id === 3) {
-            $this->layout = "userprofile_director";
-        } elseif (Yii::$app->member->office_id === 4) {
-            $this->layout = "userprofile_officer";
-        } else {
-            $this->layout = "main";
-        }
+        $this->layout = "main";
         //1. Generate & Save Password reset token
         $member = Yii::$app->member;
         $member->generatePasswordResetToken();

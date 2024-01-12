@@ -1,29 +1,24 @@
 <?php
 
-use yii\bootstrap\Alert;
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\widgets\Breadcrumbs;
 use frontend\assets\NewAsset;
-use yii\helpers\Url;
-use frontend\models\LeftNavigation;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 NewAsset::register($this);
 //Add JQuery to header
 $this->registerAssetBundle(yii\web\JqueryAsset::className(), \yii\web\View::POS_HEAD);
 Yii::$app->assetManager->forceCopy = true;
 ?>
-<?php $this->beginPage() ?>
+<?php $this->beginPage()?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <?php $this->registerCsrfMetaTags() ?>
-        <title><?= Html::encode($this->title) ?> | Loan Management System</title>
-        <?php $this->head() ?>
+        <?php $this->registerCsrfMetaTags()?>
+        <title><?=Html::encode($this->title)?> | Tenant Management System</title>
+        <?php $this->head()?>
         <style>
             html{
                 font-size:16px;
@@ -31,13 +26,13 @@ Yii::$app->assetManager->forceCopy = true;
         </style>
     </head>
 
-    <body>    
-        <?php $this->beginBody() ?> 
+    <body>
+        <?php $this->beginBody()?>
         <div class="preloader bg-white"></div>
         <!-- Header Layout -->
         <div class="mdk-header-layout js-mdk-header-layout">
             <!-- Header -->
-            <?= $this->render('new_topnav'); ?>
+            <?=$this->render('new_topnav');?>
             <!-- // END Header -->
 
             <!-- Header Layout Content -->
@@ -51,19 +46,19 @@ Yii::$app->assetManager->forceCopy = true;
                         <div class="container-fluid page__heading-container">
                             <div class="page__heading d-flex align-items-center">
                                 <div class="flex">
-                                    <h1 class="m-0"><?= $this->title; ?></h1>
+                                    <h1 class="m-0"><?=$this->title;?></h1>
                                 </div>
-                                <?= ArrayHelper::keyExists('topright_button', $this->params) ? Html::a($this->params['topright_button_label'], $this->params['topright_button_link'], ['class' => 'btn ' . $this->params['topright_button_class']]) : ('') ?> 
+                                <?=ArrayHelper::keyExists('topright_button', $this->params) ? Html::a($this->params['topright_button_label'], $this->params['topright_button_link'], ['class' => 'btn ' . $this->params['topright_button_class']]) : ('')?>
                             </div>
                         </div>
 
                         <div class="container-fluid page__container">
-                            <?= $content; ?>
+                            <?=$content;?>
                         </div>
 
                     </div>
                     <!-- // END drawer-layout__content -->
-                    <?= $this->render('new_leftnav'); ?>
+                    <?=$this->render('new_leftnav');?>
                 </div>
                 <!-- // END drawer-layout -->
 
@@ -75,10 +70,10 @@ Yii::$app->assetManager->forceCopy = true;
 
         <!-- App Settings FAB -->
      <div id="app-settings" style="display: none;">
-            <app-settings layout-active="default">    
+            <app-settings layout-active="default">
             </app-settings>
         </div>
-        <?php $this->endBody() ?>
+        <?php $this->endBody()?>
     </body>
 </html>
-<?php $this->endPage() ?>
+<?php $this->endPage()?>

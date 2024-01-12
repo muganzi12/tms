@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Url;
-$this->title="System Administration";
+$this->title = "System Administration";
 ?>
 <div class="container-fluid page__container">
                             <div class="row card-group-row">
@@ -12,8 +12,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">business</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['account/index']); ?>" class="text-dark">
-                                                <strong>Chart of Accounts</strong>
+                                            <a href="<?=Url::to(['account/index']);?>" class="text-dark">
+                                                <span>Chart of Accounts</span>
                                             </a>
                                         </div>
                                     </div>
@@ -21,13 +21,14 @@ $this->title="System Administration";
                                 <div class="col-lg-3 col-md-4 card-group-row__col">
                                     <div class="card card-group-row__card">
                                         <div class="p-2 d-flex flex-row align-items-center">
+
                                             <div class="avatar avatar-xs mr-2">
-                                                <span class="avatar-title rounded-circle text-center">
-                                                    <i class="material-icons text-white icon-18pt">person_add</i>
+                                                <span class="avatar-title rounded-circle text-center bg-primary">
+                                                    <i class="material-icons text-white icon-18pt">account_balance</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['loan-product/index']);?>" class="text-dark">
-                                                <strong>Loan Products</strong>
+                                            <a href="<?=Url::to(['property-unit/index']);?>" class="text-dark">
+                                                <span>Property Units</span>
                                             </a>
                                         </div>
                                     </div>
@@ -40,8 +41,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">receipt</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['branch/index']);?>" class="text-dark">
-                                                <strong>Branches</strong>
+                                            <a href="<?=Url::to(['property-type/index']);?>" class="text-dark">
+                                                <span>Property Type</span>
                                             </a>
                                         </div>
                                     </div>
@@ -54,8 +55,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">monetization_on</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['user/index']);?>" class="text-dark">
-                                                <strong>System User Accounts</strong>
+                                            <a href="<?=Url::to(['user/index']);?>" class="text-dark">
+                                                <span>System User Accounts</span>
                                             </a>
                                         </div>
                                     </div>
@@ -68,8 +69,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">shop</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['user/user-groups']);?>" class="text-dark">
-                                                <strong>User Groups</strong>
+                                            <a href="<?=Url::to(['user/user-groups']);?>" class="text-dark">
+                                                <span>User Groups</span>
                                             </a>
                                         </div>
                                     </div>
@@ -83,7 +84,7 @@ $this->title="System Administration";
                                                 </span>
                                             </div>
                                             <a href="#" class="text-dark">
-                                                <strong>Access Levels</strong>
+                                                <span>Access Levels</span>
                                             </a>
                                         </div>
                                     </div>
@@ -96,8 +97,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">assignment</i>
                                                 </span>
                                             </div>
-                                            <a href="#" class="text-dark">
-                                                <strong>Transaction Accounts Configurations</strong>
+                                            <a href="<?=Url::to(['property/index']);?>" class="text-dark">
+                                                <span>Properties</span>
                                             </a>
                                         </div>
                                     </div>
@@ -111,7 +112,7 @@ $this->title="System Administration";
                                                 </span>
                                             </div>
                                             <a href="#" class="text-dark">
-                                                <strong>Fees and Rates</strong>
+                                                <span>Fees and Rates</span>
                                             </a>
                                         </div>
                                     </div>
@@ -128,8 +129,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">business</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['account/index']); ?>" class="text-dark">
-                                                <strong>Chart of Accounts</strong>
+                                            <a href="<?=Url::to(['account/index']);?>" class="text-dark">
+                                                <span>Chart of Accounts</span>
                                             </a>
                                         </div>
                                     </div>
@@ -142,8 +143,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">assignment</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['ledger-config/index']);?>" class="text-dark">
-                                                <strong>Transaction Accounts Configurations</strong>
+                                            <a href="<?=Url::to(['ledger-config/index']);?>" class="text-dark">
+                                                <span>Transaction Accounts Configurations</span>
                                             </a>
                                         </div>
                                     </div>
@@ -156,8 +157,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">receipt</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['transaction-type/index']);?>" class="text-dark">
-                                                <strong>Transaction Types</strong>
+                                            <a href="<?=Url::to(['transaction-type/index']);?>" class="text-dark">
+                                                <span>Transaction Types</span>
                                             </a>
                                         </div>
                                     </div>
@@ -170,8 +171,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">monetization_on</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['user/index']);?>" class="text-dark">
-                                                <strong>System User Accounts</strong>
+                                            <a href="<?=Url::to(['user/index']);?>" class="text-dark">
+                                                <span>System User Accounts</span>
                                             </a>
                                         </div>
                                     </div>
@@ -187,8 +188,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'status']); ?>" class="text-dark">
-                                                <strong>Record Status</strong>
+                                            <a href="<?=Url::to(['district/index']);?>" class="text-dark">
+                                                <span>Districts</span>
                                             </a>
                                         </div>
                                     </div>
@@ -201,8 +202,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'identification_type']); ?>" class="text-dark">
-                                                <strong>Identification Category</strong>
+                                            <a href="<?=Url::to(['division/index']);?>" class="text-dark">
+                                                <span>Divisions</span>
                                             </a>
                                         </div>
                                     </div>
@@ -215,8 +216,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'sex']); ?>" class="text-dark">
-                                                <strong>Gender</strong>
+                                            <a href="<?=Url::to(['parish/index']);?>" class="text-dark">
+                                                <span>Parishes</span>
                                             </a>
                                         </div>
                                     </div>
@@ -229,8 +230,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'marital_status']); ?>" class="text-dark">
-                                                <strong>Marital Status</strong>
+                                            <a href="<?=Url::to(['village/index']);?>" class="text-dark">
+                                                <span>Villages</span>
                                             </a>
                                         </div>
                                     </div>
@@ -244,8 +245,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'membership_type']); ?>" class="text-dark">
-                                                <strong>Membership Type</strong>
+                                            <a href="<?=Url::to(['street/index']);?>" class="text-dark">
+                                                <span>Streets</span>
                                             </a>
                                         </div>
                                     </div>
@@ -258,8 +259,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'relationship']); ?>" class="text-dark">
-                                                <strong>Relationship Type</strong>
+                                            <a href="<?=Url::to(['master-data/index', 'tbl' => 'relationship']);?>" class="text-dark">
+                                                <span>Relationship Type</span>
                                             </a>
                                         </div>
                                     </div>
@@ -272,8 +273,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'relationship']); ?>" class="text-dark">
-                                                <strong>Relationship</strong>
+                                            <a href="<?=Url::to(['master-data/index', 'tbl' => 'relationship']);?>" class="text-dark">
+                                                <span>Relationship</span>
                                             </a>
                                         </div>
                                     </div>
@@ -286,8 +287,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'account_type']); ?>" class="text-dark">
-                                                <strong>Account Type</strong>
+                                            <a href="<?=Url::to(['master-data/index', 'tbl' => 'account_type']);?>" class="text-dark">
+                                                <span>Account Type</span>
                                             </a>
                                         </div>
                                     </div>
@@ -300,8 +301,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'currency']); ?>" class="text-dark">
-                                                <strong>Currency</strong>
+                                            <a href="<?=Url::to(['master-data/index', 'tbl' => 'currency']);?>" class="text-dark">
+                                                <span>Currency</span>
                                             </a>
                                         </div>
                                     </div>
@@ -314,8 +315,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'currency']); ?>" class="text-dark">
-                                                <strong>Type of Collateral</strong>
+                                            <a href="<?=Url::to(['master-data/index', 'tbl' => 'currency']);?>" class="text-dark">
+                                                <span>Property Type</span>
                                             </a>
                                         </div>
                                     </div>
@@ -328,8 +329,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'client_type']); ?>" class="text-dark">
-                                                <strong>Client Type</strong>
+                                            <a href="<?=Url::to(['master-data/index', 'tbl' => 'client_type']);?>" class="text-dark">
+                                                <span>Client Type</span>
                                             </a>
                                         </div>
                                     </div>
@@ -342,8 +343,8 @@ $this->title="System Administration";
                                                     <i class="material-icons text-white icon-18pt">settings_applications</i>
                                                 </span>
                                             </div>
-                                            <a href="<?= Url::to(['master-data/index','tbl'=>'amortization_method']); ?>" class="text-dark">
-                                                <strong>Armortization Method</strong>
+                                            <a href="<?=Url::to(['master-data/index', 'tbl' => 'issue_type']);?>" class="text-dark">
+                                                <span>Issue Type</span>
                                             </a>
                                         </div>
                                     </div>

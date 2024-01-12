@@ -20,13 +20,13 @@ use yii\helpers\Url;
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a>
-            <img src="<?= Yii::getAlias('@web/html'); ?>/images/demos.png" style="height: 60px;margin-left:20px;"/>
-          
+            <img src="<?=Yii::getAlias('@web/html');?>/images/demos.png" style="height: 60px;margin-left:20px;"/>
+
         </a>
-        
+
                 <!-- Navbar Brand -->
-                <a href="<?= Url::base(true); ?>" class="navbar-brand ">
-                         <h4> <span> Loan Management System</span></h4>
+                <a href="<?=Url::base(true);?>" class="navbar-brand ">
+                         <h4> <span> Tenant Managemen</span></h4>
                 </a>
 
 
@@ -41,7 +41,7 @@ use yii\helpers\Url;
 
                 <ul class="nav navbar-nav ml-auto d-none d-md-flex">
                     <li class="nav-item dropdown">
-                        <a href="<?= Url::to(['site/admin']); ?>"
+                        <a href="<?=Url::to(['site/admin']);?>"
                            class="nav-link"
                            data-caret="false">
                             <i class="material-icons nav-icon">settings</i>
@@ -67,7 +67,7 @@ use yii\helpers\Url;
                                         <div class="mr-3">
                                             <div class="avatar avatar-sm"
                                                  style="width: 32px; height: 32px;">
-                                                <img src="<?= Url::base(true); ?>/flowdash/assets/images/256_daniel-gaffey-1060698-unsplash.jpg"
+                                                <img src="<?=Url::base(true);?>/flowdash/assets/images/256_daniel-gaffey-1060698-unsplash.jpg"
                                                      alt="Avatar"
                                                      class="avatar-img rounded-circle">
                                             </div>
@@ -111,7 +111,7 @@ use yii\helpers\Url;
                                         <div class="mr-3">
                                             <div class="avatar avatar-sm"
                                                  style="width: 32px; height: 32px;">
-                                                <img src="<?= Url::base(true); ?>/flowdash/assets/images/256_daniel-gaffey-1060698-unsplash.jpg"
+                                                <img src="<?=Url::base(true);?>/flowdash/assets/images/256_daniel-gaffey-1060698-unsplash.jpg"
                                                      alt="Avatar"
                                                      class="avatar-img rounded-circle">
                                             </div>
@@ -155,7 +155,7 @@ use yii\helpers\Url;
                                         <div class="mr-3">
                                             <div class="avatar avatar-sm"
                                                  style="width: 32px; height: 32px;">
-                                                <img src="<?= Url::base(true); ?>/flowdash/assets/images/256_daniel-gaffey-1060698-unsplash.jpg"
+                                                <img src="<?=Url::base(true);?>/flowdash/assets/images/256_daniel-gaffey-1060698-unsplash.jpg"
                                                      alt="Avatar"
                                                      class="avatar-img rounded-circle">
                                             </div>
@@ -210,12 +210,12 @@ use yii\helpers\Url;
                            data-toggle="dropdown"
                            data-caret="false">
                             <span class="mr-1 d-flex-inline">
-                                <span class="text-light"><?= Yii::$app->member->firstname; ?> <?= Yii::$app->member->lastname; ?></span>
+                                <span class="text-light"><?=Yii::$app->member->firstname;?> <?=Yii::$app->member->lastname;?></span>
                             </span><br>
                                 <span class="mr-1 d-flex-inline">
-                                <span class="text-light"><?= Yii::$app->member->officeHeld; ?></span>
+                                <span class="text-light"><?=Yii::$app->member->officeHeld;?></span>
                             </span>
-                            <img src="<?= Yii::$app->member->profilePicture; ?>"
+                            <img src="<?=Yii::$app->member->profilePicture;?>"
                                  class="rounded-circle"
                                  width="32"
                                  alt="Frontted">
@@ -223,21 +223,21 @@ use yii\helpers\Url;
                         <div id="account_menu"
                              class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-item-text dropdown-item-text--lh">
-                                <div><strong><?= Yii::$app->member->fullnames; ?></strong></div>
-                                <div class="text-muted"><?= Yii::$app->member->username; ?></div>
+                                <div><strong><?=Yii::$app->member->fullnames;?></strong></div>
+                                <div class="text-muted"><?=Yii::$app->member->username;?></div>
                             </div>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
-                               href="<?= Url::home(); ?>"><i class="material-icons">dvr</i> Dashboard</a>
+                               href="<?=Url::home();?>"><i class="material-icons">dvr</i> Dashboard</a>
                             <a class="dropdown-item"
-                               href="<?= Url::to(['profile/index','id' => Yii::$app->member->id]); ?>"><i class="material-icons">account_circle</i> My profile</a>
+                               href="<?=Url::to(['profile/index', 'id' => Yii::$app->member->id]);?>"><i class="material-icons">account_circle</i> My profile</a>
                             <a class="dropdown-item"
-                               href="<?= Url::to(['user/update','id' => Yii::$app->member->id]); ?>"><i class="material-icons">edit</i> Edit account</a>
+                               href="<?=Url::to(['user/update', 'id' => Yii::$app->member->id]);?>"><i class="material-icons">edit</i> Edit account</a>
                                 <a class="dropdown-item"
-                               href="<?= Url::to(['site/change-mypasswd','id' => Yii::$app->member->id]); ?>"><i class="material-icons">lock</i> Change Password</a>
+                               href="<?=Url::to(['site/change-mypasswd', 'id' => Yii::$app->member->id]);?>"><i class="material-icons">lock</i> Change Password</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
-                               href="<?= Url::to(['site/logout']); ?>"><i class="material-icons">exit_to_app</i> Logout</a>
+                               href="<?=Url::to(['site/logout']);?>"><i class="material-icons">exit_to_app</i> Logout</a>
                         </div>
                     </li>
                 </ul>

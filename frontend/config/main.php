@@ -1,7 +1,7 @@
 <?php
 
 $params = array_merge(
-        require __DIR__ . '/../../common/config/params.php', require __DIR__ . '/../../common/config/params-local.php', require __DIR__ . '/params.php', require __DIR__ . '/params-local.php'
+    require __DIR__ . '/../../common/config/params.php', require __DIR__ . '/../../common/config/params-local.php', require __DIR__ . '/params.php', require __DIR__ . '/params-local.php'
 );
 
 return [
@@ -17,7 +17,7 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => false,
             //'authTimeout' => 600,
-        // You inserted it here
+            // You inserted it here
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -25,7 +25,7 @@ return [
         ],
         'fileStorage' => [
             'class' => 'trntv\filekit\Storage',
-            'baseUrl' => '@web/uploads'
+            'baseUrl' => '@web/uploads',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -36,23 +36,23 @@ return [
                 ],
             ],
         ],
-        'app_module' => function() {
+        'app_module' => function () {
             return 2; //Frontend APP
         },
-        'member' => function() {
+        'member' => function () {
             return common\models\User::findLoggedInUser();
         },
         'errorHandler' => [
-            
+
             'errorAction' => 'site/error',
         ],
         /*
-          'urlManager' => [
-          'enablePrettyUrl' => true,
-          'showScriptName' => false,
-          'rules' => [
-          ],
-          ],
+        'urlManager' => [
+        'enablePrettyUrl' => true,
+        'showScriptName' => false,
+        'rules' => [
+        ],
+        ],
          */
         'assetManager' => [
             'bundles' => [
@@ -68,17 +68,17 @@ return [
                     'basePath' => '@webroot',
                     'baseUrl' => '@web/flowdash',
                     'js' => [
-                        'assets/vendor/bootstrap.min.js'
+                        'assets/vendor/bootstrap.min.js',
                     ],
                     'css' => [
-                        'css/bootstrap.less'
+                        'css/bootstrap.less',
                     ],
                 ],
             ],
         ],
     ],
     'modules' => [
-        'gridview' => ['class' => 'kartik\grid\Module']
+        'gridview' => ['class' => 'kartik\grid\Module'],
     ],
     'params' => $params,
 ];

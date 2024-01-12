@@ -2,12 +2,12 @@
 
 namespace frontend\controllers;
 
-use Yii;
 use common\models\masterdata\MasterData;
 use common\models\masterdata\MasterDataSearch;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * MasterDataController implements the CRUD actions for MasterData model.
@@ -36,7 +36,7 @@ class MasterDataController extends Controller
     public function actionIndex($tbl)
     {
         $searchModel = new MasterDataSearch();
-        $searchModel->reference_table=$tbl;
+        $searchModel->reference_table = $tbl;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -69,17 +69,16 @@ class MasterDataController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['site/admin']);
-        }else {
+        } else {
             $model->created_at = time();
             $model->reference_table = $tbl;
             $model->created_by = Yii::$app->member->id;
             return $this->render('add-new-record', [
-                        'model' => $model,
-                    
+                'model' => $model,
+
             ]);
         }
     }
-
 
     /**
      * Updates an existing MasterData model.

@@ -12,8 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->params['page_description'] = '';
 ?>
 <?= $this->render('../company/registration/reg-steps-top-nav', ['model' => $inst, 'active' => 'admin',]); ?>
-<div class="az-dashboard-nav"> 
-  <nav class="nav">
+<div class="az-dashboard-nav">
+    <nav class="nav">
 
     </nav>
 </div>
@@ -37,7 +37,7 @@ $this->params['page_description'] = '';
             [
                 'attribute' => 'status',
                 'format' => 'raw',
-                'value' => function($data) {
+                'value' => function ($data) {
                     return '<a href="#" class="badge badge-block badge-' . $data->userStatus->css_class . '">' . $data->userStatus->name . '</a>';
                 },
                 'format' => 'raw'
@@ -57,9 +57,9 @@ $this->params['page_description'] = '';
             //'updated_by',
             [
                 'format' => 'raw',
-                'value' => function($data) {
+                'value' => function ($data) {
                     return
-                    Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update', 'id' => $data['id']], ['title' => 'edit', 'class' => 'btn btn-info']);
+                        Html::a('<span class="glyphicon glyphicon-pencil"></span> Update', ['update', 'id' => $data['id']], ['title' => 'edit', 'class' => 'btn btn-info']);
                 },
                 'header' => 'OPTIONS'
             ],

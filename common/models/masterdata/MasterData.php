@@ -20,8 +20,9 @@ use Yii;
  */
 class MasterData extends \yii\db\ActiveRecord
 {
-    
-          public static function getDb() {
+
+    public static function getDb()
+    {
         parent::getDb();
         return Yii::$app->db;
     }
@@ -41,7 +42,7 @@ class MasterData extends \yii\db\ActiveRecord
         return [
             [['name', 'created_by'], 'required'],
             [['description'], 'string'],
-            [['created_at', 'updated_at', 'parent_id'], 'integer'],
+            [['created_at', 'updated_at'], 'integer'],
             [['name', 'reference_table'], 'string', 'max' => 225],
             [['created_by', 'updated_by', 'css_class'], 'string', 'max' => 45],
         ];
@@ -61,7 +62,6 @@ class MasterData extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
             'reference_table' => 'Reference Table',
-            'parent_id' => 'Parent ID',
             'css_class' => 'Css Class',
         ];
     }

@@ -35,7 +35,7 @@ class NewAsset extends AssetBundle {
         "assets/js/app.js",
          "assets/js/test.js",
         "assets/js/table.js",
-        "assets/js/data1.js",
+       // "assets/js/data1.js",
         "assets/js/data2.js",
         "assets/js/data3.js",
         "assets/js/data4.js",

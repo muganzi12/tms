@@ -1,0 +1,17 @@
+<?php
+
+/* @var $this yii\web\View */
+/* @var $model common\models\property\PropertyUnit */
+
+$this->title = 'Register New Property Unit';
+$this->params['breadcrumbs'][] = ['label' => 'Property Units', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="property-unit-create">
+
+
+    <?=$this->render('_form', [
+    'model' => $model,
+])?>
+
+</div>

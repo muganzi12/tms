@@ -2,9 +2,9 @@
 
 namespace common\models\masterdata;
 
+use common\models\masterdata\MasterData;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\masterdata\MasterData;
 
 /**
  * MasterDataSearch represents the model behind the search form of `common\models\masterdata\MasterData`.
@@ -17,7 +17,7 @@ class MasterDataSearch extends MasterData
     public function rules()
     {
         return [
-            [['id', 'created_at', 'updated_at', 'parent_id'], 'integer'],
+            [['id', 'created_at', 'updated_at'], 'integer'],
             [['name', 'description', 'created_by', 'updated_by', 'reference_table', 'css_class'], 'safe'],
         ];
     }
@@ -61,7 +61,6 @@ class MasterDataSearch extends MasterData
             'id' => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'parent_id' => $this->parent_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
