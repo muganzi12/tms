@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin();?>
 
-    <?=$form->field($model, 'name')->textInput(['maxlength' => true])?>
+    <?=$form->field($model, 'unit_number')->textInput(['maxlength' => true])?>
 
     <?=$form->field($model, 'property')->widget(Select2::classname(), [
     'value' => '',
@@ -31,7 +31,7 @@ use yii\widgets\ActiveForm;
 ]);
 ?>
 
-    <?=$form->field($model, 'unit_number')->textInput()?>
+    <?=$form->field($model, 'number_of_rooms')->textInput()?>
 
     <?=$form->field($model, 'unit_type')->widget(Select2::classname(), [
     'value' => '',
@@ -39,6 +39,19 @@ use yii\widgets\ActiveForm;
     'data' => ArrayHelper::map(PropertyType::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
     'options' => [
         'placeholder' => 'Select Unit Type',
+        'class' => 'form-control',
+        'multiple' => false,
+        'required' => true,
+    ],
+]);
+?>
+
+<?=$form->field($model, 'floor')->widget(Select2::classname(), [
+    'value' => '',
+    'theme' => Select2::THEME_CLASSIC,
+    'data' => ArrayHelper::map(PropertyType::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+    'options' => [
+        'placeholder' => 'Select Floor',
         'class' => 'form-control',
         'multiple' => false,
         'required' => true,

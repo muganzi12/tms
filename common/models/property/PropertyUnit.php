@@ -10,9 +10,10 @@ use Yii;
  * This is the model class for table "property_unit".
  *
  * @property int $id
- * @property string $name
  * @property string $unit_number
  * @property int $property
+ * @property int $floor
+ * @property int $number_of_rooms
  * @property float $rate Rate per Unit
  * @property int $status
  * @property int $unit_type
@@ -37,10 +38,9 @@ class PropertyUnit extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'unit_number', 'property', 'rate', 'status', 'unit_type', 'created_at', 'created_by'], 'required'],
-            [['property', 'status', 'unit_type', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['unit_number', 'property', 'floor', 'number_of_rooms', 'rate', 'status', 'unit_type', 'created_at', 'created_by'], 'required'],
+            [['property', 'floor', 'number_of_rooms', 'status', 'unit_type', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['rate'], 'number'],
-            [['name'], 'string', 'max' => 100],
             [['unit_number'], 'string', 'max' => 11],
         ];
     }
@@ -52,9 +52,10 @@ class PropertyUnit extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'unit_number' => 'Unit Number',
+            'unit_number' => 'Unit Number/Room Number',
             'property' => 'Property',
+            'floor' => 'Floor',
+            'number_of_rooms' => 'Number Of Rooms',
             'rate' => 'Rate',
             'status' => 'Status',
             'unit_type' => 'Unit Type',

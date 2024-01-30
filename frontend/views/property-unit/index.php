@@ -26,14 +26,13 @@ $this->params['topright_button_class'] = 'btn-success pull-right';
         ['class' => 'yii\grid\SerialColumn'],
 
         // 'id',
-        'name',
+        'unit_number',
         [
             'attribute' => 'property',
             'value' => function ($data) {
                 return $data->propertyName->name;
             }, 'format' => 'raw',
         ],
-        'unit_number',
         'status',
         [
             'attribute' => 'unit_type',

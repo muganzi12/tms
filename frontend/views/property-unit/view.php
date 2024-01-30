@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\property\PropertyUnit */
 
-$this->title = $model->name;
+$this->title = $model->unit_number;
 $this->params['breadcrumbs'][] = ['label' => 'Property Units', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -23,13 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'method' => 'post',
     ],
 ])?>
+
+<?=Html::a('Make Payment', ['make-payment', 'id' => $model->id], ['class' => 'btn btn-primary'])?>
     </p>
 
     <?=DetailView::widget([
     'model' => $model,
     'attributes' => [
         // 'id',
-        'name',
+        'unit_number',
         [
             'attribute' => 'property',
             'value' => function ($data) {

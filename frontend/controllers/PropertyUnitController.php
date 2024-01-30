@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\collection\Payment;
 use common\models\property\PropertyUnit;
 use common\models\property\PropertyUnitSearch;
 use common\models\User;
@@ -75,6 +76,30 @@ class PropertyUnitController extends Controller
             $model->status = User::STATUS_ACTIVE;
             return $this->render('add-new-property-unit', [
                 'model' => $model,
+            ]);
+        }
+    }
+
+    //Make Payment
+    public function actionMakePayment($id, $status = 2)
+    {
+        $model = new Payment();
+        $property = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // Yii::$app->db->createCommand('UPDATE property SET status = 36 WHERE id =' . $id)->execute();
+            //Go back tolist of propertys
+            Yii::$app->session->setFlash('success', 'You have successfully made a payment');
+            return $this->redirect(['property-unit/index']);
+        } else {
+            $model->created_at = time();
+            $model->created_by = Yii::$app->member->id;
+            $model->property_unit = $id;
+            $model->property = $property->property;
+            $model->status = $status;
+            return $this->render('make-payment', [
+                'model' => $model,
+                'property' => $property,
+                'propertyId' => $id,
             ]);
         }
     }

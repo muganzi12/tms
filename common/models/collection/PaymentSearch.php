@@ -1,15 +1,15 @@
 <?php
 
-namespace common\models\property;
+namespace common\models\collection;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\property\PropertyUnit;
+use common\models\collection\Payment;
 
 /**
- * PropertyUnitSearch represents the model behind the search form of `common\models\property\PropertyUnit`.
+ * PaymentSearch represents the model behind the search form of `common\models\collection\Payment`.
  */
-class PropertyUnitSearch extends PropertyUnit
+class PaymentSearch extends Payment
 {
     /**
      * {@inheritdoc}
@@ -17,9 +17,9 @@ class PropertyUnitSearch extends PropertyUnit
     public function rules()
     {
         return [
-            [['id', 'property', 'floor', 'number_of_rooms', 'status', 'unit_type', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['unit_number'], 'safe'],
-            [['rate'], 'number'],
+            [['id', 'property', 'property_unit', 'payment_channel', 'payment_mode', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['payment_date', 'mobile_number'], 'safe'],
+            [['amount'], 'number'],
         ];
     }
 
@@ -41,7 +41,7 @@ class PropertyUnitSearch extends PropertyUnit
      */
     public function search($params)
     {
-        $query = PropertyUnit::find();
+        $query = Payment::find();
 
         // add conditions that should always apply here
 
@@ -61,18 +61,19 @@ class PropertyUnitSearch extends PropertyUnit
         $query->andFilterWhere([
             'id' => $this->id,
             'property' => $this->property,
-            'floor' => $this->floor,
-            'number_of_rooms' => $this->number_of_rooms,
-            'rate' => $this->rate,
+            'property_unit' => $this->property_unit,
+            'amount' => $this->amount,
+            'payment_channel' => $this->payment_channel,
+            'payment_mode' => $this->payment_mode,
             'status' => $this->status,
-            'unit_type' => $this->unit_type,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'unit_number', $this->unit_number]);
+        $query->andFilterWhere(['like', 'payment_date', $this->payment_date])
+            ->andFilterWhere(['like', 'mobile_number', $this->mobile_number]);
 
         return $dataProvider;
     }

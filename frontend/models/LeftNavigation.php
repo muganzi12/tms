@@ -32,6 +32,14 @@ class LeftNavigation extends Nav
             ],
 
             [
+                'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons" style="color:#525151;">dns</i> <span style="color:#525151;">Property Units</span>',
+                'url' => ['property-unit/index'],
+                'linkOptions' => ['class' => 'sidebar-menu-button'],
+                //'visible' => Yii::$app->user->can('Administrator'),
+                'encode' => false,
+            ],
+
+            [
                 'label' => '<i class="sidebar-menu-icon sidebar-menu-icon--left material-icons" style="color:#525151;">event_note</i> <span style="color:#525151;">Maintenance Request</span>',
                 'url' => ['maintenance-request/index'],
                 'linkOptions' => ['class' => 'sidebar-menu-button'],

@@ -2,19 +2,17 @@
 
 namespace frontend\controllers;
 
-use common\models\collection\Payment;
-use common\models\property\Property;
-use common\models\property\PropertySearch;
-use common\models\User;
 use Yii;
-use yii\filters\VerbFilter;
+use common\models\collection\Payment;
+use common\models\collection\PaymentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
- * PropertyController implements the CRUD actions for Property model.
+ * PaymentController implements the CRUD actions for Payment model.
  */
-class PropertyController extends Controller
+class PaymentController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -32,12 +30,12 @@ class PropertyController extends Controller
     }
 
     /**
-     * Lists all Property models.
+     * Lists all Payment models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PropertySearch();
+        $searchModel = new PaymentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,7 +45,7 @@ class PropertyController extends Controller
     }
 
     /**
-     * Displays a single Property model.
+     * Displays a single Payment model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -60,52 +58,25 @@ class PropertyController extends Controller
     }
 
     /**
-     * Creates a new Property model.
+     * Creates a new Payment model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionAddNewProperty()
-    {
-        $model = new Property();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
-
-            $model->created_at = time();
-            $model->created_by = Yii::$app->member->id;
-            $model->status = User::STATUS_ACTIVE;
-            return $this->render('add-new-property', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    //Make Payment
-    public function actionMakePayment($id, $status = 2)
+    public function actionCreate()
     {
         $model = new Payment();
-        $property = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // Yii::$app->db->createCommand('UPDATE property SET status = 36 WHERE id =' . $id)->execute();
-            //Go back tolist of propertys
-            Yii::$app->session->setFlash('success', 'property successfully approved');
-            return $this->redirect(['property/index']);
-        } else {
-            $model->created_at = time();
-            $model->created_by = Yii::$app->member->id;
-            $model->property_id = $id;
-            $model->status = $status;
-            return $this->render('make-payment', [
-                'model' => $model,
-                'property' => $property,
-                'propertyId' => $id,
-            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
-     * Updates an existing Property model.
+     * Updates an existing Payment model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -116,7 +87,7 @@ class PropertyController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -125,7 +96,7 @@ class PropertyController extends Controller
     }
 
     /**
-     * Deletes an existing Property model.
+     * Deletes an existing Payment model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -139,15 +110,15 @@ class PropertyController extends Controller
     }
 
     /**
-     * Finds the Property model based on its primary key value.
+     * Finds the Payment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Property the loaded model
+     * @return Payment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Property::findOne($id)) !== null) {
+        if (($model = Payment::findOne($id)) !== null) {
             return $model;
         }
 
